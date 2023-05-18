@@ -56,7 +56,9 @@ class _LoginViewState extends State<LoginView> {
                 child: const Text('Login'),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/registerRoute');
+                },
                 child: const Text("Don't have an account? Sign up"),
               ),
             ],
