@@ -98,11 +98,19 @@ class _DashboardViewState extends State<DashboardView> {
                 ],
               ),
             ),
-            Image.asset(
-              'assets/images/logo1.png',
-              width: double.infinity,
-              height: 300,
-              fit: BoxFit.cover,
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Welcome',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
+            const CircleAvatar(
+              radius: 120,
+              backgroundImage: AssetImage('assets/images/logo1.png'),
             ),
             const Text(
               'Popular Routines',
