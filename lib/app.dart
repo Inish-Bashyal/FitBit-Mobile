@@ -1,3 +1,4 @@
+import 'package:fitbit/view/dashboard_view.dart';
 import 'package:fitbit/view/login_view.dart';
 import 'package:fitbit/view/register_view.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class App extends StatelessWidget {
       routes: {
         '/loginRoute': (context) => const LoginView(),
         '/registerRoute': (context) => const RegisterView(),
+        '/dashboardRoute': (context) => const DashboardView(),
       },
     );
   }

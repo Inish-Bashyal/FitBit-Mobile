@@ -1,3 +1,4 @@
+import 'package:fitbit/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -8,6 +9,9 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  final usernameController = TextEditingController(text: '');
+  final passwordController = TextEditingController(text: '');
+
   bool obscureText = true;
 
   void togglePasswordVisibility() {
@@ -19,49 +23,88 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const TextField(
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  filled: true,
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              TextField(
-                obscureText: obscureText,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  filled: true,
-                  suffixIcon: GestureDetector(
-                    onTap: togglePasswordVisibility,
-                    child: Icon(
-                      obscureText ? Icons.visibility : Icons.visibility_off,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Container(
+          color: const Color.fromARGB(255, 183, 168, 168).withOpacity(0.4),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    customTextField(usernameController, 'Username'),
+                    const SizedBox(height: 20.0),
+                    Column(
+                      children: [
+                        TextFormField(
+                          style: const TextStyle(color: Colors.black),
+                          controller: passwordController,
+                          obscureText: obscureText,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            filled: true,
+                            fillColor: const Color.fromARGB(255, 208, 190, 190),
+                            labelStyle: const TextStyle(color: Colors.black),
+                            labelText: 'Password',
+                            suffixIcon: GestureDetector(
+                              onTap: togglePasswordVisibility,
+                              child: Icon(
+                                obscureText
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                    const SizedBox(height: 20.0),
+                    SizedBox(
+                      height: 40,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/dashboardRoute');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Colors.green, // Set the background color here
+                        ),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/registerRoute');
+                      },
+                      child: const Text(
+                        "Don't have an account? Sign up",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Login'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/registerRoute');
-                },
-                child: const Text("Don't have an account? Sign up"),
-              ),
-            ],
+            ),
           ),
         ),
       ),
