@@ -1,4 +1,8 @@
-import 'package:fitbit/widgets/cardview_widget.dart';
+import 'package:fitbit/view/add_routine_view.dart';
+import 'package:fitbit/view/home_view.dart';
+import 'package:fitbit/view/routines_view.dart';
+import 'package:fitbit/view/support_view.dart';
+import 'package:fitbit/view/workoutplans_view.dart';
 import 'package:flutter/material.dart';
 
 class DashboardView extends StatefulWidget {
@@ -9,139 +13,58 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  var gap = const SizedBox(
-    height: 20,
-  );
+  int _selectedIndex = 0;
+  List<Widget> lstBottomScreen = [
+    const HomeView(),
+    const WorkoutPlansView(),
+    const RoutineView(),
+    const SupportView(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 112, 110, 110),
-        title: const Text('Dashboad'),
-        centerTitle: true,
-        elevation: 0,
+      body: lstBottomScreen[_selectedIndex],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddRoutineView()),
+          );
+        },
+        shape: const CircleBorder(),
+        backgroundColor: Colors.black,
+        child: const Icon(Icons.add_task),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/bg2.jpeg'),
-            fit: BoxFit.cover,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '');
-                    },
-                    child: const Text(
-                      "Home",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '');
-                    },
-                    child: const Text(
-                      "Workout Plans",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '');
-                    },
-                    child: const Text(
-                      "Routines",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '');
-                    },
-                    child: const Text(
-                      "About Us",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '');
-                    },
-                    child: const Text(
-                      "Contact Us",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Welcome',
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-            ),
-            const CircleAvatar(
-              radius: 120,
-              backgroundImage: AssetImage('assets/images/logo1.png'),
-            ),
-            const Text(
-              'Popular Routines',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  children: [
-                    cardView('assets/images/bg.jpg', 'Routine 1',
-                        'Description 1', context),
-                    cardView('assets/images/bg.jpg', 'Routine 2',
-                        'Description 2', context),
-                    cardView('assets/images/bg.jpg', 'Routine 3',
-                        'Description 3', context),
-                    cardView('assets/images/bg.jpg', 'Routine 4',
-                        'Description 4', context),
-                    cardView('assets/images/bg.jpg', 'Routine 5',
-                        'Description 5', context),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.folder_outlined),
+            label: 'Workout Plans',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.schedule),
+            label: 'Routines',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.phone),
+            label: 'Support',
+          ),
+        ],
+        // backgroundColor: const Color.fromRGBO(91, 44, 146, 1.0),
+        selectedItemColor: const Color.fromARGB(255, 12, 12, 12),
+        unselectedItemColor: const Color.fromARGB(255, 112, 110, 110),
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }

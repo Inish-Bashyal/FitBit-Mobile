@@ -1,3 +1,5 @@
+import 'package:fitbit/view/dashboard_view.dart';
+import 'package:fitbit/view/register_view.dart';
 import 'package:fitbit/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -74,7 +76,11 @@ class _LoginViewState extends State<LoginView> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/dashboardRoute');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const DashboardView()),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
@@ -91,7 +97,11 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/registerRoute');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RegisterView()),
+                        );
                       },
                       child: const Text(
                         "Don't have an account? Sign up",

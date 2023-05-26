@@ -12,7 +12,7 @@ class _RegisterViewState extends State<RegisterView> {
   final usernameController = TextEditingController(text: '');
   final firstnameController = TextEditingController(text: '');
   final lastnameController = TextEditingController(text: '');
-  final dobController = TextEditingController(text: '');
+  final emailController = TextEditingController(text: '');
   final passwordController = TextEditingController(text: '');
   final confirmPasswordController = TextEditingController(text: '');
   final ageController = TextEditingController(text: '');
@@ -66,20 +66,7 @@ class _RegisterViewState extends State<RegisterView> {
                       const SizedBox(height: 20.0),
                       customTextField(lastnameController, 'Last name'),
                       const SizedBox(height: 20.0),
-                      TextFormField(
-                        controller: dobController,
-                        keyboardType: TextInputType.datetime,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          labelText: 'Date of Birth',
-                          hintText: 'dd/mm/yyyy',
-                          labelStyle: TextStyle(color: Colors.black),
-                          filled: true,
-                          fillColor: Color.fromARGB(255, 208, 190, 190),
-                        ),
-                      ),
+                      customTextField(emailController, 'Email'),
                       const SizedBox(height: 20.0),
                       TextFormField(
                         controller: passwordController,
@@ -181,8 +168,7 @@ class _RegisterViewState extends State<RegisterView> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.green, // Set the background color here
+                            backgroundColor: Colors.green,
                           ),
                           child: const Text(
                             'Register',

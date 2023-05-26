@@ -1,6 +1,4 @@
-import 'package:fitbit/view/dashboard_view.dart';
 import 'package:fitbit/view/login_view.dart';
-import 'package:fitbit/view/register_view.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -8,14 +6,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/loginRoute',
-      routes: {
-        '/loginRoute': (context) => const LoginView(),
-        '/registerRoute': (context) => const RegisterView(),
-        '/dashboardRoute': (context) => const DashboardView(),
-      },
+      home: LoginView(),
     );
   }
 }
