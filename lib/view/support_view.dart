@@ -16,9 +16,7 @@ class _SupportViewState extends State<SupportView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 112, 110, 110),
-      ),
+      appBar: AppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),

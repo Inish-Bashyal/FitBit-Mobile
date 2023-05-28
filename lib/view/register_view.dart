@@ -1,3 +1,4 @@
+import 'package:fitbit/routes/app_route.dart';
 import 'package:fitbit/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -34,153 +35,207 @@ class _RegisterViewState extends State<RegisterView> {
     });
   }
 
+  var gap = const SizedBox(
+    height: 20,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 112, 110, 110),
-        title: const Text('Register'),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/bg.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
+      body: SafeArea(
         child: Container(
-          color: const Color.fromARGB(255, 183, 168, 168).withOpacity(0.4),
-          child: SingleChildScrollView(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Form(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      customTextField(usernameController, 'Username'),
-                      const SizedBox(height: 20.0),
-                      customTextField(firstnameController, 'First Name'),
-                      const SizedBox(height: 20.0),
-                      customTextField(lastnameController, 'Last name'),
-                      const SizedBox(height: 20.0),
-                      customTextField(emailController, 'Email'),
-                      const SizedBox(height: 20.0),
-                      TextFormField(
-                        controller: passwordController,
-                        obscureText: obscureText,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          labelText: 'Password',
-                          labelStyle: const TextStyle(color: Colors.black),
-                          filled: true,
-                          fillColor: const Color.fromARGB(255, 208, 190, 190),
-                          suffixIcon: GestureDetector(
-                            onTap: togglePasswordVisibility,
-                            child: Icon(
-                              obscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Form(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            children: const [
+                              Text(
+                                'Create FITBIT Account',
+                                style: TextStyle(
+                                  fontSize: 35,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20.0),
-                      TextFormField(
-                        controller: confirmPasswordController,
-                        obscureText: obscureText,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          labelText: 'Confirm Password',
-                          labelStyle: const TextStyle(color: Colors.black),
-                          filled: true,
-                          fillColor: const Color.fromARGB(255, 208, 190, 190),
-                          suffixIcon: GestureDetector(
-                            onTap: togglePasswordVisibility,
-                            child: Icon(
-                              obscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
+                        gap,
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            children: [
+                              RichText(
+                                text: const TextSpan(
+                                  text: 'Sign up to get started',
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                      ],
+                    ),
+                    gap,
+                    customTextField(usernameController, 'Username'),
+                    gap,
+                    customTextField(firstnameController, 'First Name'),
+                    gap,
+                    customTextField(lastnameController, 'Last Name'),
+                    gap,
+                    customTextField(emailController, 'Email'),
+                    gap,
+                    TextFormField(
+                      controller: passwordController,
+                      obscureText: obscureText,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        suffixIcon: GestureDetector(
+                          onTap: togglePasswordVisibility,
+                          child: Icon(
+                            obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color.fromARGB(255, 120, 120, 120),
+                        ),
+                        border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        )),
                       ),
-                      const SizedBox(height: 20.0),
-                      customTextField(ageController, 'Age'),
-                      const SizedBox(height: 20.0),
-                      Container(
-                        alignment: Alignment.topLeft,
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'This field is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    gap,
+                    TextFormField(
+                      controller: confirmPasswordController,
+                      obscureText: obscureText,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                        suffixIcon: GestureDetector(
+                          onTap: togglePasswordVisibility,
+                          child: Icon(
+                            obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color.fromARGB(255, 120, 120, 120),
+                        ),
+                        border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        )),
+                      ),
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'This field is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    gap,
+                    customTextField(ageController, 'Age'),
+                    gap,
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: const Text(
+                        'Gender',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    RadioListTile(
+                      title: const Text(
+                        'Male',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      value: 'Male',
+                      groupValue: gender,
+                      onChanged: (value) => handleGenderChange('Male'),
+                    ),
+                    RadioListTile(
+                      title: const Text(
+                        'Female',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      value: 'Female',
+                      groupValue: gender,
+                      onChanged: (value) => handleGenderChange('Female'),
+                    ),
+                    RadioListTile(
+                      title: const Text(
+                        'Others',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      value: 'Others',
+                      groupValue: gender,
+                      onChanged: (value) => handleGenderChange('Others'),
+                    ),
+                    gap,
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
                         child: const Text(
-                          'Gender',
+                          'CREATE FITBIT ACCOUNT',
                           style: TextStyle(
-                            fontSize: 20.0,
-                            color: Color.fromARGB(255, 226, 215, 215),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10.0),
-                      RadioListTile(
-                        title: const Text(
-                          'Male',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Color.fromARGB(255, 226, 215, 215),
-                          ),
-                        ),
-                        value: 'Male',
-                        groupValue: gender,
-                        onChanged: (value) => handleGenderChange('Male'),
+                    ),
+                    gap,
+                    gap,
+                    const Text(
+                      'Already have an Account?',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 62, 62, 62),
+                        fontSize: 16,
                       ),
-                      RadioListTile(
-                        title: const Text(
-                          'Female',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Color.fromARGB(255, 226, 215, 215),
-                          ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoute.loginRoute);
+                      },
+                      child: const Text(
+                        "LOGIN",
+                        style: TextStyle(
+                          fontSize: 16,
                         ),
-                        value: 'Female',
-                        groupValue: gender,
-                        onChanged: (value) => handleGenderChange('Female'),
                       ),
-                      RadioListTile(
-                        title: const Text(
-                          'Others',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Color.fromARGB(255, 226, 215, 215),
-                          ),
-                        ),
-                        value: 'Others',
-                        groupValue: gender,
-                        onChanged: (value) => handleGenderChange('Others'),
-                      ),
-                      const SizedBox(height: 20.0),
-                      SizedBox(
-                        height: 40,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                          ),
-                          child: const Text(
-                            'Register',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -14,7 +14,7 @@ Widget cardView(
     child: SizedBox(
       child: Card(
         elevation: 5,
-        color: const Color.fromARGB(255, 112, 110, 110),
+        color: const Color.fromARGB(255, 226, 223, 223),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

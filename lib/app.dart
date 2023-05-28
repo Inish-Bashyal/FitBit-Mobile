@@ -1,4 +1,5 @@
-import 'package:fitbit/view/login_view.dart';
+import 'package:fitbit/routes/app_route.dart';
+import 'package:fitbit/themes/app_themes.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -6,9 +7,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginView(),
+      theme: AppTheme.getApplicationTheme(),
+      initialRoute: AppRoute.loginRoute,
+      routes: AppRoute.getAppRoutes(),
     );
   }
 }

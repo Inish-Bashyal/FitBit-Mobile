@@ -29,7 +29,7 @@ class _ProfileViewState extends State<ProfileView> {
                     width: double.infinity,
                     height: 300,
                     child: Image.network(
-                      'https://assets.xfinity.com/assets/dotcom/learn/Images/Hub/Articles/house-dragon.jpeg',
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0IlJoOev0yf_6D_PTCHmVi1lwBJKz1B4vg&usqp=CAU',
                       fit: BoxFit.fitHeight,
                     ),
                   ),
@@ -42,7 +42,7 @@ class _ProfileViewState extends State<ProfileView> {
                       child: CircleAvatar(
                         radius: 200,
                         backgroundImage: NetworkImage(
-                            'https://www.cnet.com/a/img/resize/ed39b854b33cee2a83301c229c702dae6fd314a9/hub/2019/05/06/1adfd325-7ab6-41dc-8e8d-755b50cec10d/game-of-thrones-season-8-episode-4-dany-after-missandei.jpg?auto=webp&fit=crop&height=675&width=1200'),
+                            'https://media.licdn.com/dms/image/D5603AQG-BMXz9ds3Kw/profile-displayphoto-shrink_800_800/0/1674663322596?e=2147483647&v=beta&t=-ASZP2s-NHHfPfozLn9l2mmYZh--8RipLD-v_6lENrc'),
                       ),
                     ),
                   ),
@@ -56,7 +56,7 @@ class _ProfileViewState extends State<ProfileView> {
               Container(
                   alignment: Alignment.bottomLeft,
                   child: const Text(
-                    'Full Name',
+                    'Inish Bashyal',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 26,

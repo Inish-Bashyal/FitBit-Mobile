@@ -1,5 +1,4 @@
-import 'package:fitbit/view/dashboard_view.dart';
-import 'package:fitbit/view/register_view.dart';
+import 'package:fitbit/routes/app_route.dart';
 import 'package:fitbit/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +13,10 @@ class _LoginViewState extends State<LoginView> {
   final usernameController = TextEditingController(text: '');
   final passwordController = TextEditingController(text: '');
 
+  var gap = const SizedBox(
+    height: 20,
+  );
+
   bool obscureText = true;
 
   void togglePasswordVisibility() {
@@ -25,88 +28,151 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/bg.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
+      body: SafeArea(
         child: Container(
-          color: const Color.fromARGB(255, 183, 168, 168).withOpacity(0.4),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Form(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Form(
+              child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    customTextField(usernameController, 'Username'),
-                    const SizedBox(height: 20.0),
                     Column(
                       children: [
-                        TextFormField(
-                          style: const TextStyle(color: Colors.black),
-                          controller: passwordController,
-                          obscureText: obscureText,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            filled: true,
-                            fillColor: const Color.fromARGB(255, 208, 190, 190),
-                            labelStyle: const TextStyle(color: Colors.black),
-                            labelText: 'Password',
-                            suffixIcon: GestureDetector(
-                              onTap: togglePasswordVisibility,
-                              child: Icon(
-                                obscureText
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            children: [
+                              const Text(
+                                'Welcome',
+                                style: TextStyle(
+                                  fontSize: 35,
+                                ),
                               ),
-                            ),
+                              RichText(
+                                text: const TextSpan(
+                                  text: 'to',
+                                  style: TextStyle(
+                                      fontSize: 35, color: Colors.black),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: ' FitBit ',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        gap,
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            children: [
+                              RichText(
+                                text: const TextSpan(
+                                  text: 'Sign in to your',
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    color: Colors.grey,
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: ' FITBIT Account ',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20.0),
+                    gap,
+                    customTextField(usernameController, 'Username'),
+                    gap,
+                    TextFormField(
+                      controller: passwordController,
+                      obscureText: obscureText,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        suffixIcon: GestureDetector(
+                          onTap: togglePasswordVisibility,
+                          child: Icon(
+                            obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                      ),
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'This field is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    gap,
+                    Container(
+                      alignment: Alignment.bottomRight,
+                      child: const Text(
+                        'Forgot Password',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    gap,
+                    gap,
                     SizedBox(
-                      height: 40,
+                      height: 50,
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const DashboardView()),
-                          );
+                          Navigator.pushNamed(context, AppRoute.dashboardRoute);
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Colors.green, // Set the background color here
-                        ),
                         child: const Text(
-                          'Login',
+                          'LOGIN',
                           style: TextStyle(
-                            color: Colors.white,
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
+                    gap,
+                    gap,
+                    const Text(
+                      'New User?',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 62, 62, 62),
+                        fontSize: 16,
+                      ),
+                    ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RegisterView()),
-                        );
+                        Navigator.pushNamed(context, AppRoute.registerRoute);
                       },
                       child: const Text(
-                        "Don't have an account? Sign up",
+                        "CREATE AN ACCOUNT",
                         style: TextStyle(
-                          color: Colors.white,
                           fontSize: 16,
                         ),
                       ),

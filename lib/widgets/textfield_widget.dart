@@ -2,17 +2,24 @@ import 'package:flutter/material.dart';
 
 Widget customTextField(TextEditingController controller, String text) {
   return TextFormField(
-    style: const TextStyle(color: Colors.black),
     controller: controller,
     decoration: InputDecoration(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
       labelText: text,
-      labelStyle: const TextStyle(color: Colors.black),
-      filled: true,
-      fillColor: const Color.fromARGB(255, 208, 190, 190),
+      labelStyle: const TextStyle(
+        color: Color.fromARGB(255, 120, 120, 120),
+      ),
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
     ),
+    validator: (String? value) {
+      if (value!.isEmpty) {
+        return 'This field is required';
+      }
+      return null;
+    },
   );
 }
 
