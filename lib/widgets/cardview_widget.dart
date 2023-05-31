@@ -14,17 +14,37 @@ Widget cardView(
     child: SizedBox(
       child: Card(
         elevation: 5,
-        color: const Color.fromARGB(255, 226, 223, 223),
+        // color: const Color.fromARGB(255, 226, 223, 223),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           children: [
-            Image.asset(
-              location,
-              width: 200,
-              height: 200,
-              fit: BoxFit.cover,
+            Stack(
+              children: [
+                Image.asset(
+                  location,
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: GestureDetector(
+                    onTap: () {
+                      MotionToast.success(
+                              description: Text("$title is bookmarked"))
+                          .show(context);
+                    },
+                    child: const Icon(
+                      Icons.bookmark_outline,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

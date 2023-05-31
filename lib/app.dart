@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.getApplicationTheme(),
-      initialRoute: AppRoute.loginRoute,
+      initialRoute: AppRoute.splashRoute,
       routes: AppRoute.getAppRoutes(),
     );
   }

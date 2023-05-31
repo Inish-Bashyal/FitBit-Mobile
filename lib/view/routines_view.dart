@@ -10,8 +10,11 @@ class RoutineView extends StatefulWidget {
 class _RoutineViewState extends State<RoutineView> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Routines'),
+      ),
+      body: const SafeArea(
         child: Text(
           'Routines',
         ),

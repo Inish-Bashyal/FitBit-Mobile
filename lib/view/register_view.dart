@@ -108,9 +108,6 @@ class _RegisterViewState extends State<RegisterView> {
                             color: Colors.grey,
                           ),
                         ),
-                        labelStyle: const TextStyle(
-                          color: Color.fromARGB(255, 120, 120, 120),
-                        ),
                         border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                           Radius.circular(10),
@@ -137,9 +134,6 @@ class _RegisterViewState extends State<RegisterView> {
                                 : Icons.visibility_off,
                             color: Colors.grey,
                           ),
-                        ),
-                        labelStyle: const TextStyle(
-                          color: Color.fromARGB(255, 120, 120, 120),
                         ),
                         border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(
@@ -232,6 +226,7 @@ class _RegisterViewState extends State<RegisterView> {
                         "LOGIN",
                         style: TextStyle(
                           fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

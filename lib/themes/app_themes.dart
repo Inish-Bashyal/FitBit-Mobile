@@ -7,7 +7,7 @@ class AppTheme {
   static getApplicationTheme() {
     return ThemeData(
       colorScheme: const ColorScheme.light(
-        primary: Color.fromARGB(255, 112, 110, 110),
+        primary: AppColorConstant.primaryColor,
       ),
       fontFamily: 'Montserrat',
       useMaterial3: true,
@@ -35,11 +35,12 @@ class AppTheme {
       ),
 
       // //Change text form field theme
-      // textTheme: const TextTheme(
-      //   bodyLarge: TextStyle(
-      //     fontSize: 18,
-      //   ),
-      // ),
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(
+          fontSize: 18,
+          fontFamily: 'Montserrat',
+        ),
+      ),
 
       // Change text field theme
       inputDecorationTheme: const InputDecorationTheme(
@@ -55,7 +56,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.red,
+            color: AppColorConstant.primaryColor,
           ),
         ),
       ),

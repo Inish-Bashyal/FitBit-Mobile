@@ -5,9 +5,6 @@ Widget customTextField(TextEditingController controller, String text) {
     controller: controller,
     decoration: InputDecoration(
       labelText: text,
-      labelStyle: const TextStyle(
-        color: Color.fromARGB(255, 120, 120, 120),
-      ),
       border: const OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10),

@@ -1,4 +1,5 @@
 import 'package:fitbit/routes/app_route.dart';
+import 'package:fitbit/themes/app_color_constant.dart';
 import 'package:fitbit/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -53,12 +54,22 @@ class _LoginViewState extends State<LoginView> {
                                 text: const TextSpan(
                                   text: 'to',
                                   style: TextStyle(
-                                      fontSize: 35, color: Colors.black),
+                                      fontSize: 35,
+                                      color: AppColorConstant.secondaryColor),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: ' FitBit ',
+                                      text: ' Fit',
                                       style: TextStyle(
-                                        color: Colors.black,
+                                        color:
+                                            Color.fromARGB(222, 229, 145, 55),
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'Bit ',
+                                      style: TextStyle(
+                                        color: Color.fromARGB(180, 154, 42, 38),
                                         fontSize: 35,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -136,6 +147,7 @@ class _LoginViewState extends State<LoginView> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
+                          color: AppColorConstant.primaryColor,
                         ),
                       ),
                     ),
@@ -162,7 +174,6 @@ class _LoginViewState extends State<LoginView> {
                     const Text(
                       'New User?',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 62, 62, 62),
                         fontSize: 16,
                       ),
                     ),
@@ -174,6 +185,7 @@ class _LoginViewState extends State<LoginView> {
                         "CREATE AN ACCOUNT",
                         style: TextStyle(
                           fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

@@ -32,7 +32,7 @@ class _DashboardViewState extends State<DashboardView> {
           );
         },
         shape: const CircleBorder(),
-        backgroundColor: Colors.black,
+        // backgroundColor: Colors.black,
         child: const Icon(Icons.add_task),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -57,8 +57,8 @@ class _DashboardViewState extends State<DashboardView> {
           ),
         ],
         // backgroundColor: const Color.fromRGBO(91, 44, 146, 1.0),
-        selectedItemColor: const Color.fromARGB(255, 12, 12, 12),
-        unselectedItemColor: const Color.fromARGB(255, 112, 110, 110),
+        // selectedItemColor: const Color.fromARGB(255, 12, 12, 12),
+        // unselectedItemColor: const Color.fromARGB(255, 112, 110, 110),
         currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {

@@ -10,8 +10,11 @@ class WorkoutPlansView extends StatefulWidget {
 class _WorkoutPlansViewState extends State<WorkoutPlansView> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Workout Plans'),
+      ),
+      body: const SafeArea(
         child: Text(
           'Workout Plans',
         ),
