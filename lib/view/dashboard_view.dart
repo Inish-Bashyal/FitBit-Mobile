@@ -1,9 +1,10 @@
-import 'package:fitbit/view/add_routine_view.dart';
 import 'package:fitbit/view/home_view.dart';
 import 'package:fitbit/view/routines_view.dart';
 import 'package:fitbit/view/support_view.dart';
 import 'package:fitbit/view/workoutplans_view.dart';
 import 'package:flutter/material.dart';
+
+import '../routes/app_route.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -26,10 +27,7 @@ class _DashboardViewState extends State<DashboardView> {
       body: lstBottomScreen[_selectedIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddRoutineView()),
-          );
+          Navigator.pushNamed(context, AppRoute.addRoutineRoute);
         },
         shape: const CircleBorder(),
         // backgroundColor: Colors.black,
