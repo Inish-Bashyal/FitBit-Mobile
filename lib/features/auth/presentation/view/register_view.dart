@@ -1,15 +1,16 @@
 import 'package:fitbit/config/router/app_route.dart';
 import 'package:fitbit/core/common/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RegisterView extends StatefulWidget {
+class RegisterView extends ConsumerStatefulWidget {
   const RegisterView({super.key});
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _RegisterViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _RegisterViewState extends ConsumerState<RegisterView> {
   final usernameController = TextEditingController(text: '');
   final firstnameController = TextEditingController(text: '');
   final lastnameController = TextEditingController(text: '');

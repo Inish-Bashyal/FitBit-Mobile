@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ReportIssuesView extends StatefulWidget {
+class ReportIssuesView extends ConsumerStatefulWidget {
   const ReportIssuesView({super.key});
 
   @override
-  State<ReportIssuesView> createState() => _ReportIssuesViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ReportIssuesViewState();
 }
 
-class _ReportIssuesViewState extends State<ReportIssuesView> {
+class _ReportIssuesViewState extends ConsumerState<ReportIssuesView> {
   var gap = const SizedBox(
     height: 20,
   );
 
   final subjectController = TextEditingController();
   final messageController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

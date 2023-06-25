@@ -1,29 +1,23 @@
 import 'package:fitbit/core/common/widgets/cardview_widget.dart';
 import 'package:fitbit/features/home/presentation/view/bottom_view/profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends ConsumerState<HomeView> {
   var gap = const SizedBox(
     height: 20,
   );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: const Color.fromARGB(255, 112, 110, 110),
-      //   title: const Text('Home'),
-      //   centerTitle: true,
-      //   elevation: 0,
-      //   iconTheme: const IconThemeData.fallback(),
-      // ),
-
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

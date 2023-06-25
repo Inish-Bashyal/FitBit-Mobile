@@ -1,23 +1,19 @@
 import 'package:fitbit/core/common/widgets/cardview_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WorkoutPlansView extends StatefulWidget {
+class WorkoutPlansView extends ConsumerWidget {
   const WorkoutPlansView({super.key});
 
   @override
-  State<WorkoutPlansView> createState() => _WorkoutPlansViewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    var gap = const SizedBox(
+      height: 20,
+    );
 
-class _WorkoutPlansViewState extends State<WorkoutPlansView> {
-  var gap = const SizedBox(
-    height: 20,
-  );
-
-  var sideGap = const SizedBox(
-    width: 5,
-  );
-  @override
-  Widget build(BuildContext context) {
+    var sideGap = const SizedBox(
+      width: 5,
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text('Workout Plans'),

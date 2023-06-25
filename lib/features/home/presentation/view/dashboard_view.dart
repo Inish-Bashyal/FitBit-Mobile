@@ -4,15 +4,16 @@ import 'package:fitbit/features/home/presentation/view/bottom_view/routines_view
 import 'package:fitbit/features/home/presentation/view/bottom_view/support_view.dart';
 import 'package:fitbit/features/home/presentation/view/bottom_view/workoutplans_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DashboardView extends StatefulWidget {
+class DashboardView extends ConsumerStatefulWidget {
   const DashboardView({super.key});
 
   @override
-  State<DashboardView> createState() => _DashboardViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _DashboardViewState();
 }
 
-class _DashboardViewState extends State<DashboardView> {
+class _DashboardViewState extends ConsumerState<DashboardView> {
   int _selectedIndex = 0;
   List<Widget> lstBottomScreen = [
     const HomeView(),
@@ -20,6 +21,7 @@ class _DashboardViewState extends State<DashboardView> {
     const RoutineView(),
     const SupportView(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

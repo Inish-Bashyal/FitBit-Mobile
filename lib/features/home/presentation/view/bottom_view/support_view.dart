@@ -1,18 +1,20 @@
 import 'package:fitbit/features/home/presentation/view/bottom_view/report_issues_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SupportView extends StatefulWidget {
+class SupportView extends ConsumerStatefulWidget {
   const SupportView({super.key});
 
   @override
-  State<SupportView> createState() => _SupportViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SupportViewState();
 }
 
-class _SupportViewState extends State<SupportView> {
+class _SupportViewState extends ConsumerState<SupportView> {
   var gap = const SizedBox(
     height: 20,
   );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
