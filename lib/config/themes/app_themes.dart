@@ -1,4 +1,4 @@
-import 'package:fitbit/config/themes/app_color_constant.dart';
+import 'package:fitbit/config/constants/app_color_constant.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
