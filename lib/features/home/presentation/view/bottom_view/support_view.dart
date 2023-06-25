@@ -1,4 +1,4 @@
-import 'package:fitbit/view/report_issues_view.dart';
+import 'package:fitbit/features/home/presentation/view/bottom_view/report_issues_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

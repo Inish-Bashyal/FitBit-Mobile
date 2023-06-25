@@ -1,6 +1,5 @@
+import 'package:fitbit/core/common/widgets/cardview_widget.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/cardview_widget.dart';
 
 class WorkoutPlansView extends StatefulWidget {
   const WorkoutPlansView({super.key});

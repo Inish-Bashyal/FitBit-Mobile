@@ -1,5 +1,5 @@
-import 'package:fitbit/view/profile_view.dart';
-import 'package:fitbit/widgets/cardview_widget.dart';
+import 'package:fitbit/core/common/widgets/cardview_widget.dart';
+import 'package:fitbit/features/home/presentation/view/bottom_view/profile_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {

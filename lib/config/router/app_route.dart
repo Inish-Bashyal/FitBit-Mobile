@@ -1,8 +1,8 @@
-import 'package:fitbit/view/add_routine_view.dart';
+import 'package:fitbit/features/auth/presentation/view/login_view.dart';
+import 'package:fitbit/features/auth/presentation/view/register_view.dart';
+import 'package:fitbit/features/home/presentation/view/bottom_view/add_routine_view.dart';
+import 'package:fitbit/features/splash/presentation/view/splash_screen.dart';
 import 'package:fitbit/view/dashboard_view.dart';
-import 'package:fitbit/view/login_view.dart';
-import 'package:fitbit/view/register_view.dart';
-import 'package:fitbit/view/splash_screen.dart';
 
 class AppRoute {
   AppRoute._();

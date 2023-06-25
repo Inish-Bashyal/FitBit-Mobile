@@ -1,6 +1,6 @@
-import 'package:fitbit/routes/app_route.dart';
-import 'package:fitbit/themes/app_color_constant.dart';
-import 'package:fitbit/widgets/textfield_widget.dart';
+import 'package:fitbit/config/router/app_route.dart';
+import 'package:fitbit/config/themes/app_color_constant.dart';
+import 'package:fitbit/core/common/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {

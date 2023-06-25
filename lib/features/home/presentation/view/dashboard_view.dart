@@ -1,10 +1,9 @@
-import 'package:fitbit/view/home_view.dart';
-import 'package:fitbit/view/routines_view.dart';
-import 'package:fitbit/view/support_view.dart';
-import 'package:fitbit/view/workoutplans_view.dart';
+import 'package:fitbit/config/router/app_route.dart';
+import 'package:fitbit/features/home/presentation/view/bottom_view/home_view.dart';
+import 'package:fitbit/features/home/presentation/view/bottom_view/routines_view.dart';
+import 'package:fitbit/features/home/presentation/view/bottom_view/support_view.dart';
+import 'package:fitbit/features/home/presentation/view/bottom_view/workoutplans_view.dart';
 import 'package:flutter/material.dart';
-
-import '../routes/app_route.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});

@@ -1,5 +1,5 @@
-import 'package:fitbit/routes/app_route.dart';
-import 'package:fitbit/themes/app_themes.dart';
+import 'package:fitbit/config/router/app_route.dart';
+import 'package:fitbit/config/themes/app_themes.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {

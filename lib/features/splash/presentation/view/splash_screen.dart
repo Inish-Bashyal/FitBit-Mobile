@@ -1,4 +1,5 @@
-import 'package:fitbit/routes/app_route.dart';
+
+import 'package:fitbit/config/router/app_route.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenView extends StatefulWidget {
