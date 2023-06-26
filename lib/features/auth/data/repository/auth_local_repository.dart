@@ -25,7 +25,7 @@ class AuthLocalRepository implements IAuthRepository {
 
   @override
   Future<Either<Failure, bool>> registerUser(UserEntity user) {
-    return _authLocalDataSource.registerStudent(user);
+    return _authLocalDataSource.registerUser(user);
   }
 
   @override

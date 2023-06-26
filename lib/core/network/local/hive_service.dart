@@ -2,7 +2,6 @@ import 'package:fitbit/config/constants/hive_table_constant.dart';
 import 'package:fitbit/features/auth/data/model/auth_hive_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-
 import 'package:path_provider/path_provider.dart';
 
 final hiveServiceProvider = Provider<HiveService>((ref) => HiveService());
@@ -13,13 +12,7 @@ class HiveService {
     Hive.init(directory.path);
 
     // Register Adapters
-    // Hive.registerAdapter(AuthHiveModelAdapter());
-    // Hive.registerAdapter(BatchHiveModelAdapter());
-    // Hive.registerAdapter(CourseHiveModelAdapter());
-
-    // Add dummy data
-    // await addDummybatch();
-    // await addDummyCourse();
+    Hive.registerAdapter(AuthHiveModelAdapter());
   }
 
   // // ======================== Batch Queries ========================
@@ -35,20 +28,7 @@ class HiveService {
   //   return batches;
   // }
 
-  // // ======================== Course Queries ========================
-  // Future<void> addCourse(CourseHiveModel course) async {
-  //   var box = await Hive.openBox<CourseHiveModel>(HiveTableConstant.courseBox);
-  //   await box.put(course.courseId, course);
-  // }
-
-  // Future<List<CourseHiveModel>> getAllCourses() async {
-  //   var box = await Hive.openBox<CourseHiveModel>(HiveTableConstant.courseBox);
-  //   var courses = box.values.toList();
-  //   box.close();
-  //   return courses;
-  // }
-
-  // ======================== Student Queries ========================
+  // ======================== User Queries ========================
   Future<void> addUser(AuthHiveModel user) async {
     var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.userBox);
     await box.put(user.userID, user);
@@ -64,10 +44,10 @@ class HiveService {
   //Login
   Future<AuthHiveModel?> login(String username, String password) async {
     var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.userBox);
-    var student = box.values.firstWhere((element) =>
+    var user = box.values.firstWhere((element) =>
         element.username == username && element.password == password);
     box.close();
-    return student;
+    return user;
   }
 
   // ======================== Insert Dummy Data ========================

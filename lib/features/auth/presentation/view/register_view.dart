@@ -1,5 +1,8 @@
 import 'package:fitbit/config/router/app_route.dart';
+import 'package:fitbit/core/common/snackbar/my_snackbar.dart';
 import 'package:fitbit/core/common/widgets/textfield_widget.dart';
+import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
+import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,6 +22,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
   final confirmPasswordController = TextEditingController(text: '');
   final ageController = TextEditingController(text: '');
   final genderController = TextEditingController(text: '');
+  final key = GlobalKey<FormState>();
 
   String gender = 'Male';
 
@@ -42,6 +46,8 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authViewModelProvider);
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -49,6 +55,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Form(
+              key: key,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -122,33 +129,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                       },
                     ),
                     gap,
-                    TextFormField(
-                      controller: confirmPasswordController,
-                      obscureText: obscureText,
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
-                        suffixIcon: GestureDetector(
-                          onTap: togglePasswordVisibility,
-                          child: Icon(
-                            obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        )),
-                      ),
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return 'This field is required';
-                        }
-                        return null;
-                      },
-                    ),
-                    gap,
                     customTextField(ageController, 'Age'),
                     gap,
                     Container(
@@ -197,17 +177,39 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     ),
                     gap,
                     SizedBox(
-                      height: 50,
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'CREATE FITBIT ACCOUNT',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        onPressed: () {
+                          if (key.currentState!.validate()) {
+                            var user = UserEntity(
+                              firstname: firstnameController.text,
+                              lastname: lastnameController.text,
+                              email: emailController.text,
+                              username: usernameController.text,
+                              password: passwordController.text,
+                              age: ageController.text,
+                              gender: gender,
+                            );
+
+                            ref
+                                .read(authViewModelProvider.notifier)
+                                .registerUser(user);
+
+                            if (authState.error != null) {
+                              showSnackBar(
+                                message: authState.error.toString(),
+                                context: context,
+                                color: Colors.red,
+                              );
+                            } else {
+                              showSnackBar(
+                                message: 'Registered successfully',
+                                context: context,
+                              );
+                            }
+                          }
+                        },
+                        child: const Text('Register'),
                       ),
                     ),
                     gap,

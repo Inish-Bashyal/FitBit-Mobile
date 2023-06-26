@@ -1,6 +1,7 @@
-import 'package:fitbit/config/router/app_route.dart';
 import 'package:fitbit/config/constants/app_color_constant.dart';
+import 'package:fitbit/config/router/app_route.dart';
 import 'package:fitbit/core/common/widgets/textfield_widget.dart';
+import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,6 +15,7 @@ class LoginView extends ConsumerStatefulWidget {
 class _LoginViewState extends ConsumerState<LoginView> {
   final usernameController = TextEditingController(text: '');
   final passwordController = TextEditingController(text: '');
+  final _formKey = GlobalKey<FormState>();
 
   var gap = const SizedBox(
     height: 20,
@@ -36,6 +38,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Form(
+              key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -158,8 +161,16 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       height: 50,
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRoute.dashboardRoute);
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            await ref
+                                .read(authViewModelProvider.notifier)
+                                .loginUser(
+                                  context,
+                                  usernameController.text,
+                                  passwordController.text,
+                                );
+                          }
                         },
                         child: const Text(
                           'LOGIN',
