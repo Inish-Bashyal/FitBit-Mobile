@@ -1,19 +1,19 @@
-
-import 'package:fitbit/config/router/app_route.dart';
+import 'package:fitbit/features/splash/presentation/viewmodel/splash_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SplashScreenView extends StatefulWidget {
+class SplashScreenView extends ConsumerStatefulWidget {
   const SplashScreenView({super.key});
 
   @override
-  State<SplashScreenView> createState() => _SplashScreenViewState();
+  ConsumerState<SplashScreenView> createState() => _SplashScreenViewState();
 }
 
-class _SplashScreenViewState extends State<SplashScreenView> {
+class _SplashScreenViewState extends ConsumerState<SplashScreenView> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushNamed(context, AppRoute.loginRoute);
+      ref.read(splashViewModelProvider.notifier).init(context);
     });
     super.initState();
   }
