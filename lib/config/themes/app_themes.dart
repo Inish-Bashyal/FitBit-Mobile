@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  static getApplicationTheme() {
+  static getApplicationTheme(bool isDark) {
     return ThemeData(
       colorScheme: const ColorScheme.light(
         primary: AppColorConstant.primaryColor,

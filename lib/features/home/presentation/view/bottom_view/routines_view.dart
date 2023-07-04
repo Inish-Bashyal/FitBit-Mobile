@@ -14,10 +14,25 @@ class _RoutineViewState extends State<RoutineView> {
       appBar: AppBar(
         title: const Text('Routines'),
       ),
-      body: const SafeArea(
-        child: Text(
-          'Routines',
-        ),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Text(
+                'Routines',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Add New Routine'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
