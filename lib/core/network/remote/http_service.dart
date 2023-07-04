@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fitbit/core/network/remote/api_endpoint.dart';
+import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/core/network/remote/dio_error_interceptor.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';

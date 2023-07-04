@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fitbit/core/failure/failure.dart';
-import 'package:fitbit/core/network/remote/api_endpoint.dart';
+import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/core/network/remote/http_service.dart';
 import 'package:fitbit/core/shared_prefs/user_shared_prefs.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
