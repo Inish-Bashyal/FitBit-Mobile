@@ -1,6 +1,6 @@
 import 'package:fitbit/features/auth/presentation/view/login_view.dart';
 import 'package:fitbit/features/auth/presentation/view/register_view.dart';
-import 'package:fitbit/features/home/presentation/view/bottom_view/add_routine_view.dart';
+import 'package:fitbit/features/home/presentation/view/bottom_view/add_workout_view.dart';
 import 'package:fitbit/features/home/presentation/view/dashboard_view.dart';
 import 'package:fitbit/features/splash/presentation/view/splash_screen.dart';
 
