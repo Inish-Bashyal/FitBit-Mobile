@@ -1,5 +1,6 @@
 import 'package:fitbit/config/constants/hive_table_constant.dart';
 import 'package:fitbit/features/auth/data/model/auth_hive_model.dart';
+import 'package:fitbit/features/workout/data/model/workout_hive_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,18 +16,20 @@ class HiveService {
     Hive.registerAdapter(AuthHiveModelAdapter());
   }
 
-  // // ======================== Batch Queries ========================
-  // Future<void> addBatch(BatchHiveModel batch) async {
-  //   var box = await Hive.openBox<BatchHiveModel>(HiveTableConstant.batchBox);
-  //   await box.put(batch.batchId, batch);
-  // }
+  // ======================== Workout Queries ========================
+  Future<void> addWorkout(WorkoutHiveModel workout) async {
+    var box =
+        await Hive.openBox<WorkoutHiveModel>(HiveTableConstant.workoutBox);
+    await box.put(workout.workoutId, workout);
+  }
 
-  // Future<List<BatchHiveModel>> getAllBatches() async {
-  //   var box = await Hive.openBox<BatchHiveModel>(HiveTableConstant.batchBox);
-  //   var batches = box.values.toList();
-  //   box.close();
-  //   return batches;
-  // }
+  Future<List<WorkoutHiveModel>> getAllWorkouts() async {
+    var box =
+        await Hive.openBox<WorkoutHiveModel>(HiveTableConstant.workoutBox);
+    var workouts = box.values.toList();
+    box.close();
+    return workouts;
+  }
 
   // ======================== User Queries ========================
   Future<void> addUser(AuthHiveModel user) async {
