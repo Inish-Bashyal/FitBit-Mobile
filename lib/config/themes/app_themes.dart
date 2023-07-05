@@ -6,9 +6,17 @@ class AppTheme {
 
   static getApplicationTheme(bool isDark) {
     return ThemeData(
-      colorScheme: const ColorScheme.light(
-        primary: AppColorConstant.primaryColor,
-      ),
+      colorScheme: isDark
+          ? const ColorScheme.dark(
+              primary: AppColorConstant.primaryColor,
+            )
+          : const ColorScheme.light(
+              primary: AppColorConstant.primaryColor,
+            ),
+      brightness: isDark ? Brightness.dark : Brightness.light,
+      // colorScheme: const ColorScheme.light(
+      //   primary: AppColorConstant.primaryColor,
+      // ),
       fontFamily: 'Montserrat',
       useMaterial3: true,
 
