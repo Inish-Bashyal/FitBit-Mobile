@@ -58,7 +58,7 @@ void main() {
 
     await container
         .read(authViewModelProvider.notifier)
-        .loginUser(context, 'Inish', 'Inish123');
+        .loginUser(context, 'Inish', 'Inish1234');
 
     final authState = container.read(authViewModelProvider);
 

@@ -8,12 +8,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../../unit_test/auth_unit_test.mocks.dart';
+import 'login_view_test.mocks.dart';
 
 @GenerateNiceMocks([
   MockSpec<AuthUseCase>(),
 ])
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late AuthUseCase mockAuthUsecase;
   late bool isLogin;
 
@@ -49,7 +51,7 @@ void main() {
     await tester.enterText(find.byType(TextField).at(1), 'Inish123');
 
     await tester.tap(
-      find.widgetWithText(ElevatedButton, 'Login'),
+      find.widgetWithText(ElevatedButton, 'LOGIN'),
     );
 
     await tester.pumpAndSettle();

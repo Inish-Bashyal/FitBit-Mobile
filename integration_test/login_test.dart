@@ -51,7 +51,7 @@ void main() {
     await tester.enterText(find.byType(TextField).at(1), 'Inish123');
 
     await tester.tap(
-      find.widgetWithText(ElevatedButton, 'Login'),
+      find.widgetWithText(ElevatedButton, 'LOGIN'),
     );
 
     await tester.pumpAndSettle();

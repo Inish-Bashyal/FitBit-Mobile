@@ -33,9 +33,9 @@ void main() {
         lastname: 'Bashyal',
         image: '',
         age: '22',
-        email: 'inish.bashyal99@gmaill.com',
-        gender: 'male',
-        username: 'Inish',
+        email: 'inish.bashyal99@gmail.com',
+        gender: 'Male',
+        username: 'Inish123',
         password: 'Inish123',
       );
     },
@@ -65,7 +65,7 @@ void main() {
     await tester.enterText(find.byType(TextFormField).at(0), 'Inish123');
     // Enter firstname in second textform field
     await tester.enterText(find.byType(TextFormField).at(1), 'Inish');
-    // Enter lastname no
+    // Enter lastname
     await tester.enterText(find.byType(TextFormField).at(2), 'Bashyal');
     // Enter email
     await tester.enterText(
@@ -73,23 +73,19 @@ void main() {
     // Enter password
     await tester.enterText(find.byType(TextFormField).at(4), 'Inish123');
     //Enter age
-    await tester.enterText(find.byType(TextFormField).at(4), '22');
+    await tester.enterText(find.byType(TextFormField).at(5), '22');
 
-    //   //=========================== Find the dropdownformfield===========================
-
-    //   // final dropdownFinder = find.byType(RadioListTile<Worko>);
-    //   // //expect(dropdownFinder, findsOneWidget);
-    //   // await tester.ensureVisible(dropdownFinder);
-
-    //   // await tester.tap(dropdownFinder);
-
-    //   // // Use this because the menu items are not visible
-    //   // await tester.pumpAndSettle();
-
-    //   // //tap on the first item in the dropdown
-    //   // await tester.tap(find.byType(DropdownMenuItem<BatchEntity>).at(0));
-    //   // //Use this to close the dropdown
-    //   // await tester.pumpAndSettle();
+    // For Gender
+    final genderRowFinder = find.byType(Row).first;
+    await tester.tap(find
+        .descendant(
+          of: genderRowFinder,
+          matching: find.byType(Radio),
+        )
+        .first);
+    // Tapping on the first Radio widget in the gender row
+// Tapping on the first RadioListTile for "Male"
+    await tester.pumpAndSettle();
 
     //=========================== Find the register button===========================
     final registerButtonFinder =
