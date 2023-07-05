@@ -11,16 +11,16 @@ class ApiEndpoints {
   static const String login = "users/login";
   static const String register = "users/register";
   static const String getAllStudent = "auth/getAllUsers";
-  // static const String getStudentsByBatch = "auth/getStudentsByBatch/";
+  static const String getAllUsersByWorkout = "auth/getUsersByWorkout/";
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   static const String updateStudent = "auth/updateUser/";
   static const String deleteStudent = "auth/deleteUser/";
   static const String imageUrl = "http://10.0.2.2:3000/uploads/";
   static const String uploadImage = "users/uploadImage";
 
-  // ====================== Batch Routes ======================
-  // static const String createBatch = "batch/createBatch";
-  // static const String getAllBatch = "batch/getAllBatches";
+  //====================== Batch Routes ======================
+  static const String createWorkout = "batch/createWorkout";
+  static const String getAllWorkout = "batch/getAllWorkouts";
 
   // ====================== Course Routes ======================
   // static const String createCourse = "course/createCourse";
