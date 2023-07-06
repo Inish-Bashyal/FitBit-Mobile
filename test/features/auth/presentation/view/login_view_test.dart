@@ -27,7 +27,7 @@ void main() {
   });
 
   testWidgets('login test with username and password and open dashboard',
-      (WidgetTester tester) async {
+      (tester) async {
     when(mockAuthUsecase.loginUser('Inish', 'Inish123'))
         .thenAnswer((_) async => Right(isLogin));
 
