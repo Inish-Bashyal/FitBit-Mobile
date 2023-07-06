@@ -28,4 +28,5 @@ abstract class IWorkoutRepository {
   Future<Either<Failure, bool>> addWorkout(WorkoutEntity workout);
   Future<Either<Failure, List<UserEntity>>> getAllUsersByWorkout(
       String workoutId);
+  Future<Either<Failure, bool>> deleteWorkout(String id);
 }

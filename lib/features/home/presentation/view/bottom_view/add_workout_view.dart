@@ -1,20 +1,23 @@
 import 'dart:io';
 
+import 'package:fitbit/core/common/snackbar/my_snackbar.dart';
 import 'package:fitbit/core/common/widgets/textfield_widget.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
+import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class AddRoutineView extends StatefulWidget {
+class AddRoutineView extends ConsumerStatefulWidget {
   const AddRoutineView({super.key});
 
   @override
-  State<AddRoutineView> createState() => _AddRoutineViewState();
+  ConsumerState<AddRoutineView> createState() => _AddRoutineViewState();
 }
 
-class _AddRoutineViewState extends State<AddRoutineView> {
+class _AddRoutineViewState extends ConsumerState<AddRoutineView> {
   final formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final nameController = TextEditingController();
@@ -52,6 +55,8 @@ class _AddRoutineViewState extends State<AddRoutineView> {
 
   @override
   Widget build(BuildContext context) {
+    final workoutState = ref.watch(workoutViewModelProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Workout'),
@@ -60,105 +65,104 @@ class _AddRoutineViewState extends State<AddRoutineView> {
         padding: const EdgeInsets.all(10.0),
         child: Form(
           key: formKey,
-          child: Column(
-            children: [
-              // InkWell(
-              //   onTap: () {
-              //     showModalBottomSheet(
-              //       backgroundColor: Colors.grey[300],
-              //       context: context,
-              //       isScrollControlled: true,
-              //       shape: const RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.vertical(
-              //           top: Radius.circular(20),
-              //         ),
-              //       ),
-              //       builder: (context) => Padding(
-              //         padding: const EdgeInsets.all(20),
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //           children: [
-              //             ElevatedButton.icon(
-              //               onPressed: () {
-              //                 checkCameraPermission();
-              //                 _browseImage(ref, ImageSource.camera);
-              //                 Navigator.pop(context);
-              //                 // Upload image it is not null
-              //               },
-              //               icon: const Icon(Icons.camera),
-              //               label: const Text('Camera'),
-              //             ),
-              //             ElevatedButton.icon(
-              //               onPressed: () {
-              //                 _browseImage(ref, ImageSource.gallery);
-              //                 Navigator.pop(context);
-              //               },
-              //               icon: const Icon(Icons.image),
-              //               label: const Text('Gallery'),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     );
-              //   },
-              //   child: SizedBox(
-              //     height: 200,
-              //     width: 200,
-              //     child: CircleAvatar(
-              //       radius: 50,
-              //       backgroundImage: _img != null
-              //           ? FileImage(_img!)
-              //           : const AssetImage('assets/images/profile.png')
-              //               as ImageProvider,
-              //     ),
-              //   ),
-              // ),
-
-              customTextField(titleController, 'Title'),
-              gap,
-              customTextField(nameController, 'Name of WorkOut'),
-              gap,
-              customTextField(dayController, 'Day'),
-              gap,
-              customTextField(repsNumController, 'No. of Reps'),
-              gap,
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // if (formKey.currentState!.validate()) {
-                    //   var user = UserEntity(
-                    //     firstname: firstnameController.text,
-                    //     lastname: lastnameController.text,
-                    //     email: emailController.text,
-                    //     username: usernameController.text,
-                    //     password: passwordController.text,
-                    //     age: ageController.text,
-                    //     gender: gender,
-                    //   );
-
-                    //   ref
-                    //       .read(authViewModelProvider.notifier)
-                    //       .registerUser(user);
-
-                    //   if (authState.error != null) {
-                    //     showSnackBar(
-                    //       message: authState.error.toString(),
-                    //       context: context,
-                    //       color: Colors.red,
-                    //     );
-                    //   } else {
-                    //     showSnackBar(
-                    //       message: 'Registered successfully',
-                    //       context: context,
-                    //     );
-                    //   }
-                    // }
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      backgroundColor: Colors.grey[300],
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (context) => Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                checkCameraPermission();
+                                _browseImage(ref, ImageSource.camera);
+                                Navigator.pop(context);
+                                // Upload image it is not null
+                              },
+                              icon: const Icon(Icons.camera),
+                              label: const Text('Camera'),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                _browseImage(ref, ImageSource.gallery);
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(Icons.image),
+                              label: const Text('Gallery'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
-                  child: const Text('Register'),
+                  child: SizedBox(
+                    height: 200,
+                    width: 200,
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: _img != null
+                          ? FileImage(_img!)
+                          : const AssetImage('assets/images/bg2.jpeg')
+                              as ImageProvider,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                gap,
+                customTextField(titleController, 'Title'),
+                gap,
+                customTextField(nameController, 'Name of WorkOut'),
+                gap,
+                customTextField(dayController, 'Day'),
+                gap,
+                customTextField(repsNumController, 'No. of Reps'),
+                gap,
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        var workput = WorkoutEntity(
+                          title: titleController.text,
+                          nameOfWorkout: nameController.text,
+                          day: dayController.text,
+                          numberOfReps: repsNumController.text,
+                        );
+
+                        ref
+                            .read(workoutViewModelProvider.notifier)
+                            .addWorkout(workput);
+
+                        if (workoutState.error != null) {
+                          showSnackBar(
+                            message: workoutState.error.toString(),
+                            context: context,
+                            color: Colors.red,
+                          );
+                        } else {
+                          showSnackBar(
+                            message: 'Registered successfully',
+                            context: context,
+                          );
+                        }
+                      }
+                    },
+                    child: const Text('Register'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

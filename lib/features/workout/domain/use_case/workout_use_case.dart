@@ -28,4 +28,8 @@ class WorkoutUseCase {
       String workoutId) {
     return workoutRepository.getAllUsersByWorkout(workoutId);
   }
+
+  Future<Either<Failure, bool>> deleteWorkout(String id) async {
+    return workoutRepository.deleteWorkout(id);
+  }
 }

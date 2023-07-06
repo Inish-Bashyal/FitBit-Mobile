@@ -1,6 +1,8 @@
+import 'package:fitbit/core/common/snackbar/my_snackbar.dart';
 import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
 import 'package:fitbit/features/workout/domain/use_case/workout_use_case.dart';
 import 'package:fitbit/features/workout/presentation/state/workout_state.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final workoutViewModelProvider =
@@ -49,4 +51,26 @@ class WorkoutViewModel extends StateNotifier<WorkoutState> {
   //     },
   //   );
   // }
+
+  Future<void> deleteWorkout(
+      BuildContext context, WorkoutEntity workout) async {
+    state.copyWith(isLoading: true);
+    var data = await workoutUseCase.deleteWorkout(workout.workoutId!);
+
+    data.fold(
+      (l) {
+        showSnackBar(message: l.error, context: context, color: Colors.red);
+
+        state = state.copyWith(isLoading: false, error: l.error);
+      },
+      (r) {
+        state.workouts.remove(workout);
+        state = state.copyWith(isLoading: false, error: null);
+        showSnackBar(
+          message: 'Batch delete successfully',
+          context: context,
+        );
+      },
+    );
+  }
 }

@@ -19,8 +19,9 @@ class ApiEndpoints {
   static const String uploadImage = "users/uploadImage";
 
   //====================== Batch Routes ======================
-  static const String createWorkout = "batch/createWorkout";
-  static const String getAllWorkout = "batch/getAllWorkouts";
+  static const String createWorkout = "workouts/addWorkout";
+  static const String getAllWorkout = "workouts/getAllWorkouts";
+  static const String deleteworkout = "workouts/deleteWorkout/";
 
   // ====================== Course Routes ======================
   // static const String createCourse = "course/createCourse";

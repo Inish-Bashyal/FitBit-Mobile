@@ -32,4 +32,8 @@ class WorkoutRemoteRepositoryImpl implements IWorkoutRepository {
       String workoutId) {
     return workoutRemoteDataSource.getAllUserByWorkout(workoutId);
   }
+  @override
+  Future<Either<Failure, bool>> deleteWorkout(String id) {
+    return workoutRemoteDataSource.deleteWorkout(id);
+  }
 }

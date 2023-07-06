@@ -35,4 +35,9 @@ class WorkoutLocalRepositoryImpl implements IWorkoutRepository {
     // TODO: implement getAllStudentsByBatch
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, bool>> deleteWorkout(String id) {
+    throw UnimplementedError();
+  }
 }
