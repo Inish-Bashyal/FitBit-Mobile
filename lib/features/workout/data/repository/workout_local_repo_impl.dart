@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
@@ -38,6 +40,12 @@ class WorkoutLocalRepositoryImpl implements IWorkoutRepository {
 
   @override
   Future<Either<Failure, bool>> deleteWorkout(String id) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadWorkoutPicture(File file) {
+    // TODO: implement uploadProfilePicture
     throw UnimplementedError();
   }
 }

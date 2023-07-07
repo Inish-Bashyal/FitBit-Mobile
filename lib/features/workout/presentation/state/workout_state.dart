@@ -6,12 +6,14 @@ class WorkoutState {
   final List<WorkoutEntity> workouts;
   final List<UserEntity>? users;
   final String? error;
+  final String? image;
 
   WorkoutState({
     this.users,
     required this.isLoading,
     required this.workouts,
     this.error,
+    this.image,
   });
 
   factory WorkoutState.initial() {
@@ -19,6 +21,7 @@ class WorkoutState {
       isLoading: false,
       users: [],
       workouts: [],
+      image: null,
     );
   }
 
@@ -27,12 +30,14 @@ class WorkoutState {
     List<WorkoutEntity>? workouts,
     List<UserEntity>? users,
     String? error,
+    String? image,
   }) {
     return WorkoutState(
       isLoading: isLoading ?? this.isLoading,
       workouts: workouts ?? this.workouts,
       users: users ?? this.users,
       error: error ?? this.error,
+      image: image ?? this.image,
     );
   }
 }

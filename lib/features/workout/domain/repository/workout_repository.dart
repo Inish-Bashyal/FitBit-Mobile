@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:fitbit/core/common/provider/internet_connectivity.dart';
 import 'package:fitbit/core/failure/failure.dart';
@@ -29,4 +31,5 @@ abstract class IWorkoutRepository {
   Future<Either<Failure, List<UserEntity>>> getAllUsersByWorkout(
       String workoutId);
   Future<Either<Failure, bool>> deleteWorkout(String id);
+  Future<Either<Failure, String>> uploadWorkoutPicture(File file);
 }

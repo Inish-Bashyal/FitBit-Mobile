@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
@@ -32,8 +34,14 @@ class WorkoutRemoteRepositoryImpl implements IWorkoutRepository {
       String workoutId) {
     return workoutRemoteDataSource.getAllUserByWorkout(workoutId);
   }
+
   @override
   Future<Either<Failure, bool>> deleteWorkout(String id) {
     return workoutRemoteDataSource.deleteWorkout(id);
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadWorkoutPicture(File file) {
+    return workoutRemoteDataSource.uploadWorkoutPicture(file);
   }
 }

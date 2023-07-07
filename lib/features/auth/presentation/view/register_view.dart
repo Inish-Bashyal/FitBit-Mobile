@@ -270,6 +270,9 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                               password: passwordController.text,
                               age: ageController.text,
                               gender: gender,
+                              image:
+                                  ref.read(authViewModelProvider).imageName ??
+                                      '',
                             );
 
                             ref

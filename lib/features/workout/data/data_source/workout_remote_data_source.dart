@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fitbit/config/constants/api_endpoint.dart';
@@ -36,8 +38,20 @@ class WorkoutRemoteDataSource {
 
   Future<Either<Failure, bool>> addWorkout(WorkoutEntity workout) async {
     try {
+      // Get the token from shared prefs
+      String? token;
+      var data = await userSharedPrefs.getUserToken();
+      data.fold(
+        (l) => token = null,
+        (r) => token = r!,
+      );
       var response = await dio.post(
         ApiEndpoints.createWorkout,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
         data: {
           "title": workout.title,
           "nameOfWorkout": workout.nameOfWorkout,
@@ -66,14 +80,60 @@ class WorkoutRemoteDataSource {
     }
   }
 
+  // Upload image using multipart
+  Future<Either<Failure, String>> uploadWorkoutPicture(
+    File image,
+  ) async {
+    try {
+      String fileName = image.path.split('/').last;
+      FormData formData = FormData.fromMap(
+        {
+          'profilePicture': await MultipartFile.fromFile(
+            image.path,
+            filename: fileName,
+          ),
+        },
+      );
+
+      Response response = await dio.post(
+        ApiEndpoints.uploadWorkoutImage,
+        data: formData,
+      );
+
+      return Right(response.data["data"]);
+    } on DioException catch (e) {
+      return Left(
+        Failure(
+          error: e.error.toString(),
+          statusCode: e.response?.statusCode.toString() ?? '0',
+        ),
+      );
+    }
+  }
+
   Future<Either<Failure, List<WorkoutEntity>>> getAllWorkouts() async {
     try {
-      var response = await dio.get(ApiEndpoints.getAllWorkout);
+      // Get the token from shared prefs
+      String? token;
+      var data = await userSharedPrefs.getUserToken();
+      data.fold(
+        (l) => token = null,
+        (r) => token = r!,
+      );
+      var response = await dio.get(
+        ApiEndpoints.getAllWorkout,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
       if (response.statusCode == 200) {
         // OR
         // 2nd way
-        GetAllWorkoutDTO batchAddDTO = GetAllWorkoutDTO.fromJson(response.data);
-        return Right(workoutApiModel.toEntityList(batchAddDTO.data));
+        GetAllWorkoutDTO workoutAddDTO =
+            GetAllWorkoutDTO.fromJson(response.data);
+        return Right(workoutApiModel.toEntityList(workoutAddDTO.data));
       } else {
         return Left(
           Failure(

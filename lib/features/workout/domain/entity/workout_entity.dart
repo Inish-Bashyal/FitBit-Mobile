@@ -10,7 +10,14 @@ class WorkoutEntity extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [workoutId, title];
+  List<Object?> get props => [
+        workoutId,
+        title,
+        image,
+        numberOfReps,
+        nameOfWorkout,
+        day,
+      ];
 
   const WorkoutEntity({
     this.workoutId,

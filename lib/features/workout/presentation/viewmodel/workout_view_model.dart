@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fitbit/core/common/snackbar/my_snackbar.dart';
 import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
 import 'package:fitbit/features/workout/domain/use_case/workout_use_case.dart';
@@ -67,9 +69,22 @@ class WorkoutViewModel extends StateNotifier<WorkoutState> {
         state.workouts.remove(workout);
         state = state.copyWith(isLoading: false, error: null);
         showSnackBar(
-          message: 'Batch delete successfully',
+          message: 'Workout delete successfully',
           context: context,
         );
+      },
+    );
+  }
+
+  Future<void> uploadImage(File? file) async {
+    state = state.copyWith(isLoading: true);
+    var data = await workoutUseCase.uploadWorkoutPicture(file!);
+    data.fold(
+      (l) {
+        state = state.copyWith(isLoading: false, error: l.error);
+      },
+      (image) {
+        state = state.copyWith(isLoading: false, error: null, image: image);
       },
     );
   }

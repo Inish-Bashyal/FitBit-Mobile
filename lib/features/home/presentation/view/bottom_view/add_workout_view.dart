@@ -43,7 +43,7 @@ class _AddRoutineViewState extends ConsumerState<AddRoutineView> {
       if (image != null) {
         setState(() {
           _img = File(image.path);
-          ref.read(authViewModelProvider.notifier).uploadImage(_img!);
+          ref.read(workoutViewModelProvider.notifier).uploadImage(_img!);
         });
       } else {
         return;
@@ -138,6 +138,7 @@ class _AddRoutineViewState extends ConsumerState<AddRoutineView> {
                           nameOfWorkout: nameController.text,
                           day: dayController.text,
                           numberOfReps: repsNumController.text,
+                          image: ref.read(workoutViewModelProvider).image ?? '',
                         );
 
                         ref
@@ -152,13 +153,13 @@ class _AddRoutineViewState extends ConsumerState<AddRoutineView> {
                           );
                         } else {
                           showSnackBar(
-                            message: 'Registered successfully',
+                            message: 'Workout Added successfully',
                             context: context,
                           );
                         }
                       }
                     },
-                    child: const Text('Register'),
+                    child: const Text('Add Workout'),
                   ),
                 ),
               ],
