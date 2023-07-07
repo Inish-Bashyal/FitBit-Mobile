@@ -229,11 +229,3 @@ class WorkoutRemoteDataSource {
     }
   }
 }
-
-
-
-//  // 1st way
-//         var batches = (response.data['data'] as List)
-//             .map((batch) => BatchApiModel.fromJson(batch).toEntity())
-//             .toList();
-//         return Right(batches);

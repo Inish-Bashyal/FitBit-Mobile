@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:fitbit/core/common/snackbar/my_snackbar.dart';
 import 'package:fitbit/core/common/widgets/textfield_widget.dart';
-import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
 import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
 import 'package:flutter/material.dart';
@@ -138,7 +137,7 @@ class _AddRoutineViewState extends ConsumerState<AddRoutineView> {
                           nameOfWorkout: nameController.text,
                           day: dayController.text,
                           numberOfReps: repsNumController.text,
-                          image: ref.read(workoutViewModelProvider).image ?? '',
+                          image: ref.read(workoutViewModelProvider).image,
                         );
 
                         ref

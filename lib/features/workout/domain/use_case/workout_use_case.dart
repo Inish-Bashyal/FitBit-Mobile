@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 //watch converted to read
 final workoutUsecaseProvider = Provider<WorkoutUseCase>(
   (ref) => WorkoutUseCase(
-    workoutRepository: ref.read(workoutRepositoryProvider),
+    workoutRepository: ref.watch(workoutRepositoryProvider),
   ),
 );
 

@@ -11,7 +11,6 @@ class RoutineView extends ConsumerStatefulWidget {
 }
 
 class _RoutineViewState extends ConsumerState<RoutineView> {
-  final batchController = TextEditingController();
   var gap = const SizedBox(height: 8);
   final _key = GlobalKey<FormState>();
 
@@ -55,7 +54,7 @@ class _RoutineViewState extends ConsumerState<RoutineView> {
               } else if (workoutState.workouts.isNotEmpty) ...{
                 Expanded(
                   child: LoadWorkout(
-                    lstBatch: workoutState.workouts,
+                    lstWorkout: workoutState.workouts,
                     ref: ref,
                   ),
                 ),
