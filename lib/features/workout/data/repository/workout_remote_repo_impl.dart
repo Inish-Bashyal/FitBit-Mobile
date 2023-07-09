@@ -44,4 +44,10 @@ class WorkoutRemoteRepositoryImpl implements IWorkoutRepository {
   Future<Either<Failure, String>> uploadWorkoutPicture(File file) {
     return workoutRemoteDataSource.uploadWorkoutPicture(file);
   }
+
+  @override
+  Future<Either<Failure, bool>> updateWorkout(String id) {
+    // TODO: implement updateWorkout
+    return workoutRemoteDataSource.updateWorkout(id);
+  }
 }

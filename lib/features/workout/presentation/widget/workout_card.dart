@@ -5,6 +5,7 @@ class WorkoutCard extends StatelessWidget {
   final String? title;
   final String? nameOfWorkout;
   final VoidCallback? onDelete;
+  final VoidCallback? onEdit;
 
   const WorkoutCard({
     super.key,
@@ -12,6 +13,7 @@ class WorkoutCard extends StatelessWidget {
     this.title,
     this.nameOfWorkout,
     this.onDelete,
+    this.onEdit,
   });
 
   @override
@@ -25,9 +27,18 @@ class WorkoutCard extends StatelessWidget {
                 .image), // Fallback image (can be replaced with any other widget)
         title: Text(title ?? ''),
         subtitle: Text(nameOfWorkout ?? ''),
-        trailing: IconButton(
-          onPressed: onDelete,
-          icon: const Icon(Icons.delete),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              onPressed: onEdit,
+              icon: const Icon(Icons.edit),
+            ),
+            IconButton(
+              onPressed: onDelete,
+              icon: const Icon(Icons.delete),
+            ),
+          ],
         ),
       ),
     );

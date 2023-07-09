@@ -28,7 +28,7 @@ class _RoutineViewState extends ConsumerState<RoutineView> {
               const Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Workout',
+                  'Routines',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class _RoutineViewState extends ConsumerState<RoutineView> {
               const Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'List of Workouts',
+                  'Enrolled Workout Routines',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

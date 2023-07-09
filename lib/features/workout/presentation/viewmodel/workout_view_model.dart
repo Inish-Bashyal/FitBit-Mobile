@@ -76,6 +76,28 @@ class WorkoutViewModel extends StateNotifier<WorkoutState> {
     );
   }
 
+  Future<void> updateWorkout(
+      BuildContext context, WorkoutEntity workout) async {
+    state.copyWith(isLoading: true);
+    var data = await workoutUseCase.updateWorkout(workout.workoutId!);
+
+    data.fold(
+      (l) {
+        showSnackBar(message: l.error, context: context, color: Colors.red);
+
+        state = state.copyWith(isLoading: false, error: l.error);
+      },
+      (r) {
+        state.workouts.add(workout);
+        state = state.copyWith(isLoading: false, error: null);
+        showSnackBar(
+          message: 'Workout updated successfully',
+          context: context,
+        );
+      },
+    );
+  }
+
   Future<void> uploadImage(File? file) async {
     state = state.copyWith(isLoading: true);
     var data = await workoutUseCase.uploadWorkoutPicture(file!);

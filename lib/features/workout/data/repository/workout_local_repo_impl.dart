@@ -34,7 +34,6 @@ class WorkoutLocalRepositoryImpl implements IWorkoutRepository {
   @override
   Future<Either<Failure, List<UserEntity>>> getAllUsersByWorkout(
       String batchId) {
-    // TODO: implement getAllStudentsByBatch
     throw UnimplementedError();
   }
 
@@ -45,7 +44,11 @@ class WorkoutLocalRepositoryImpl implements IWorkoutRepository {
 
   @override
   Future<Either<Failure, String>> uploadWorkoutPicture(File file) {
-    // TODO: implement uploadProfilePicture
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateWorkout(String id) {
     throw UnimplementedError();
   }
 }
