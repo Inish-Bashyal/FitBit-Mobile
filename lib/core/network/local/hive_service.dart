@@ -14,6 +14,9 @@ class HiveService {
 
     // Register Adapters
     Hive.registerAdapter(AuthHiveModelAdapter());
+    Hive.registerAdapter(WorkoutHiveModelAdapter());
+
+    await addDummyWorkout();
   }
 
   // ======================== Workout Queries ========================
@@ -54,24 +57,36 @@ class HiveService {
   }
 
   // ======================== Insert Dummy Data ========================
-  // Batch Dummy Data
-  // Future<void> addDummybatch() async {
-  //   // check of batch box is empty
-  //   var box = await Hive.openBox<BatchHiveModel>(HiveTableConstant.batchBox);
-  //   if (box.isEmpty) {
-  //     final batch1 = BatchHiveModel(batchName: '29-A');
-  //     final batch2 = BatchHiveModel(batchName: '29-B');
-  //     final batch3 = BatchHiveModel(batchName: '30-A');
-  //     final batch4 = BatchHiveModel(batchName: '30-B');
+  // Workout Dummy Data
+  Future<void> addDummyWorkout() async {
+    // check of batch box is empty
+    var box =
+        await Hive.openBox<WorkoutHiveModel>(HiveTableConstant.workoutBox);
+    if (box.isEmpty) {
+      final workout1 = WorkoutHiveModel(
+          title: 'Chest',
+          nameOfWorkout: 'Pushup',
+          numberOfReps: '15',
+          day: 'Monday');
+      final workout2 = WorkoutHiveModel(
+          title: 'Legs',
+          nameOfWorkout: 'Split Squat',
+          numberOfReps: '15',
+          day: 'Monday');
+      final workout3 = WorkoutHiveModel(
+          title: 'Abs',
+          nameOfWorkout: 'Set up',
+          numberOfReps: '15',
+          day: 'Monday');
 
-  //     List<BatchHiveModel> batches = [batch1, batch2, batch3, batch4];
+      List<WorkoutHiveModel> workouts = [workout1, workout2, workout3];
 
-  //     // Insert batch with key
-  //     for (var batch in batches) {
-  //       await addBatch(batch);
-  //     }
-  //   }
-  // }
+      // Insert batch with key
+      for (var workout in workouts) {
+        await addWorkout(workout);
+      }
+    }
+  }
 
   // Future<void> addDummyCourse() async {
   //   // check of course box is empty
@@ -107,6 +122,7 @@ class HiveService {
     var directory = await getApplicationDocumentsDirectory();
     Hive.init(directory.path);
     await Hive.deleteBoxFromDisk(HiveTableConstant.userBox);
+    await Hive.deleteBoxFromDisk(HiveTableConstant.workoutBox);
     await Hive.deleteFromDisk();
   }
 }

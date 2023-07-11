@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 void main(List<String> args) {
   WidgetsFlutterBinding.ensureInitialized();
   HiveService().init();
+  // HiveService().deleteHive();
 
   runApp(
     const ProviderScope(

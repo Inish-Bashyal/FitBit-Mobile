@@ -11,7 +11,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final workoutRepositoryProvider = Provider<IWorkoutRepository>(
   (ref) {
-    // return ref.watch(batchLocalRepoProvider);
     // // Check for the internet
     final internetStatus = ref.watch(connectivityStatusProvider);
 

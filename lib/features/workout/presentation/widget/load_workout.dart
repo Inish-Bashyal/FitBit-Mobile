@@ -53,6 +53,9 @@ class LoadWorkout extends StatelessWidget {
           onEdit: () {
             //code here for ediitng
           },
+          follow: () {
+            //code here for ediitng
+          },
         );
       },
     );
