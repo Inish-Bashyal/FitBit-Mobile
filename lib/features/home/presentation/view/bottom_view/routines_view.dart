@@ -1,5 +1,5 @@
 import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
-import 'package:fitbit/features/workout/presentation/widget/load_workout.dart';
+import 'package:fitbit/features/workout/presentation/widget/local_workout_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -52,11 +52,8 @@ class _RoutineViewState extends ConsumerState<RoutineView> {
               } else if (workoutState.error != null) ...{
                 Text(workoutState.error!),
               } else if (workoutState.workouts.isNotEmpty) ...{
-                Expanded(
-                  child: LoadWorkout(
-                    lstWorkout: workoutState.workouts,
-                    ref: ref,
-                  ),
+                const WorkoutLocalCard(
+                  index: 0,
                 ),
               }
             ],

@@ -29,6 +29,7 @@ class WorkoutViewModel extends StateNotifier<WorkoutState> {
       (l) => state = state.copyWith(isLoading: false, error: l.error),
       (r) => state = state.copyWith(isLoading: false, error: null),
     );
+    getAllWorkouts();
   }
 
   getAllWorkouts() async {

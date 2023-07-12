@@ -11,6 +11,7 @@ class ApiEndpoints {
   static const String login = "users/login";
   static const String register = "users/register";
   static const String getAllUsers = "auth/getAllUsers";
+  static const String getMe = "auth/getMe";
   static const String getAllUsersByWorkout = "auth/getUsersByWorkout/";
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   static const String updateStudent = "auth/updateUser/";
@@ -18,7 +19,7 @@ class ApiEndpoints {
   static const String imageUrl = "http://10.0.2.2:3000/uploads/";
   static const String uploadImage = "users/uploadImage";
 
-  //====================== Batch Routes ======================
+  //====================== Workout Routes ======================
   static const String createWorkout = "workouts/addWorkout";
   static const String getAllWorkout = "workouts/getAllWorkouts";
   static const String deleteworkout = "workouts/deleteWorkout/";

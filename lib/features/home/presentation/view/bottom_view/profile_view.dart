@@ -1,18 +1,23 @@
+import 'package:fitbit/config/constants/api_endpoint.dart';
+import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({super.key});
 
   @override
-  State<ProfileView> createState() => _ProfileViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class _ProfileViewState extends ConsumerState<ProfileView> {
   var gap = const SizedBox(
     height: 20,
   );
   @override
   Widget build(BuildContext context) {
+    var authState = ref.watch(authViewModelProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 112, 110, 110),
@@ -33,7 +38,7 @@ class _ProfileViewState extends State<ProfileView> {
                       fit: BoxFit.fitHeight,
                     ),
                   ),
-                  const Positioned(
+                  Positioned(
                     left: 0,
                     bottom: -70,
                     child: SizedBox(
@@ -42,7 +47,8 @@ class _ProfileViewState extends State<ProfileView> {
                       child: CircleAvatar(
                         radius: 200,
                         backgroundImage: NetworkImage(
-                            'https://media.licdn.com/dms/image/D5603AQG-BMXz9ds3Kw/profile-displayphoto-shrink_800_800/0/1674663322596?e=2147483647&v=beta&t=-ASZP2s-NHHfPfozLn9l2mmYZh--8RipLD-v_6lENrc'),
+                          ApiEndpoints.imageUrl + (authState.imageName ?? ''),
+                        ),
                       ),
                     ),
                   ),

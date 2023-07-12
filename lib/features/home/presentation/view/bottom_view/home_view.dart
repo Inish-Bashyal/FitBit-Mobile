@@ -1,5 +1,9 @@
+import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/core/common/widgets/cardview_widget.dart';
+import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:fitbit/features/home/presentation/view/bottom_view/profile_view.dart';
+import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
+import 'package:fitbit/features/workout/presentation/widget/local_workout_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,6 +21,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authViewModelProvider);
+    final wokroutState = ref.watch(workoutViewModelProvider);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -38,10 +45,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 builder: (context) => const ProfileView()),
                           );
                         },
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           radius: 30,
-                          backgroundImage: NetworkImage(
-                              'https://media.licdn.com/dms/image/D5603AQG-BMXz9ds3Kw/profile-displayphoto-shrink_800_800/0/1674663322596?e=2147483647&v=beta&t=-ASZP2s-NHHfPfozLn9l2mmYZh--8RipLD-v_6lENrc'),
+                          backgroundImage: NetworkImage(ApiEndpoints.imageUrl +
+                              (authState.imageName ?? '')),
                         ),
                       ),
                     ),
@@ -65,6 +72,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   padding: const EdgeInsets.all(4.0),
                   child: Row(
                     children: [
+                      for (int i = 0;
+                          i < wokroutState.workouts.length;
+                          i++) ...{
+                        WorkoutLocalCard(index: i),
+                      },
                       cardView('assets/images/logo1.png', 'Workout 1',
                           'Description 1', context),
                       cardView('assets/images/logo1.png', 'Workout 2',

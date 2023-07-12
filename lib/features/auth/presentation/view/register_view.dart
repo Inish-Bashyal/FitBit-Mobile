@@ -277,18 +277,13 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
 
                             ref
                                 .read(authViewModelProvider.notifier)
-                                .registerUser(user);
+                                .registerUser(context, user);
 
                             if (authState.error != null) {
                               showSnackBar(
                                 message: authState.error.toString(),
                                 context: context,
                                 color: Colors.red,
-                              );
-                            } else {
-                              showSnackBar(
-                                message: 'Registered successfully',
-                                context: context,
                               );
                             }
                           }

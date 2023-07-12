@@ -20,18 +20,24 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   AuthViewModel(this._authUseCase) : super(AuthState(isLoading: false));
 
-  Future<void> registerUser(UserEntity user) async {
+  Future<void> registerUser(BuildContext context, UserEntity user) async {
     state = state.copyWith(isLoading: true);
     var data = await _authUseCase.registerUser(user);
     data.fold(
-      (failure) => state = state.copyWith(
-        isLoading: false,
-        error: failure.error,
-      ),
-      (success) => state = state.copyWith(
-        isLoading: false,
-        error: null,
-      ),
+      (failure) {
+        state = state.copyWith(
+          isLoading: false,
+          error: failure.error,
+        );
+      },
+      (success) {
+        state = state.copyWith(isLoading: false, error: null);
+        showSnackBar(
+          message: 'Registered Successfully',
+          context: context,
+          color: Colors.green,
+        );
+      },
     );
   }
 

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fitbit_inish.fitbit">
    <application
-        android:label="fitbit"
+        android:label="FitBit"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
