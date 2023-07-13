@@ -11,7 +11,7 @@ class ApiEndpoints {
   static const String login = "users/login";
   static const String register = "users/register";
   static const String getAllUsers = "auth/getAllUsers";
-  static const String getMe = "auth/getMe";
+  static const String getMe = "auth/getMe/";
   static const String getAllUsersByWorkout = "auth/getUsersByWorkout/";
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   static const String updateStudent = "auth/updateUser/";

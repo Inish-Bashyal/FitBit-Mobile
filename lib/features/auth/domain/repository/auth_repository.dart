@@ -14,4 +14,5 @@ abstract class IAuthRepository {
   Future<Either<Failure, bool>> registerUser(UserEntity user);
   Future<Either<Failure, bool>> loginUser(String username, String password);
   Future<Either<Failure, String>> uploadProfilePicture(File file);
+  Future<Either<Failure, List<UserEntity>>> getAllUsers();
 }

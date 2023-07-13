@@ -32,4 +32,10 @@ class AuthLocalRepository implements IAuthRepository {
   Future<Either<Failure, String>> uploadProfilePicture(File file) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, List<UserEntity>>> getAllUsers() {
+    // TODO: implement getUser
+    throw UnimplementedError();
+  }
 }

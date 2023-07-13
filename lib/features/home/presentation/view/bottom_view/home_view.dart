@@ -48,7 +48,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         child: CircleAvatar(
                           radius: 30,
                           backgroundImage: NetworkImage(ApiEndpoints.imageUrl +
-                              (authState.imageName ?? '')),
+                              (authState.users?[1].image ?? '')),
                         ),
                       ),
                     ),

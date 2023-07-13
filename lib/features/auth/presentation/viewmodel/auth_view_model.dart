@@ -77,4 +77,14 @@ class AuthViewModel extends StateNotifier<AuthState> {
       },
     );
   }
+
+  getAllUsers() async {
+    state = state.copyWith(isLoading: true);
+    var data = await _authUseCase.getAllUsers();
+
+    data.fold(
+      (l) => state = state.copyWith(isLoading: false, error: l.error),
+      (r) => state = state.copyWith(isLoading: false, users: r, error: null),
+    );
+  }
 }
