@@ -4,7 +4,7 @@ class ApiEndpoints {
   static const Duration connectionTimeout = Duration(seconds: 1000);
   static const Duration receiveTimeout = Duration(seconds: 1000);
   // static const String baseUrl = "http://localhost:3000/";
-  static const String baseUrl = "http://10.0.2.2:3000/";
+  static const String baseUrl = "http://10.0.2.2:3001/";
   //static const String baseUrl = "http://172.21.0.211:3000/api/v1/";
 
   // ====================== Auth Routes ======================
@@ -16,7 +16,7 @@ class ApiEndpoints {
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   static const String updateStudent = "auth/updateUser/";
   static const String deleteStudent = "auth/deleteUser/";
-  static const String imageUrl = "http://10.0.2.2:3000/uploads/";
+  static const String imageUrl = "http://10.0.2.2:3001/uploads/";
   static const String uploadImage = "users/uploadImage";
 
   //====================== Workout Routes ======================
