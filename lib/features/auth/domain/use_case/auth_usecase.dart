@@ -33,4 +33,8 @@ class AuthUseCase {
   Future<Either<Failure, List<UserEntity>>> getAllUsers() {
     return _authRepository.getAllUsers();
   }
+
+  Future<Either<Failure, UserEntity>> getUser() {
+    return _authRepository.getUser();
+  }
 }

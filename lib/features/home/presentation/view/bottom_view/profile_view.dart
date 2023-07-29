@@ -47,7 +47,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                       child: CircleAvatar(
                         radius: 200,
                         backgroundImage: NetworkImage(
-                          ApiEndpoints.imageUrl + (authState.imageName ?? ''),
+                          ApiEndpoints.imageUrl + (authState.user!.image ?? ''),
                         ),
                       ),
                     ),

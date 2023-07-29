@@ -1,3 +1,4 @@
+// Import the cached_network_image package
 import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/core/common/widgets/cardview_widget.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
@@ -18,6 +19,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
   var gap = const SizedBox(
     height: 20,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch user data when the HomeView is initialized
+    ref.read(authViewModelProvider.notifier).getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +50,16 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ProfileView()),
+                              builder: (context) => const ProfileView(),
+                            ),
                           );
                         },
                         child: CircleAvatar(
                           radius: 30,
-                          backgroundImage: NetworkImage(ApiEndpoints.imageUrl +
-                              (authState.users?[0].image ?? '')),
+                          backgroundImage: NetworkImage(
+                            ApiEndpoints.imageUrl +
+                                (authState.user?.image ?? ''),
+                          ),
                         ),
                       ),
                     ),
@@ -77,16 +88,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           i++) ...{
                         WorkoutLocalCard(index: i),
                       },
-                      cardView('assets/images/logo1.png', 'Workout 1',
-                          'Description 1', context),
-                      cardView('assets/images/logo1.png', 'Workout 2',
-                          'Description 2', context),
-                      cardView('assets/images/logo1.png', 'Workout 3',
-                          'Description 3', context),
-                      cardView('assets/images/logo1.png', 'Workout 4',
-                          'Description 4', context),
-                      cardView('assets/images/logo1.png', 'Workout 5',
-                          'Description 5', context),
                     ],
                   ),
                 ),

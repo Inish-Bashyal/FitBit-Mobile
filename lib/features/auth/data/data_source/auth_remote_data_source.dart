@@ -10,6 +10,7 @@ import 'package:fitbit/features/auth/data/dto/get_all_auth_dto.dart';
 import 'package:fitbit/features/auth/data/model/auth_api_model.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 final authRemoteDataSourceProvider = Provider(
   (ref) => AuthRemoteDataSource(
@@ -130,7 +131,7 @@ class AuthRemoteDataSource {
     }
   }
 
-  Future<Either<Failure, List<UserEntity>>> getUser() async {
+  Future<Either<Failure, List<UserEntity>>> getAllUsers() async {
     try {
       // Get the token from shared prefs
       String? token;
@@ -150,6 +151,49 @@ class AuthRemoteDataSource {
       if (response.statusCode == 200) {
         GetAllAuthDTO authAddDTO = GetAllAuthDTO.fromJson(response.data);
         return Right(authApiModel.listFromJson(authAddDTO.data));
+      } else {
+        return Left(
+          Failure(
+            error: response.statusMessage.toString(),
+            statusCode: response.statusCode.toString(),
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(
+        Failure(
+          error: e.error.toString(),
+        ),
+      );
+    }
+  }
+
+// get user when logged in
+  Future<Either<Failure, UserEntity>> getUser() async {
+    try {
+      // Get the token from shared prefs
+      String? token;
+      var data = await userSharedPrefs.getUserToken();
+      data.fold(
+        (l) => token = null,
+        (r) => token = r!,
+      );
+
+      // Decode the token and extract the user ID
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+      String userId = decodedToken['userID'];
+      var response = await dio.get(
+        ApiEndpoints.getMe + userId,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        UserEntity user = UserEntity.fromJson(response.data);
+        return Right(user);
       } else {
         return Left(
           Failure(

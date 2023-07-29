@@ -27,7 +27,7 @@ class WorkoutCard extends StatelessWidget {
             ? Image.network(imagePath!)
             : const Icon(Icons.image),
         title: Text(title ?? ''),
-        subtitle: Text(nameOfWorkout ?? ''),
+        // subtitle: Text(nameOfWorkout ?? ''),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

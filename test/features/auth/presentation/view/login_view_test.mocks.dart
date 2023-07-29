@@ -127,10 +127,10 @@ class MockAuthUseCase extends _i1.Mock implements _i3.AuthUseCase {
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, String>>);
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.UserEntity>>> getUser() =>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.UserEntity>>> getAllUsers() =>
       (super.noSuchMethod(
         Invocation.method(
-          #getUser,
+          #getAllUsers,
           [],
         ),
         returnValue:
@@ -138,7 +138,7 @@ class MockAuthUseCase extends _i1.Mock implements _i3.AuthUseCase {
                 _FakeEither_0<_i5.Failure, List<_i6.UserEntity>>(
           this,
           Invocation.method(
-            #getUser,
+            #getAllUsers,
             [],
           ),
         )),
@@ -147,9 +147,34 @@ class MockAuthUseCase extends _i1.Mock implements _i3.AuthUseCase {
                 _FakeEither_0<_i5.Failure, List<_i6.UserEntity>>(
           this,
           Invocation.method(
-            #getUser,
+            #getAllUsers,
             [],
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.UserEntity>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.UserEntity>> getUser() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUser,
+          [],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.UserEntity>>.value(
+            _FakeEither_0<_i5.Failure, _i6.UserEntity>(
+          this,
+          Invocation.method(
+            #getUser,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.UserEntity>>.value(
+                _FakeEither_0<_i5.Failure, _i6.UserEntity>(
+          this,
+          Invocation.method(
+            #getUser,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.UserEntity>>);
 }
