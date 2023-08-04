@@ -7,7 +7,7 @@ import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authRepositoryProvider = Provider<IAuthRepository>((ref) {
-  return ref.read(authRemoteRepoProvider);
+  return ref.watch(authRemoteRepoProvider);
 });
 
 abstract class IAuthRepository {
@@ -16,4 +16,5 @@ abstract class IAuthRepository {
   Future<Either<Failure, String>> uploadProfilePicture(File file);
   Future<Either<Failure, List<UserEntity>>> getAllUsers();
   Future<Either<Failure, UserEntity>> getUser();
+  Future<Either<Failure, bool>> checkUser(String userID);
 }

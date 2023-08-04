@@ -1,5 +1,6 @@
 import 'package:fitbit/config/constants/hive_table_constant.dart';
 import 'package:fitbit/features/auth/data/model/auth_hive_model.dart';
+import 'package:fitbit/features/routine/data/model/routine_hive_model.dart';
 import 'package:fitbit/features/workout/data/model/workout_hive_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
@@ -32,6 +33,21 @@ class HiveService {
     var workouts = box.values.toList();
     box.close();
     return workouts;
+  }
+
+  // ======================== Routine Queries ========================
+  Future<void> addRoutine(RoutineHiveModel routine) async {
+    var box =
+        await Hive.openBox<RoutineHiveModel>(HiveTableConstant.routineBox);
+    await box.put(routine.routineId, routine);
+  }
+
+  Future<List<RoutineHiveModel>> getAllRoutines() async {
+    var box =
+        await Hive.openBox<RoutineHiveModel>(HiveTableConstant.routineBox);
+    var routine = box.values.toList();
+    box.close();
+    return routine;
   }
 
   // ======================== User Queries ========================

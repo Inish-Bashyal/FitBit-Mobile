@@ -11,14 +11,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final authViewModelProvider =
     StateNotifierProvider<AuthViewModel, AuthState>((ref) {
   return AuthViewModel(
-    ref.read(authUseCaseProvider),
+    ref.watch(authUseCaseProvider),
   );
 });
 
 class AuthViewModel extends StateNotifier<AuthState> {
   final AuthUseCase _authUseCase;
 
-  AuthViewModel(this._authUseCase) : super(AuthState(isLoading: false));
+  AuthViewModel(this._authUseCase) : super(AuthState.initial()) {
+    getUser();
+  }
 
   Future<void> registerUser(BuildContext context, UserEntity user) async {
     state = state.copyWith(isLoading: true);
@@ -97,7 +99,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
   //     (r) => state = state.copyWith(isLoading: false, user: r, error: null),
   //   );
   // }
-  Future<UserEntity?> getUser() async {
+  getUser() async {
     state = state.copyWith(isLoading: true);
     var data = await _authUseCase.getUser();
 
@@ -111,6 +113,30 @@ class AuthViewModel extends StateNotifier<AuthState> {
         return r;
       },
     );
-    return null;
   }
+
+  // Future<void> checkUser(BuildContext context, String userID) async {
+  //   state = state.copyWith(isLoading: true);
+  //   // bool isLogin = false;
+  //   var data = await _authUseCase.checkUser(userID);
+  //   data.fold(
+  //     (failure) {
+  //       state = state.copyWith(isLoading: false, error: failure.error);
+  //       showSnackBar(
+  //         message: 'Invalid Credentials',
+  //         context: context,
+  //         color: Colors.red,
+  //       );
+  //     },
+  //     (success) {
+  //       state = state.copyWith(isLoading: false, error: null);
+  //       // Navigator.popAndPushNamed(context, AppRoute.homeRoute);
+  //       if (success == true) {
+  //         Navigator.popAndPushNamed(context, AppRoute.adminDashboardRoute);
+  //       } else {
+  //         Navigator.popAndPushNamed(context, AppRoute.dashboardRoute);
+  //       }
+  //     },
+  //   );
+  // }
 }

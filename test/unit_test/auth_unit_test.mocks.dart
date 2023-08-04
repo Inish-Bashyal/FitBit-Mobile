@@ -227,6 +227,31 @@ class MockAuthUseCase extends _i1.Mock implements _i5.AuthUseCase {
           ),
         )),
       ) as _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>);
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, bool>> checkUser(String? userID) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #checkUser,
+          [userID],
+        ),
+        returnValue: _i6.Future<_i2.Either<_i7.Failure, bool>>.value(
+            _FakeEither_0<_i7.Failure, bool>(
+          this,
+          Invocation.method(
+            #checkUser,
+            [userID],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, bool>>.value(
+                _FakeEither_0<_i7.Failure, bool>(
+          this,
+          Invocation.method(
+            #checkUser,
+            [userID],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, bool>>);
 }
 
 /// A class which mocks [BuildContext].

@@ -1,6 +1,6 @@
 // Import the cached_network_image package
 import 'package:fitbit/config/constants/api_endpoint.dart';
-import 'package:fitbit/core/common/widgets/cardview_widget.dart';
+import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:fitbit/features/home/presentation/view/bottom_view/profile_view.dart';
 import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
@@ -21,8 +21,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
   );
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     // Fetch user data when the HomeView is initialized
     ref.read(authViewModelProvider.notifier).getUser();
   }
@@ -31,6 +31,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authViewModelProvider);
     final wokroutState = ref.watch(workoutViewModelProvider);
+    final UserEntity? user = authState.user;
 
     return Scaffold(
       body: SafeArea(
@@ -40,34 +41,24 @@ class _HomeViewState extends ConsumerState<HomeView> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileView(),
-                            ),
-                          );
-                        },
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: NetworkImage(
-                            ApiEndpoints.imageUrl +
-                                (authState.user?.image ?? ''),
-                          ),
+                child: Container(
+                  alignment: Alignment.topLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfileView(),
                         ),
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(
+                        ApiEndpoints.imageUrl + (user?.image ?? ''),
                       ),
                     ),
-                    const Icon(
-                      Icons.bookmark_outline,
-                      size: 30,
-                    ),
-                  ],
+                  ),
                 ),
               ),
               const Text(
@@ -92,33 +83,33 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   ),
                 ),
               ),
-              const Text(
-                'Popular Routines',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    children: [
-                      cardView('assets/images/bg.jpg', 'Routine 1',
-                          'Description 1', context),
-                      cardView('assets/images/bg.jpg', 'Routine 2',
-                          'Description 2', context),
-                      cardView('assets/images/bg.jpg', 'Routine 3',
-                          'Description 3', context),
-                      cardView('assets/images/bg.jpg', 'Routine 4',
-                          'Description 4', context),
-                      cardView('assets/images/bg.jpg', 'Routine 5',
-                          'Description 5', context),
-                    ],
-                  ),
-                ),
-              ),
+              // const Text(
+              //   'Popular Routines',
+              //   style: TextStyle(
+              //     fontSize: 20,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(4.0),
+              //     child: Row(
+              //       children: [
+              //         cardView('assets/images/bg.jpg', 'Routine 1',
+              //             'Description 1', context),
+              //         cardView('assets/images/bg.jpg', 'Routine 2',
+              //             'Description 2', context),
+              //         cardView('assets/images/bg.jpg', 'Routine 3',
+              //             'Description 3', context),
+              //         cardView('assets/images/bg.jpg', 'Routine 4',
+              //             'Description 4', context),
+              //         cardView('assets/images/bg.jpg', 'Routine 5',
+              //             'Description 5', context),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

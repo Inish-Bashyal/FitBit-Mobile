@@ -5,7 +5,7 @@ class AuthState {
   final String? error;
   final String? imageName;
   final List<UserEntity>? users;
-  final UserEntity? user;
+  UserEntity? user;
 
   AuthState(
       {required this.isLoading,
@@ -16,11 +16,12 @@ class AuthState {
 
   factory AuthState.initial() {
     return AuthState(
-        isLoading: false,
-        error: null,
-        imageName: null,
-        users: null,
-        user: null);
+      isLoading: false,
+      error: null,
+      imageName: null,
+      users: [],
+      user: null,
+    );
   }
 
   AuthState copyWith({

@@ -43,19 +43,6 @@ class WorkoutViewModel extends StateNotifier<WorkoutState> {
     );
   }
 
-  // getUsersByWorkout(BuildContext context, String workoutId) async {
-  //   state = state.copyWith(isLoading: true);
-  //   var data = await workoutUseCase.getAllUsersByWorkout(workoutId);
-
-  //   data.fold(
-  //     (l) => state = state.copyWith(isLoading: false, error: l.error),
-  //     (r) {
-  //       state = state.copyWith(isLoading: false, workouts: r, error: null);
-  //       Navigator.pushNamed(context, AppRoute.dashboardRoute);
-  //     },
-  //   );
-  // }
-
   Future<void> deleteWorkout(
       BuildContext context, WorkoutEntity workout) async {
     state.copyWith(isLoading: true);

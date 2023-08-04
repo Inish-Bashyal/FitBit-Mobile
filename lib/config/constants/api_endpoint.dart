@@ -26,7 +26,10 @@ class ApiEndpoints {
   static const String uploadWorkoutImage = "workouts/uploadImage";
   static const String updateWorkout = "workouts/updateWorkout/";
 
-  // ====================== Course Routes ======================
-  // static const String createCourse = "course/createCourse";
-  // static const String getAllCourse = "course/getAllCourses";
+  //====================== Routine Routes ======================
+  static const String createRoutine = "routines/create";
+  static const String getAllRoutine = "routines/getallRoutines";
+  static const String getMyRoutine = "routines/myRoutines";
+  static const String deleteRoutine = "workouts/delete/";
+  static const String updateRoutine = "routines/update/";
 }

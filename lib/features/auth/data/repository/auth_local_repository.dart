@@ -44,4 +44,10 @@ class AuthLocalRepository implements IAuthRepository {
     // TODO: implement getAllUsers
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, bool>> checkUser(String userID) {
+    // TODO: implement checkUser
+    throw UnimplementedError();
+  }
 }

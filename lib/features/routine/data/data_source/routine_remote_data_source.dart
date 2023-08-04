@@ -1,39 +1,34 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/core/network/remote/http_service.dart';
 import 'package:fitbit/core/shared_prefs/user_shared_prefs.dart';
-import 'package:fitbit/features/auth/data/model/auth_api_model.dart';
-import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
-import 'package:fitbit/features/workout/data/dto/get_all_user_by_workout.dart';
-import 'package:fitbit/features/workout/data/dto/get_all_workout_dtodart';
-import 'package:fitbit/features/workout/data/model/workout_api_model.dart';
-import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
+import 'package:fitbit/features/routine/data/dto/get_all_routine_dto.dart';
+import 'package:fitbit/features/routine/data/model/routine_api_model.dart';
+import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final workoutRemoteDataSourceProvider = Provider(
-  (ref) => WorkoutRemoteDataSource(
+final routineRemoteDataSourceProvider = Provider(
+  (ref) => RoutineRemoteDataSource(
     dio: ref.read(httpServiceProvider),
-    workoutApiModel: ref.read(workoutApiModelProvider),
+    routineApiModel: ref.read(routineApiModelProvider),
     userSharedPrefs: ref.read(userSharedPrefsProvider),
   ),
 );
 
-class WorkoutRemoteDataSource {
+class RoutineRemoteDataSource {
   final Dio dio;
-  final WorkoutApiModel workoutApiModel;
+  final RoutineApiModel routineApiModel;
   final UserSharedPrefs userSharedPrefs;
 
-  WorkoutRemoteDataSource({
+  RoutineRemoteDataSource({
     required this.dio,
-    required this.workoutApiModel,
+    required this.routineApiModel,
     required this.userSharedPrefs,
   });
 
-  Future<Either<Failure, bool>> addWorkout(WorkoutEntity workout) async {
+  Future<Either<Failure, bool>> addRoutine(RoutineEntity routine) async {
     try {
       // Get the token from shared prefs
       String? token;
@@ -43,18 +38,18 @@ class WorkoutRemoteDataSource {
         (r) => token = r!,
       );
       var response = await dio.post(
-        ApiEndpoints.createWorkout,
+        ApiEndpoints.createRoutine,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
           },
         ),
         data: {
-          "title": workout.title,
-          "nameOfWorkout": workout.nameOfWorkout,
-          "image": workout.image,
-          "day": workout.day,
-          "numberOfReps": workout.numberOfReps,
+          "user": routine.user,
+          "workout": routine.workout,
+          "routineStatus": routine.routineStatus,
+          "enrolledAt": routine.enrolledAt,
+          "completedAt": routine.completedAt,
         },
       );
 
@@ -77,38 +72,7 @@ class WorkoutRemoteDataSource {
     }
   }
 
-  // Upload image using multipart
-  Future<Either<Failure, String>> uploadWorkoutPicture(
-    File image,
-  ) async {
-    try {
-      String fileName = image.path.split('/').last;
-      FormData formData = FormData.fromMap(
-        {
-          'profilePicture': await MultipartFile.fromFile(
-            image.path,
-            filename: fileName,
-          ),
-        },
-      );
-
-      Response response = await dio.post(
-        ApiEndpoints.uploadWorkoutImage,
-        data: formData,
-      );
-
-      return Right(response.data["data"]);
-    } on DioException catch (e) {
-      return Left(
-        Failure(
-          error: e.error.toString(),
-          statusCode: e.response?.statusCode.toString() ?? '0',
-        ),
-      );
-    }
-  }
-
-  Future<Either<Failure, List<WorkoutEntity>>> getAllWorkouts() async {
+  Future<Either<Failure, List<RoutineEntity>>> getAllRoutines() async {
     try {
       // Get the token from shared prefs
       String? token;
@@ -118,7 +82,7 @@ class WorkoutRemoteDataSource {
         (r) => token = r!,
       );
       var response = await dio.get(
-        ApiEndpoints.getAllWorkout,
+        ApiEndpoints.getAllRoutine,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -128,9 +92,9 @@ class WorkoutRemoteDataSource {
       if (response.statusCode == 200) {
         // OR
         // 2nd way
-        GetAllWorkoutDTO workoutAddDTO =
-            GetAllWorkoutDTO.fromJson(response.data);
-        return Right(workoutApiModel.toEntityList(workoutAddDTO.data));
+        GetAllRoutineDTO routineAddDTO =
+            GetAllRoutineDTO.fromJson(response.data);
+        return Right(routineApiModel.toEntityList(routineAddDTO.data));
       } else {
         return Left(
           Failure(
@@ -148,47 +112,7 @@ class WorkoutRemoteDataSource {
     }
   }
 
-  // Get all students by workoutId
-  // Future<Either<Failure, List<UserEntity>>> getAllUserByWorkout(
-  //     String workoutId) async {
-  //   try {
-  //     // get token
-  //     String? token;
-  //     await userSharedPrefs
-  //         .getUserToken()
-  //         .then((value) => value.fold((l) => null, (r) => token = r!));
-
-  //     var response =
-  //         await dio.get(ApiEndpoints.getAllUsersByWorkout + workoutId,
-  //             options: Options(
-  //               headers: {
-  //                 'Authorization': 'Bearer $token',
-  //               },
-  //             ));
-  //     if (response.statusCode == 201) {
-  //       GetAllUserByWorkoutDTO getAllWorkoutDTO =
-  //           GetAllUserByWorkoutDTO.fromJson(response.data);
-
-  //       return Right(authApiModel
-  //           .listFromJson(getAllWorkoutDTO.data.cast<AuthApiModel>()));
-  //     } else {
-  //       return Left(
-  //         Failure(
-  //           error: response.statusMessage.toString(),
-  //           statusCode: response.statusCode.toString(),
-  //         ),
-  //       );
-  //     }
-  //   } on DioException catch (e) {
-  //     return Left(
-  //       Failure(
-  //         error: e.error.toString(),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  Future<Either<Failure, bool>> deleteWorkout(String workoutId) async {
+  Future<Either<Failure, bool>> deleteRoutine(String routineId) async {
     try {
       // Get the token from shared prefs
       String? token;
@@ -199,7 +123,7 @@ class WorkoutRemoteDataSource {
       );
 
       Response response = await dio.delete(
-        ApiEndpoints.deleteworkout + workoutId,
+        ApiEndpoints.deleteRoutine + routineId,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -237,7 +161,7 @@ class WorkoutRemoteDataSource {
       );
 
       Response response = await dio.put(
-        ApiEndpoints.updateWorkout + workoutId,
+        ApiEndpoints.updateRoutine + workoutId,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',

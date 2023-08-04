@@ -37,4 +37,8 @@ class AuthUseCase {
   Future<Either<Failure, UserEntity>> getUser() {
     return _authRepository.getUser();
   }
+
+  Future<Either<Failure, bool>> checkUser(String userID) async {
+    return await _authRepository.checkUser(userID);
+  }
 }

@@ -1,20 +1,7 @@
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'auth_api_model.g.dart';
-
-final authApiModelProvider = Provider<AuthApiModel>((ref) {
-  return AuthApiModel(
-    firstname: '',
-    lastname: '',
-    email: '',
-    age: '',
-    gender: '',
-    username: '',
-    password: '',
-  );
-});
 
 @JsonSerializable()
 class AuthApiModel {
@@ -27,7 +14,7 @@ class AuthApiModel {
   final String age;
   final String gender;
   final String username;
-  final String? password;
+  final String password;
 
   AuthApiModel({
     this.userID,
@@ -38,13 +25,26 @@ class AuthApiModel {
     required this.email,
     required this.gender,
     required this.username,
-    this.password,
+    required this.password,
   });
 
-  factory AuthApiModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthApiModelFromJson(json);
+  AuthApiModel.empty()
+      : this(
+          firstname: '',
+          lastname: '',
+          email: '',
+          age: '',
+          gender: '',
+          username: '',
+          password: '',
+          image: '',
+          userID: '',
+        );
 
-  Map<String, dynamic> toJson() => _$AuthApiModelToJson(this);
+  // factory AuthApiModel.fromJson(Map<String, dynamic> json) =>
+  //     _$AuthApiModelFromJson(json);
+
+  // Map<String, dynamic> toJson() => _$AuthApiModelToJson(this);
 
   // convert AuthApiModel to AuthEntity
   UserEntity toEntity() => UserEntity(
@@ -56,13 +56,33 @@ class AuthApiModel {
         age: age,
         email: email,
         username: username,
-        password: password ?? '',
+        password: password,
       );
 
-  // Convert AuthApiModel list to AuthEntity list
-  List<UserEntity> listFromJson(List<AuthApiModel> models) =>
+  AuthApiModel toApiModel(UserEntity entity) => AuthApiModel(
+        userID: userID ?? '',
+        image: entity.image,
+        username: entity.username,
+        email: entity.email,
+        age: entity.age,
+        gender: entity.gender,
+        firstname: entity.firstname,
+        lastname: entity.lastname,
+        password: entity.password,
+      );
+
+  List<AuthApiModel> toApiModelList(List<UserEntity> entities) =>
+      entities.map((entity) => toApiModel(entity)).toList();
+
+  List<UserEntity> toEntityList(List<AuthApiModel> models) =>
       models.map((model) => model.toEntity()).toList();
 
+  //ToJson
+  Map<String, dynamic> toJson() => _$AuthApiModelToJson(this);
+
+  //From Json
+  factory AuthApiModel.fromJson(Map<String, dynamic> json) =>
+      _$AuthApiModelFromJson(json);
   @override
   String toString() {
     return 'AuthApiModel(id: $userID, fname: $firstname, lname: $lastname, image: $image, gender: $gender, age: $age, email: $email, username: $username, password: $password)';

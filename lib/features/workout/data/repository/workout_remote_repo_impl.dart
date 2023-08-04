@@ -32,7 +32,7 @@ class WorkoutRemoteRepositoryImpl implements IWorkoutRepository {
   @override
   Future<Either<Failure, List<UserEntity>>> getAllUsersByWorkout(
       String workoutId) {
-    return workoutRemoteDataSource.getAllUserByWorkout(workoutId);
+    throw UnimplementedError();
   }
 
   @override

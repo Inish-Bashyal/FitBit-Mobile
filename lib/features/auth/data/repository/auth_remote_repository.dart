@@ -32,11 +32,17 @@ class AuthRemoteRepository implements IAuthRepository {
 
   @override
   Future<Either<Failure, List<UserEntity>>> getAllUsers() {
-    return _authRemoteDataSource.getAllUsers();
+    throw UnimplementedError();
   }
 
   @override
   Future<Either<Failure, UserEntity>> getUser() {
     return _authRemoteDataSource.getUser();
+  }
+
+  @override
+  Future<Either<Failure, bool>> checkUser(String userID) {
+    // TODO: implement checkUser
+    throw UnimplementedError();
   }
 }
