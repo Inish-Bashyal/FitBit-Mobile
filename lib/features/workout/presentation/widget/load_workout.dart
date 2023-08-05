@@ -1,4 +1,8 @@
 import 'package:fitbit/config/constants/api_endpoint.dart';
+import 'package:fitbit/core/shared_prefs/user_shared_prefs.dart';
+import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
+import 'package:fitbit/features/routine/presentation/viewmodel/routine_view_model.dart';
 import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
 import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
 import 'package:fitbit/features/workout/presentation/widget/workout_card.dart';
@@ -14,6 +18,11 @@ class LoadWorkout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userSharedPrefs = ref.read(userSharedPrefsProvider);
+    final workoutViewModel = ref.read(workoutViewModelProvider.notifier);
+    final routineViewModel = ref.read(routineViewModelProvider.notifier);
+    final authState = ref.watch(authViewModelProvider);
+
     return ListView.builder(
       itemCount: lstWorkout.length,
       itemBuilder: (context, index) {
@@ -51,10 +60,37 @@ class LoadWorkout extends StatelessWidget {
             );
           },
           onEdit: () {
-            //code here for ediitng
+            // Implement the edit functionality here
           },
-          follow: () {
-            //code here for ediitng
+          follow: () async {
+            // Get the token from shared prefs
+            String? token;
+            var data = await userSharedPrefs.getUserToken();
+            data.fold(
+              (l) => token = null,
+              (r) => token = r!,
+            );
+
+            // Create a new RoutineEntity with the required values
+            final newRoutine = RoutineEntity(
+              user: authState.user,
+              workout: lstWorkout[index],
+              enrolledAt: DateTime.now(),
+              routineStatus: "Processing",
+              completedAt: null,
+            );
+
+            // Call the view model to add the routine
+            routineViewModel.addRoutine(newRoutine).then((result) {
+              result.fold(
+                (failure) {
+                  // Handle the failure here
+                },
+                (success) {
+                  // Routine added successfully
+                },
+              );
+            });
           },
         );
       },

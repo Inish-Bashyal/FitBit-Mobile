@@ -6,10 +6,8 @@ import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/core/network/remote/http_service.dart';
 import 'package:fitbit/core/shared_prefs/user_shared_prefs.dart';
-import 'package:fitbit/features/auth/data/model/auth_api_model.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 final authRemoteDataSourceProvider = Provider(
   (ref) => AuthRemoteDataSource(
@@ -165,7 +163,8 @@ class AuthRemoteDataSource {
   // }
 
 // get user when logged in
-  Future<Either<Failure, UserEntity>> getUser() async {
+
+  Future<Either<Failure, UserEntity>> getUser(String userID) async {
     try {
       String? token;
       var data = await userSharedPrefs.getUserToken();
@@ -174,11 +173,8 @@ class AuthRemoteDataSource {
         (r) => token = r!,
       );
 
-      // Decode the token and extract the user ID
-      Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
-      String userID = decodedToken['userID'];
       var response = await dio.get(
-        ApiEndpoints.getMe + userID,
+        ApiEndpoints.getUserbyName + userID,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -187,7 +183,11 @@ class AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        var user = AuthApiModel.fromJson(response.data['data']).toEntity();
+        var userData = response.data['data'];
+        if (userData == null) {
+          return Left(Failure(error: 'User data is null'));
+        }
+        var user = UserEntity.fromJson(userData);
         return Right(user);
       } else {
         return Left(

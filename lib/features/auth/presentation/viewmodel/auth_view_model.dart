@@ -18,9 +18,7 @@ final authViewModelProvider =
 class AuthViewModel extends StateNotifier<AuthState> {
   final AuthUseCase _authUseCase;
 
-  AuthViewModel(this._authUseCase) : super(AuthState.initial()) {
-    getUser();
-  }
+  AuthViewModel(this._authUseCase) : super(AuthState.initial());
 
   Future<void> registerUser(BuildContext context, UserEntity user) async {
     state = state.copyWith(isLoading: true);
@@ -43,10 +41,9 @@ class AuthViewModel extends StateNotifier<AuthState> {
     );
   }
 
-  Future<bool> loginUser(
-      BuildContext context, username, String password) async {
+  Future<void> loginUser(
+      BuildContext context, String username, String password) async {
     state = state.copyWith(isLoading: true);
-    bool isLogin = false;
     var data = await _authUseCase.loginUser(username, password);
     data.fold(
       (failure) {
@@ -57,13 +54,24 @@ class AuthViewModel extends StateNotifier<AuthState> {
           color: Colors.red,
         );
       },
-      (success) {
+      (success) async {
         state = state.copyWith(isLoading: false, error: null);
-        Navigator.popAndPushNamed(context, AppRoute.dashboardRoute);
+        var userData = await _authUseCase.getUser(username);
+        userData.fold(
+          (failure) {
+            showSnackBar(
+              message: 'Failed to get user data',
+              context: context,
+              color: Colors.red,
+            );
+          },
+          (user) {
+            state = state.copyWith(user: user);
+            Navigator.popAndPushNamed(context, AppRoute.dashboardRoute);
+          },
+        );
       },
     );
-
-    return isLogin;
   }
 
   Future<void> uploadImage(File? file) async {
@@ -99,21 +107,21 @@ class AuthViewModel extends StateNotifier<AuthState> {
   //     (r) => state = state.copyWith(isLoading: false, user: r, error: null),
   //   );
   // }
-  getUser() async {
-    state = state.copyWith(isLoading: true);
-    var data = await _authUseCase.getUser();
+  // getUser() async {
+  //   state = state.copyWith(isLoading: true);
+  //   var data = await _authUseCase.getUser();
 
-    data.fold(
-      (l) {
-        state = state.copyWith(isLoading: false, error: l.error);
-        return null;
-      },
-      (r) {
-        state = state.copyWith(isLoading: false, user: r, error: null);
-        return r;
-      },
-    );
-  }
+  //   data.fold(
+  //     (l) {
+  //       state = state.copyWith(isLoading: false, error: l.error);
+  //       return null;
+  //     },
+  //     (r) {
+  //       state = state.copyWith(isLoading: false, user: r, error: null);
+  //       return r;
+  //     },
+  //   );
+  // }
 
   // Future<void> checkUser(BuildContext context, String userID) async {
   //   state = state.copyWith(isLoading: true);

@@ -30,6 +30,9 @@ class RoutineRemoteDataSource {
 
   Future<Either<Failure, bool>> addRoutine(RoutineEntity routine) async {
     try {
+      // Set enrolledAt to the current time
+      routine = routine.copyWith(enrolledAt: DateTime.now().toIso8601String());
+
       // Get the token from shared prefs
       String? token;
       var data = await userSharedPrefs.getUserToken();
@@ -150,7 +153,7 @@ class RoutineRemoteDataSource {
     }
   }
 
-  Future<Either<Failure, bool>> updateWorkout(String workoutId) async {
+  Future<Either<Failure, bool>> updateRoutine(String routineId) async {
     try {
       // Get the token from shared prefs
       String? token;
@@ -160,13 +163,22 @@ class RoutineRemoteDataSource {
         (r) => token = r!,
       );
 
+      // Get the current time and set it as completedAt
+      DateTime completedAt = DateTime.now();
+      // Update the routine status to "completed"
+      String routineStatus = "Completed";
+
       Response response = await dio.put(
-        ApiEndpoints.updateRoutine + workoutId,
+        ApiEndpoints.updateRoutine + routineId,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
           },
         ),
+        data: {
+          "routineStatus": routineStatus,
+          "completedAt": completedAt,
+        },
       );
       if (response.statusCode == 200) {
         return const Right(true);
@@ -183,6 +195,46 @@ class RoutineRemoteDataSource {
         Failure(
           error: e.error.toString(),
           statusCode: e.response?.statusCode.toString() ?? '0',
+        ),
+      );
+    }
+  }
+
+  Future<Either<Failure, List<RoutineEntity>>> getMyRoutine() async {
+    try {
+      // Get the token from shared prefs
+      String? token;
+      var data = await userSharedPrefs.getUserToken();
+      data.fold(
+        (l) => token = null,
+        (r) => token = r!,
+      );
+      var response = await dio.get(
+        ApiEndpoints.getMyRoutine,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        // OR
+        // 2nd way
+        GetAllRoutineDTO routineAddDTO =
+            GetAllRoutineDTO.fromJson(response.data);
+        return Right(routineApiModel.toEntityList(routineAddDTO.data));
+      } else {
+        return Left(
+          Failure(
+            error: response.statusMessage.toString(),
+            statusCode: response.statusCode.toString(),
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(
+        Failure(
+          error: e.error.toString(),
         ),
       );
     }

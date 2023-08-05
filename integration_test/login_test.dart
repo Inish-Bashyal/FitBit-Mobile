@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:fitbit/config/router/app_route.dart';
+import 'package:fitbit/features/auth/domain/repository/auth_repository.dart';
 import 'package:fitbit/features/auth/domain/use_case/auth_usecase.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import '../test/unit_test/auth_unit_test.mocks.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   late AuthUseCase mockAuthUsecase;
+  late IAuthRepository authRepository;
 
   late bool isLogin;
 

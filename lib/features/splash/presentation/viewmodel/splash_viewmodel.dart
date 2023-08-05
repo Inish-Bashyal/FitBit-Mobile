@@ -51,28 +51,28 @@ class SplashViewModel extends StateNotifier<SplashState> {
     return currentDate > expirationTimestamp * 1000;
   }
 
-  Future<String> isUser(String token) async {
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    String user = decodedToken['userID'];
-    return user;
-  }
+  // Future<String> isUser(String token) async {
+  //   Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+  //   String user = decodedToken['userID'];
+  //   return user;
+  // }
 
-  Future<void> getUser(String userID) async {
-    state = state.copyWith(isLoading: true);
-    var data = await _authUseCase.getUser();
-    data.fold(
-      (failure) {
-        state = state.copyWith(isLoading: false, error: failure.error);
-      },
-      (success) {
-        state = state.copyWith(isLoading: false, user: success, error: null);
-      },
-    );
-  }
+  // Future<void> getUser(String userID) async {
+  //   state = state.copyWith(isLoading: true);
+  //   var data = await _authUseCase.getUser();
+  //   data.fold(
+  //     (failure) {
+  //       state = state.copyWith(isLoading: false, error: failure.error);
+  //     },
+  //     (success) {
+  //       state = state.copyWith(isLoading: false, user: success, error: null);
+  //     },
+  //   );
+  // }
 
-  void getUserInfo(String token) {
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    String currentuser = decodedToken['userID'];
-    getUser(currentuser);
-  }
+  // void getUserInfo(String token) {
+  //   Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+  //   String currentuser = decodedToken['userID'];
+  //   getUser(currentuser);
+  // }
 }

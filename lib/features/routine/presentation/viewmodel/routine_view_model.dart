@@ -1,6 +1,7 @@
 import 'package:fitbit/core/common/snackbar/my_snackbar.dart';
+import 'package:fitbit/features/routine/data/repository/routine_remote_repo_impl.dart';
 import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
-import 'package:fitbit/features/routine/domain/use_case/routine_use_case.dart';
+import 'package:fitbit/features/routine/domain/repository/routine_repository.dart';
 import 'package:fitbit/features/routine/presentation/state/routine_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,18 +9,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final routineViewModelProvider =
     StateNotifierProvider<RoutineViewModel, RoutineState>(
   (ref) {
-    return RoutineViewModel(ref.read(routineUsecaseProvider));
+    return RoutineViewModel(ref.read(routineRemoteRepoProvider));
   },
 );
 
 class RoutineViewModel extends StateNotifier<RoutineState> {
-  final RoutineUseCase routineUseCase;
+  final IRoutineRepository routineRepository;
 
-  RoutineViewModel(this.routineUseCase) : super(RoutineState.initial());
+  RoutineViewModel(this.routineRepository) : super(RoutineState.initial());
 
-  addWorkout(RoutineEntity routine) async {
+  addRoutine(RoutineEntity routine) async {
     state.copyWith(isLoading: true);
-    var data = await routineUseCase.addRoutine(routine);
+    var data = await routineRepository.addRoutine(routine);
 
     data.fold((l) {
       state = state.copyWith(isLoading: false, error: l.error);
@@ -29,9 +30,9 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
     });
   }
 
-  getAllWorkouts() async {
+  getAllRoutines() async {
     state = state.copyWith(isLoading: true);
-    var data = await routineUseCase.getAllRoutines();
+    var data = await routineRepository.getAllRoutines();
 
     data.fold(
       (l) => state = state.copyWith(isLoading: false, error: l.error),
@@ -39,10 +40,10 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
     );
   }
 
-  Future<void> deleteWorkout(
+  Future<void> deleteRoutine(
       BuildContext context, RoutineEntity routine) async {
     state.copyWith(isLoading: true);
-    var data = await routineUseCase.deleteRoutine(routine.routineId!);
+    var data = await routineRepository.deleteRoutine(routine.routineId!);
 
     data.fold(
       (l) {
@@ -61,10 +62,25 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
     );
   }
 
-  Future<void> updateWorkout(
-      BuildContext context, RoutineEntity routine) async {
+  Future<void> updateRoutine(BuildContext context, String routineId) async {
     state.copyWith(isLoading: true);
-    var data = await routineUseCase.updateRoutine(routine.routineId!);
+
+    // Check if the routine status is already 'Completed'
+    int index =
+        state.routines.indexWhere((element) => element.routineId == routineId);
+    if (index < 0) {
+      state = state.copyWith(
+          isLoading: false, error: "Routine not found in the list.");
+      return;
+    }
+
+    if (state.routines[index].routineStatus == 'Completed') {
+      state = state.copyWith(
+          isLoading: false, error: "Routine is already marked as complete.");
+      return;
+    }
+
+    var data = await routineRepository.updateRoutine(routineId);
 
     data.fold(
       (l) {
@@ -73,10 +89,16 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
         state = state.copyWith(isLoading: false, error: l.error);
       },
       (r) {
-        state.routines.add(routine);
+        // Create a new RoutineEntity with updated values
+        RoutineEntity updatedRoutine = state.routines[index].copyWith(
+          routineStatus: 'Completed',
+        );
+
+        // Update the routine status in the list of routines
+        state.routines[index] = updatedRoutine;
         state = state.copyWith(isLoading: false, error: null);
         showSnackBar(
-          message: 'Workout updated successfully',
+          message: 'Routine marked as complete successfully',
           context: context,
         );
       },

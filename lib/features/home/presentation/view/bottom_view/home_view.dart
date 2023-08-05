@@ -1,6 +1,5 @@
 // Import the cached_network_image package
 import 'package:fitbit/config/constants/api_endpoint.dart';
-import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:fitbit/features/home/presentation/view/bottom_view/profile_view.dart';
 import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
@@ -21,17 +20,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
   );
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Fetch user data when the HomeView is initialized
-    ref.read(authViewModelProvider.notifier).getUser();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authViewModelProvider);
     final wokroutState = ref.watch(workoutViewModelProvider);
-    final UserEntity? user = authState.user;
 
     return Scaffold(
       body: SafeArea(
@@ -55,7 +46,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     child: CircleAvatar(
                       radius: 30,
                       backgroundImage: NetworkImage(
-                        ApiEndpoints.imageUrl + (user?.image ?? ''),
+                        ApiEndpoints.imageUrl + (authState.user?.image ?? ''),
                       ),
                     ),
                   ),

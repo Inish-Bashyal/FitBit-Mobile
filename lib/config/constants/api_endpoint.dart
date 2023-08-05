@@ -12,6 +12,8 @@ class ApiEndpoints {
   static const String register = "users/register";
   static const String getAllUsers = "users/getAllUsers";
   static const String getMe = "users/getMe/";
+  static const String getUser = "users/getMe/";
+  static const String getUserbyName = "users/getUserbyName/";
   static const String getAllUsersByWorkout = "auth/getUsersByWorkout/";
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   static const String updateStudent = "auth/updateUser/";
@@ -30,6 +32,6 @@ class ApiEndpoints {
   static const String createRoutine = "routines/create";
   static const String getAllRoutine = "routines/getallRoutines";
   static const String getMyRoutine = "routines/myRoutines";
-  static const String deleteRoutine = "workouts/delete/";
+  static const String deleteRoutine = "routines/delete/";
   static const String updateRoutine = "routines/update/";
 }

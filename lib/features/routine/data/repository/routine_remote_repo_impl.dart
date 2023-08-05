@@ -40,11 +40,11 @@ class RoutineRemoteRepositoryImpl implements IRoutineRepository {
 
   @override
   Future<Either<Failure, List<RoutineEntity>>> getMyRoutines() {
-    throw UnimplementedError();
+    return routineRemoteDataSource.getMyRoutine();
   }
 
   @override
   Future<Either<Failure, bool>> updateRoutine(String id) {
-    throw UnimplementedError();
+    return routineRemoteDataSource.updateRoutine(id);
   }
 }

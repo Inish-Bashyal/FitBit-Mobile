@@ -203,18 +203,18 @@ class MockAuthUseCase extends _i1.Mock implements _i5.AuthUseCase {
         )),
       ) as _i6.Future<_i2.Either<_i7.Failure, List<_i8.UserEntity>>>);
   @override
-  _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>> getUser() =>
+  _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>> getUser(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getUser,
-          [],
+          [id],
         ),
         returnValue: _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>.value(
             _FakeEither_0<_i7.Failure, _i8.UserEntity>(
           this,
           Invocation.method(
             #getUser,
-            [],
+            [id],
           ),
         )),
         returnValueForMissingStub:
@@ -223,7 +223,7 @@ class MockAuthUseCase extends _i1.Mock implements _i5.AuthUseCase {
           this,
           Invocation.method(
             #getUser,
-            [],
+            [id],
           ),
         )),
       ) as _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>);

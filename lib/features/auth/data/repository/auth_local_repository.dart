@@ -34,7 +34,7 @@ class AuthLocalRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> getUser() {
+  Future<Either<Failure, UserEntity>> getUser(String id) {
     // TODO: implement getUser
     throw UnimplementedError();
   }

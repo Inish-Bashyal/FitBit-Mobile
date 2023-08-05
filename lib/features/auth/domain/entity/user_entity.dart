@@ -38,18 +38,18 @@ class UserEntity extends Equatable {
 
   factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
         userID: json["userID"],
-        firstname: json["firstname"],
-        lastname: json["lastname"],
-        image: json["image"],
-        gender: json["gender"],
-        age: json["age"],
-        email: json["email"],
-        username: json["username"],
-        password: json["password"],
+        firstname: json["firstname"] ?? '',
+        lastname: json["lastname"] ?? '',
+        image: json["image"] ?? '',
+        gender: json["gender"] ?? '',
+        age: json["age"] ?? '',
+        email: json["email"] ?? '',
+        username: json["username"] ?? '',
+        password: json["password"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
-        "userID": userID,
+        "id": userID,
         "firstname": firstname,
         "lastname": lastname,
         "image": image,

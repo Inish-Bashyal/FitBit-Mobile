@@ -18,11 +18,11 @@ class RoutineHiveModelAdapter extends TypeAdapter<RoutineHiveModel> {
     };
     return RoutineHiveModel(
       routineId: fields[0] as String?,
-      workout: fields[1] as WorkoutEntity,
-      user: fields[2] as UserEntity,
+      workout: fields[1] as WorkoutHiveModel,
+      user: fields[2] as AuthHiveModel,
       routineStatus: fields[3] as String,
-      enrolledAt: fields[4] as String,
-      completedAt: fields[5] as String,
+      enrolledAt: fields[4] as DateTime,
+      completedAt: fields[5] as DateTime?,
     );
   }
 
