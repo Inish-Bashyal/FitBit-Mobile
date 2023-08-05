@@ -58,6 +58,8 @@ dependencies:
   mockito: ^5.4.0
   permission_handler: ^10.4.2
   cached_network_image: ^3.2.3
+  bson: ^4.0.0
+  objectid: ^3.0.0
  
 
 dev_dependencies:

@@ -228,6 +228,31 @@ class MockAuthUseCase extends _i1.Mock implements _i5.AuthUseCase {
         )),
       ) as _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>);
   @override
+  _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>> getMe() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMe,
+          [],
+        ),
+        returnValue: _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>.value(
+            _FakeEither_0<_i7.Failure, _i8.UserEntity>(
+          this,
+          Invocation.method(
+            #getMe,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>.value(
+                _FakeEither_0<_i7.Failure, _i8.UserEntity>(
+          this,
+          Invocation.method(
+            #getMe,
+            [],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>);
+  @override
   _i6.Future<_i2.Either<_i7.Failure, bool>> checkUser(String? userID) =>
       (super.noSuchMethod(
         Invocation.method(

@@ -11,7 +11,7 @@ class AppRoute {
   static const String registerRoute = '/register';
   static const String dashboardRoute = '/dashboard';
   static const String splashRoute = '/splash';
-  static const String addRoutineRoute = '/addRoutine';
+  static const String addWorkoutRoute = '/addWorkout';
 
   static getAppRoutes() {
     return {
@@ -19,7 +19,7 @@ class AppRoute {
       registerRoute: (context) => const RegisterView(),
       dashboardRoute: (context) => const DashboardView(),
       splashRoute: (context) => const SplashScreenView(),
-      addRoutineRoute: (context) => const AddRoutineView(),
+      addWorkoutRoute: (context) => const AddWorkoutView(),
     };
   }
 }

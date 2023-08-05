@@ -45,4 +45,9 @@ class AuthRemoteRepository implements IAuthRepository {
     // TODO: implement checkUser
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, UserEntity>> getMe() {
+    return _authRemoteDataSource.getMe();
+  }
 }

@@ -12,7 +12,7 @@ class ApiEndpoints {
   static const String register = "users/register";
   static const String getAllUsers = "users/getAllUsers";
   static const String getMe = "users/getMe/";
-  static const String getUser = "users/getMe/";
+  static const String getUser = "users/getUser/";
   static const String getUserbyName = "users/getUserbyName/";
   static const String getAllUsersByWorkout = "auth/getUsersByWorkout/";
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";

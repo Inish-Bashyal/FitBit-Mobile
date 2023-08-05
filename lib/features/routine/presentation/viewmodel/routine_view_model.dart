@@ -1,7 +1,6 @@
 import 'package:fitbit/core/common/snackbar/my_snackbar.dart';
-import 'package:fitbit/features/routine/data/repository/routine_remote_repo_impl.dart';
 import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
-import 'package:fitbit/features/routine/domain/repository/routine_repository.dart';
+import 'package:fitbit/features/routine/domain/use_case/routine_use_case.dart';
 import 'package:fitbit/features/routine/presentation/state/routine_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,18 +8,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final routineViewModelProvider =
     StateNotifierProvider<RoutineViewModel, RoutineState>(
   (ref) {
-    return RoutineViewModel(ref.read(routineRemoteRepoProvider));
+    return RoutineViewModel(ref.read(routineUsecaseProvider));
   },
 );
 
 class RoutineViewModel extends StateNotifier<RoutineState> {
-  final IRoutineRepository routineRepository;
+  final RoutineUseCase routineUseCase;
 
-  RoutineViewModel(this.routineRepository) : super(RoutineState.initial());
+  RoutineViewModel(this.routineUseCase)
+      : super(RoutineState(isLoading: false)) {
+    getMyRoutines();
+  }
 
   addRoutine(RoutineEntity routine) async {
     state.copyWith(isLoading: true);
-    var data = await routineRepository.addRoutine(routine);
+    var data = await routineUseCase.addRoutine(routine);
 
     data.fold((l) {
       state = state.copyWith(isLoading: false, error: l.error);
@@ -32,7 +34,7 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
 
   getAllRoutines() async {
     state = state.copyWith(isLoading: true);
-    var data = await routineRepository.getAllRoutines();
+    var data = await routineUseCase.getAllRoutines();
 
     data.fold(
       (l) => state = state.copyWith(isLoading: false, error: l.error),
@@ -43,7 +45,7 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
   Future<void> deleteRoutine(
       BuildContext context, RoutineEntity routine) async {
     state.copyWith(isLoading: true);
-    var data = await routineRepository.deleteRoutine(routine.routineId!);
+    var data = await routineUseCase.deleteRoutine(routine.routineId!);
 
     data.fold(
       (l) {
@@ -80,13 +82,13 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
       return;
     }
 
-    var data = await routineRepository.updateRoutine(routineId);
+    var data = await routineUseCase.updateRoutine(routineId);
 
     data.fold(
       (l) {
         showSnackBar(message: l.error, context: context, color: Colors.red);
 
-        state = state.copyWith(isLoading: false, error: l.error);
+        state = state.copyWith(isLoading: false);
       },
       (r) {
         // Create a new RoutineEntity with updated values
@@ -96,11 +98,25 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
 
         // Update the routine status in the list of routines
         state.routines[index] = updatedRoutine;
-        state = state.copyWith(isLoading: false, error: null);
+        state = state.copyWith(isLoading: false);
         showSnackBar(
           message: 'Routine marked as complete successfully',
           context: context,
         );
+      },
+    );
+  }
+
+  Future<void> getMyRoutines() async {
+    state = state.copyWith(isLoading: true);
+    var data = await routineUseCase.getMyRoutines();
+    data.fold(
+      (failure) {
+        state = state.copyWith(isLoading: false, error: failure.error);
+      },
+      (routines) {
+        state =
+            state.copyWith(isLoading: false, routines: routines, error: null);
       },
     );
   }

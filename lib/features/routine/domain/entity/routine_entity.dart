@@ -2,24 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
 
-// class RoutineEntity {
-//   final String? routineId;
-//   final WorkoutEntity? workout;
-//   final UserEntity? user;
-//   final DateTime enrolledAt;
-//   final String routineStatus;
-//   final DateTime? completedAt;
-
-//   RoutineEntity({
-//     this.workout,
-//     this.user,
-//     required this.enrolledAt,
-//     required this.routineStatus,
-//     this.completedAt,
-//     this.routineId,
-//   });
-// }
-
 class RoutineEntity extends Equatable {
   final String? routineId;
   final WorkoutEntity? workout;
@@ -67,7 +49,7 @@ class RoutineEntity extends Equatable {
   }
 
   factory RoutineEntity.fromJson(Map<String, dynamic> json) => RoutineEntity(
-        routineId: json["routineId"],
+        routineId: json["_id"],
         workout: json["workout"],
         user: json["user"],
         routineStatus: json["routineStatus"],
@@ -76,7 +58,7 @@ class RoutineEntity extends Equatable {
       );
 
   Map<String, dynamic> toJson() => {
-        "routineId": routineId,
+        "_id": routineId,
         "workout": workout,
         "user": user,
         "routineStatus": routineStatus,

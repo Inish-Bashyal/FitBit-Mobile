@@ -10,7 +10,7 @@ class RoutineState {
   RoutineState({
     this.users,
     required this.isLoading,
-    required this.routines,
+    this.routines = const [],
     this.error,
   });
 

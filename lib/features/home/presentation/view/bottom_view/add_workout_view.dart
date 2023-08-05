@@ -9,15 +9,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class AddRoutineView extends ConsumerStatefulWidget {
-  const AddRoutineView({super.key});
+class AddWorkoutView extends ConsumerStatefulWidget {
+  const AddWorkoutView({super.key});
 
   @override
-  ConsumerState<AddRoutineView> createState() => _AddRoutineViewState();
+  ConsumerState<AddWorkoutView> createState() => _AddWorkoutViewState();
 }
 
-class _AddRoutineViewState extends ConsumerState<AddRoutineView> {
-  final formKey = GlobalKey<FormState>();
+class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
+  final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final nameController = TextEditingController();
   final dayController = TextEditingController();
@@ -63,7 +63,7 @@ class _AddRoutineViewState extends ConsumerState<AddRoutineView> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -131,7 +131,7 @@ class _AddRoutineViewState extends ConsumerState<AddRoutineView> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         var workput = WorkoutEntity(
                           title: titleController.text,
                           nameOfWorkout: nameController.text,

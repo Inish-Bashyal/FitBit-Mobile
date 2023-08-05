@@ -6,17 +6,27 @@ part 'get_all_routine_dto.g.dart';
 @JsonSerializable()
 class GetAllRoutineDTO {
   final bool success;
-  final int count;
-  final List<RoutineApiModel> data;
+  final List<RoutineApiModel> routines;
 
   GetAllRoutineDTO({
     required this.success,
-    required this.count,
-    required this.data,
+    required this.routines,
   });
 
   Map<String, dynamic> toJson() => _$GetAllRoutineDTOToJson(this);
 
-  factory GetAllRoutineDTO.fromJson(Map<String, dynamic> json) =>
-      _$GetAllRoutineDTOFromJson(json);
+  factory GetAllRoutineDTO.fromJson(Map<String, dynamic> json) {
+    return GetAllRoutineDTO(
+      success: json['success'] ?? false,
+      routines: json['routines'] != null
+          ? (json['routines'] as List).map((routineJson) {
+              // Convert date-time strings to String
+              routineJson['enrolledAt'] = routineJson['enrolledAt'].toString();
+              routineJson['completedAt'] =
+                  routineJson['completedAt'].toString();
+              return RoutineApiModel.fromJson(routineJson);
+            }).toList()
+          : [],
+    );
+  }
 }

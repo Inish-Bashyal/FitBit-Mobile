@@ -4,7 +4,6 @@ import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/core/network/remote/http_service.dart';
 import 'package:fitbit/core/shared_prefs/user_shared_prefs.dart';
-import 'package:fitbit/features/routine/data/dto/get_all_routine_dto.dart';
 import 'package:fitbit/features/routine/data/model/routine_api_model.dart';
 import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,11 +92,10 @@ class RoutineRemoteDataSource {
         ),
       );
       if (response.statusCode == 200) {
-        // OR
-        // 2nd way
-        GetAllRoutineDTO routineAddDTO =
-            GetAllRoutineDTO.fromJson(response.data);
-        return Right(routineApiModel.toEntityList(routineAddDTO.data));
+        var routines = (response.data['data'] as List)
+            .map((routine) => RoutineApiModel.fromJson(routine).toEntity())
+            .toList();
+        return Right(routines);
       } else {
         return Left(
           Failure(
@@ -202,7 +200,6 @@ class RoutineRemoteDataSource {
 
   Future<Either<Failure, List<RoutineEntity>>> getMyRoutine() async {
     try {
-      // Get the token from shared prefs
       String? token;
       var data = await userSharedPrefs.getUserToken();
       data.fold(
@@ -217,12 +214,30 @@ class RoutineRemoteDataSource {
           },
         ),
       );
+      print("Raw JSON Data: ${response.data}");
+
       if (response.statusCode == 200) {
-        // OR
-        // 2nd way
-        GetAllRoutineDTO routineAddDTO =
-            GetAllRoutineDTO.fromJson(response.data);
-        return Right(routineApiModel.toEntityList(routineAddDTO.data));
+        var jsonData = response.data; // The response data is already a Map
+        var routinesData = jsonData['routines'] as List<dynamic>?;
+
+        if (routinesData != null) {
+          var routines = routinesData
+              .map((routine) => RoutineApiModel.fromJson(routine))
+              .toList();
+
+          var entities = routines
+              .map((routine) => routine.toEntity())
+              .toList(); // Convert to RoutineEntity list
+
+          return Right(entities); // Wrap the result in Right constructor
+        } else {
+          return Left(
+            Failure(
+              error: "No routines found",
+              statusCode: response.statusCode.toString(),
+            ),
+          );
+        }
       } else {
         return Left(
           Failure(

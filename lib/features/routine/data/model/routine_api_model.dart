@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:fitbit/features/auth/data/model/auth_api_model.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:fitbit/features/workout/data/model/workout_api_model.dart';
@@ -10,14 +9,14 @@ import 'package:json_annotation/json_annotation.dart';
 part 'routine_api_model.g.dart';
 
 final routineApiModelProvider = Provider<RoutineApiModel>(
-  (ref) => RoutineApiModel.empty(),
+  (ref) => const RoutineApiModel.empty(),
 );
 
 @JsonSerializable()
 class RoutineApiModel extends Equatable {
   @JsonKey(name: '_id')
   final String? routineId;
-  final AuthApiModel? user;
+  final String? user; // Change the type to String
   final WorkoutApiModel? workout;
   final String routineStatus;
   final String enrolledAt;
@@ -31,60 +30,62 @@ class RoutineApiModel extends Equatable {
     required this.enrolledAt,
     required this.completedAt,
   });
-  RoutineApiModel.empty()
+
+  const RoutineApiModel.empty()
       : routineId = '',
-        user = AuthApiModel.empty(),
+        user = '', // Set user as empty String
         workout = const WorkoutApiModel.empty(),
         routineStatus = '',
         enrolledAt = '',
         completedAt = '';
 
-  factory RoutineApiModel.fromJson(Map<String, dynamic> json) =>
-      _$RoutineApiModelFromJson(json);
+  factory RoutineApiModel.fromJson(Map<String, dynamic> json) {
+    return RoutineApiModel(
+      routineId: json['_id'],
+      user: json['user'],
+      workout: json['workout'] != null
+          ? WorkoutApiModel.fromJson(json['workout'])
+          : null,
+      routineStatus: json['routineStatus'],
+      enrolledAt: json['enrolledAt'],
+      completedAt: json['completedAt'],
+    );
+  }
 
   Map<String, dynamic> toJson() => _$RoutineApiModelToJson(this);
 
   // Convert API Object to Entity
   RoutineEntity toEntity() => RoutineEntity(
-        routineId: routineId,
+        routineId: routineId ?? '',
         user: UserEntity(
-          userID: user!.userID,
-          age: user!.age,
-          email: user!.email,
-          firstname: user!.firstname,
-          gender: user!.gender,
-          lastname: user!.lastname,
-          password: user!.password,
-          username: user!.username,
+          userID: user ?? '',
+          age: '',
+          email: '',
+          firstname: '',
+          gender: '',
+          lastname: '',
+          password: '',
+          username: '',
         ),
         workout: WorkoutEntity(
-          workoutId: workout!.workoutId,
-          day: workout!.day,
-          nameOfWorkout: workout!.nameOfWorkout,
-          numberOfReps: workout!.numberOfReps,
-          title: workout!.title,
+          workoutId: workout?.workoutId ?? '',
+          day: workout?.day ?? '',
+          nameOfWorkout: workout?.nameOfWorkout ?? '',
+          numberOfReps: workout?.numberOfReps ?? '',
+          title: workout?.title ?? '',
         ),
         routineStatus: routineStatus,
         enrolledAt: DateTime.parse(enrolledAt),
         completedAt:
-            completedAt.isNotEmpty ? DateTime.parse(completedAt) : null,
+            completedAt.isNotEmpty ? DateTime.tryParse(completedAt) : null,
       );
 
   // Convert Entity to API Object
   RoutineApiModel fromEntity(RoutineEntity entity) => RoutineApiModel(
         routineId: entity.routineId,
-        user: AuthApiModel(
-          userID: entity.user!.userID,
-          age: entity.user!.age,
-          firstname: entity.user!.firstname,
-          lastname: entity.user!.lastname,
-          gender: entity.user!.gender,
-          username: entity.user!.username,
-          password: entity.user!.password,
-          email: entity.user!.email,
-        ),
+        user: entity.user?.userID, // Get userID from UserEntity
         workout: WorkoutApiModel(
-          workoutId: entity.workout!.workoutId,
+          workoutId: entity.workout?.workoutId,
           day: entity.workout!.day,
           nameOfWorkout: entity.workout!.nameOfWorkout,
           numberOfReps: entity.workout!.numberOfReps,

@@ -50,4 +50,10 @@ class AuthLocalRepository implements IAuthRepository {
     // TODO: implement checkUser
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, UserEntity>> getMe() {
+    // TODO: implement getMe
+    throw UnimplementedError();
+  }
 }

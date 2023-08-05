@@ -1,15 +1,10 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:fitbit/features/routine/domain/repository/routine_repository.dart';
-import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
-import 'package:fitbit/features/workout/domain/repository/workout_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-//watch converted to read
 final routineUsecaseProvider = Provider<RoutineUseCase>(
   (ref) => RoutineUseCase(
     routineRepository: ref.watch(routineRepositoryProvider),
@@ -23,6 +18,10 @@ class RoutineUseCase {
 
   Future<Either<Failure, List<RoutineEntity>>> getAllRoutines() {
     return routineRepository.getAllRoutines();
+  }
+
+  Future<Either<Failure, List<RoutineEntity>>> getMyRoutines() {
+    return routineRepository.getMyRoutines();
   }
 
   Future<Either<Failure, bool>> addRoutine(RoutineEntity routine) {

@@ -8,6 +8,7 @@ import 'package:fitbit/core/network/remote/http_service.dart';
 import 'package:fitbit/core/shared_prefs/user_shared_prefs.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 final authRemoteDataSourceProvider = Provider(
   (ref) => AuthRemoteDataSource(
@@ -163,6 +164,50 @@ class AuthRemoteDataSource {
   // }
 
 // get user when logged in
+
+  Future<Either<Failure, UserEntity>> getMe() async {
+    try {
+      String? token;
+      var data = await userSharedPrefs.getUserToken();
+      data.fold(
+        (l) => token = null,
+        (r) => token = r!,
+      );
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+      String userID = decodedToken['userID'];
+      var response = await dio.get(
+        ApiEndpoints.getMe + userID,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        var userData = response.data;
+        if (userData == null) {
+          return Left(Failure(error: 'User data is null'));
+        }
+        var user = UserEntity.fromJson(userData);
+        return Right(user);
+      } else {
+        return Left(
+          Failure(
+            error: response.data["message"],
+            statusCode: response.statusCode.toString(),
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(
+        Failure(
+          error: e.error.toString(),
+          statusCode: e.response?.statusCode.toString() ?? '0',
+        ),
+      );
+    }
+  }
 
   Future<Either<Failure, UserEntity>> getUser(String userID) async {
     try {

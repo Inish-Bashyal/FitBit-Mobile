@@ -1,8 +1,8 @@
 import 'package:fitbit/config/router/app_route.dart';
 import 'package:fitbit/features/home/presentation/view/bottom_view/home_view.dart';
-import 'package:fitbit/features/home/presentation/view/bottom_view/routines_view.dart';
 import 'package:fitbit/features/home/presentation/view/bottom_view/support_view.dart';
 import 'package:fitbit/features/home/presentation/view/bottom_view/workoutplans_view.dart';
+import 'package:fitbit/features/routine/presentation/view/routine_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,7 +14,7 @@ class DashboardView extends ConsumerStatefulWidget {
 }
 
 class _DashboardViewState extends ConsumerState<DashboardView> {
-  int _selectedIndex = 0;
+  int selectedIndex = 0;
   List<Widget> lstBottomScreen = [
     const HomeView(),
     const WorkoutPlansView(),
@@ -25,13 +25,12 @@ class _DashboardViewState extends ConsumerState<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: lstBottomScreen[_selectedIndex],
+      body: lstBottomScreen[selectedIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, AppRoute.addRoutineRoute);
+          Navigator.pushNamed(context, AppRoute.addWorkoutRoute);
         },
         shape: const CircleBorder(),
-        // backgroundColor: Colors.black,
         child: const Icon(Icons.add_task),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -58,10 +57,10 @@ class _DashboardViewState extends ConsumerState<DashboardView> {
         // backgroundColor: const Color.fromRGBO(91, 44, 146, 1.0),
         // selectedItemColor: const Color.fromARGB(255, 12, 12, 12),
         // unselectedItemColor: const Color.fromARGB(255, 112, 110, 110),
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         onTap: (index) {
           setState(() {
-            _selectedIndex = index;
+            selectedIndex = index;
           });
         },
       ),

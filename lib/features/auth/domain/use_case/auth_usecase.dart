@@ -38,6 +38,10 @@ class AuthUseCase {
     return _authRepository.getUser(id);
   }
 
+  Future<Either<Failure, UserEntity>> getMe() {
+    return _authRepository.getMe();
+  }
+
   Future<Either<Failure, bool>> checkUser(String userID) async {
     return await _authRepository.checkUser(userID);
   }

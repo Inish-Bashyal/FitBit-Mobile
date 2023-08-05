@@ -9,9 +9,7 @@ part of 'routine_api_model.dart';
 RoutineApiModel _$RoutineApiModelFromJson(Map<String, dynamic> json) =>
     RoutineApiModel(
       routineId: json['_id'] as String?,
-      user: json['user'] == null
-          ? null
-          : AuthApiModel.fromJson(json['user'] as Map<String, dynamic>),
+      user: json['user'] as String?,
       workout: json['workout'] == null
           ? null
           : WorkoutApiModel.fromJson(json['workout'] as Map<String, dynamic>),

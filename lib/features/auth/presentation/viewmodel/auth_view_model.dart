@@ -18,7 +18,9 @@ final authViewModelProvider =
 class AuthViewModel extends StateNotifier<AuthState> {
   final AuthUseCase _authUseCase;
 
-  AuthViewModel(this._authUseCase) : super(AuthState.initial());
+  AuthViewModel(this._authUseCase) : super(AuthState.initial()) {
+    getMe();
+  }
 
   Future<void> registerUser(BuildContext context, UserEntity user) async {
     state = state.copyWith(isLoading: true);
@@ -107,21 +109,21 @@ class AuthViewModel extends StateNotifier<AuthState> {
   //     (r) => state = state.copyWith(isLoading: false, user: r, error: null),
   //   );
   // }
-  // getUser() async {
-  //   state = state.copyWith(isLoading: true);
-  //   var data = await _authUseCase.getUser();
+  getMe() async {
+    state = state.copyWith(isLoading: true);
+    var data = await _authUseCase.getMe();
 
-  //   data.fold(
-  //     (l) {
-  //       state = state.copyWith(isLoading: false, error: l.error);
-  //       return null;
-  //     },
-  //     (r) {
-  //       state = state.copyWith(isLoading: false, user: r, error: null);
-  //       return r;
-  //     },
-  //   );
-  // }
+    data.fold(
+      (l) {
+        state = state.copyWith(isLoading: false, error: l.error);
+        return null;
+      },
+      (r) {
+        state = state.copyWith(user: r);
+        return r;
+      },
+    );
+  }
 
   // Future<void> checkUser(BuildContext context, String userID) async {
   //   state = state.copyWith(isLoading: true);

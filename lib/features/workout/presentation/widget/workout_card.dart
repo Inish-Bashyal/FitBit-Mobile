@@ -33,7 +33,7 @@ class WorkoutCard extends StatelessWidget {
           children: [
             IconButton(
               onPressed: follow,
-              icon: const Icon(Icons.add),
+              icon: const Icon(Icons.add_alert_rounded),
             ),
             IconButton(
               onPressed: onEdit,
