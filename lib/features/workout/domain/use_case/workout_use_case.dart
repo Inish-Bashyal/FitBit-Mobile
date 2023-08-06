@@ -23,7 +23,7 @@ class WorkoutUseCase {
     return workoutRepository.getAllWorkouts();
   }
 
-  Future<Either<Failure, bool>> addWorkout(WorkoutEntity workout) {
+  Future<Either<Failure, WorkoutEntity>> addWorkout(WorkoutEntity workout) {
     return workoutRepository.addWorkout(workout);
   }
 

@@ -21,16 +21,22 @@ class WorkoutViewModel extends StateNotifier<WorkoutState> {
     getAllWorkouts();
   }
 
-  addWorkout(WorkoutEntity workout) async {
-    state.copyWith(isLoading: true);
+  Future<void> addWorkout(WorkoutEntity workout) async {
+    state = state.copyWith(isLoading: true);
     var data = await workoutUseCase.addWorkout(workout);
 
-    data.fold((l) {
-      state = state.copyWith(isLoading: false, error: l.error);
-    }, (r) {
-      state.workouts.add(workout);
-      state = state.copyWith(isLoading: false, error: null);
-    });
+    data.fold(
+      (l) {
+        state = state.copyWith(isLoading: false, error: l.error);
+      },
+      (r) {
+        state = state.copyWith(
+          isLoading: false,
+          workouts: [...state.workouts, r],
+          error: null,
+        );
+      },
+    );
   }
 
   getAllWorkouts() async {

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/auth/domain/repository/auth_repository.dart';
+import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authUseCaseProvider = Provider((ref) {
@@ -34,6 +35,10 @@ class AuthUseCase {
     return _authRepository.getAllUsers();
   }
 
+  Future<Either<Failure, List<RoutineEntity>>> getMyRoutine() {
+    return _authRepository.getMyRoutine();
+  }
+
   Future<Either<Failure, UserEntity>> getUser(String id) {
     return _authRepository.getUser(id);
   }
@@ -44,5 +49,9 @@ class AuthUseCase {
 
   Future<Either<Failure, bool>> checkUser(String userID) async {
     return await _authRepository.checkUser(userID);
+  }
+
+  Future<Either<Failure, UserEntity>> updateUser(String userId) async {
+    return await _authRepository.updateUser(userId);
   }
 }

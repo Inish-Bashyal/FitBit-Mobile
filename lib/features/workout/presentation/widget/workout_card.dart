@@ -5,8 +5,7 @@ class WorkoutCard extends StatelessWidget {
   final String? title;
   final String? nameOfWorkout;
   final VoidCallback? onDelete;
-  final VoidCallback? onEdit;
-  final VoidCallback? follow;
+  final Function(BuildContext)? onEdit;
 
   const WorkoutCard({
     super.key,
@@ -15,7 +14,6 @@ class WorkoutCard extends StatelessWidget {
     this.nameOfWorkout,
     this.onDelete,
     this.onEdit,
-    this.follow,
   });
 
   @override
@@ -32,11 +30,7 @@ class WorkoutCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              onPressed: follow,
-              icon: const Icon(Icons.add_alert_rounded),
-            ),
-            IconButton(
-              onPressed: onEdit,
+              onPressed: () => onEdit?.call(context), // Change this line
               icon: const Icon(Icons.edit),
             ),
             IconButton(

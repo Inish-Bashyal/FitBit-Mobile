@@ -5,6 +5,7 @@ import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/auth/domain/repository/auth_repository.dart';
+import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authRemoteRepoProvider = Provider<IAuthRepository>((ref) {
@@ -49,5 +50,17 @@ class AuthRemoteRepository implements IAuthRepository {
   @override
   Future<Either<Failure, UserEntity>> getMe() {
     return _authRemoteDataSource.getMe();
+  }
+
+  @override
+  Future<Either<Failure, List<RoutineEntity>>> getMyRoutine() {
+    // TODO: implement getMyRoutine
+    return _authRemoteDataSource.getMyRoutine();
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> updateUser(String userId) {
+    // TODO: implement updateUser
+    return _authRemoteDataSource.updateUser(userId);
   }
 }

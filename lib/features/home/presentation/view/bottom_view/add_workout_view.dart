@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:fitbit/config/constants/api_endpoint.dart';
+import 'package:fitbit/config/router/app_route.dart';
 import 'package:fitbit/core/common/snackbar/my_snackbar.dart';
 import 'package:fitbit/core/common/widgets/textfield_widget.dart';
 import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
@@ -10,7 +12,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AddWorkoutView extends ConsumerStatefulWidget {
-  const AddWorkoutView({super.key});
+  final WorkoutEntity? workoutToUpdate; // Add this property
+
+  const AddWorkoutView({Key? key, this.workoutToUpdate}) : super(key: key);
 
   @override
   ConsumerState<AddWorkoutView> createState() => _AddWorkoutViewState();
@@ -22,6 +26,8 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
   final nameController = TextEditingController();
   final dayController = TextEditingController();
   final repsNumController = TextEditingController();
+
+  String? updateImage;
 
   var gap = const SizedBox(
     height: 20,
@@ -53,12 +59,28 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    // Set the initial values of text controllers based on the workoutToUpdate
+    if (widget.workoutToUpdate != null) {
+      titleController.text = widget.workoutToUpdate!.title;
+      nameController.text = widget.workoutToUpdate!.nameOfWorkout;
+      dayController.text = widget.workoutToUpdate!.day;
+      repsNumController.text = widget.workoutToUpdate!.numberOfReps;
+      // Set the image if it exists
+      updateImage = widget.workoutToUpdate!.image;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final workoutState = ref.watch(workoutViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Workout'),
+        title: Text(
+            widget.workoutToUpdate == null ? 'Add Workout' : 'Update Workout'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -113,8 +135,13 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
                       radius: 50,
                       backgroundImage: _img != null
                           ? FileImage(_img!)
-                          : const AssetImage('assets/images/bg2.jpeg')
-                              as ImageProvider,
+                          : widget.workoutToUpdate?.image != null
+                              ? NetworkImage(
+                                  ApiEndpoints.imageUrl +
+                                      widget.workoutToUpdate!.image!,
+                                )
+                              : const AssetImage('assets/images/bg2.jpeg')
+                                  as ImageProvider,
                     ),
                   ),
                 ),
@@ -132,7 +159,7 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        var workput = WorkoutEntity(
+                        var workout = WorkoutEntity(
                           title: titleController.text,
                           nameOfWorkout: nameController.text,
                           day: dayController.text,
@@ -140,9 +167,17 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
                           image: ref.read(workoutViewModelProvider).image,
                         );
 
-                        ref
-                            .read(workoutViewModelProvider.notifier)
-                            .addWorkout(workput);
+                        if (widget.workoutToUpdate != null) {
+                          // Update existing workout
+                          ref
+                              .read(workoutViewModelProvider.notifier)
+                              .updateWorkout(context, workout);
+                        } else {
+                          // Add new workout
+                          ref
+                              .read(workoutViewModelProvider.notifier)
+                              .addWorkout(workout);
+                        }
 
                         if (workoutState.error != null) {
                           showSnackBar(
@@ -152,13 +187,18 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
                           );
                         } else {
                           showSnackBar(
-                            message: 'Workout Added successfully',
+                            message: widget.workoutToUpdate == null
+                                ? 'Workout Added successfully'
+                                : 'Workout Updated successfully',
                             context: context,
                           );
                         }
+                        Navigator.pushNamed(context, AppRoute.dashboardRoute);
                       }
                     },
-                    child: const Text('Add Workout'),
+                    child: Text(widget.workoutToUpdate == null
+                        ? 'Add Workout'
+                        : 'Update Workout'),
                   ),
                 ),
               ],

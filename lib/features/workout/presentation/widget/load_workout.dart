@@ -1,8 +1,8 @@
 import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
-import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
-import 'package:fitbit/features/routine/presentation/viewmodel/routine_view_model.dart';
+import 'package:fitbit/features/home/presentation/view/bottom_view/add_workout_view.dart';
 import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
+import 'package:fitbit/features/workout/presentation/view/single_workout_view.dart';
 import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
 import 'package:fitbit/features/workout/presentation/widget/workout_card.dart';
 import 'package:flutter/material.dart';
@@ -24,52 +24,59 @@ class LoadWorkout extends StatelessWidget {
       itemCount: lstWorkout.length,
       itemBuilder: (context, index) {
         // final workout = lstWorkout[index];
-        return WorkoutCard(
-          imagePath: lstWorkout[index].image != null
-              ? ApiEndpoints.imageUrl + lstWorkout[index].image!
-              : null,
-          title: lstWorkout[index].title,
-          nameOfWorkout: lstWorkout[index].nameOfWorkout,
-          onDelete: () {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text(
-                    'Are you sure you want to delete ${lstWorkout[index].title}?'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('No'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      ref
-                          .read(workoutViewModelProvider.notifier)
-                          .deleteWorkout(context, lstWorkout[index]);
-                    },
-                    child: const Text('Yes'),
-                  ),
-                ],
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SingleWorkoutView(
+                  workout: lstWorkout[index],
+                ),
               ),
             );
           },
-          onEdit: () {
-            // Implement the edit functionality here
-          },
-          follow: () async {
-            final newRoutine = RoutineEntity(
-              user: user,
-              workout: lstWorkout[index],
-              enrolledAt: DateTime.now(),
-              routineStatus: "Processing",
-              completedAt: null,
-            );
-
-            ref.read(routineViewModelProvider.notifier).addRoutine(newRoutine);
-          },
+          child: WorkoutCard(
+            imagePath: lstWorkout[index].image != null
+                ? ApiEndpoints.imageUrl + lstWorkout[index].image!
+                : null,
+            title: lstWorkout[index].title,
+            nameOfWorkout: lstWorkout[index].nameOfWorkout,
+            onDelete: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text(
+                      'Are you sure you want to delete ${lstWorkout[index].title}?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('No'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        ref
+                            .read(workoutViewModelProvider.notifier)
+                            .deleteWorkout(context, lstWorkout[index]);
+                      },
+                      child: const Text('Yes'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            onEdit: (BuildContext contexx) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AddWorkoutView(workoutToUpdate: lstWorkout[index]),
+                ),
+              );
+            },
+          ),
         );
       },
     );

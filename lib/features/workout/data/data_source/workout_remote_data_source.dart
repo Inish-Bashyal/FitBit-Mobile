@@ -30,7 +30,8 @@ class WorkoutRemoteDataSource {
     required this.userSharedPrefs,
   });
 
-  Future<Either<Failure, bool>> addWorkout(WorkoutEntity workout) async {
+  Future<Either<Failure, WorkoutEntity>> addWorkout(
+      WorkoutEntity workout) async {
     try {
       // Get the token from shared prefs
       String? token;
@@ -56,7 +57,7 @@ class WorkoutRemoteDataSource {
       );
 
       if (response.statusCode == 201) {
-        return const Right(true);
+        return Right(WorkoutEntity.fromJson(response.data["data"]));
       } else {
         return Left(
           Failure(

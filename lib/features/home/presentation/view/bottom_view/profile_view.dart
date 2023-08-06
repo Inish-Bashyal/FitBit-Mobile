@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:fitbit/config/constants/api_endpoint.dart';
+import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -252,47 +253,49 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     );
   }
 
-  // void updateUserData() {
-  //   // Fetch the updated values from the text fields
-  //   String firstName = firstNameController.text;
-  //   String lastName = lastNameController.text;
-  //   String age = ageController.text;
-  //   String gender = genderController.text;
-  //   String email = emailController.text;
-  //   String username = usernameController.text;
+  Future<void> updateUserData() async {
+    var authState = ref.watch(authViewModelProvider);
 
-  //   // Create a new UserEntity with the updated values
-  //   var updatedUser = UserEntity(
-  //     userID: authState.user!.userID, // Keep the same userID
-  //     firstname: firstName,
-  //     lastname: lastName,
-  //     age: age,
-  //     gender: gender,
-  //     email: email,
-  //     username: username,
-  //     password: authState.user!.password, // Keep the same password
-  //   );
+    // Fetch the updated values from the text fields
+    String firstName = firstNameController.text;
+    String lastName = lastNameController.text;
+    String age = ageController.text;
+    String gender = genderController.text;
+    String email = emailController.text;
+    String username = usernameController.text;
 
-  //   // Call the view model to update the user data
-  //   var authViewModel = ref.read(authViewModelProvider.notifier);
-  //   authViewModel.updateUser(updatedUser).then((result) {
-  //     result.fold(
-  //       (failure) {
-  //         // Handle the failure here
-  //         showSnackBar(
-  //           message: 'Failed to update user data',
-  //           context: context,
-  //           color: Colors.red,
-  //         );
-  //       },
-  //       (success) {
-  //         // User data updated successfully
-  //         showSnackBar(
-  //           message: 'User data updated successfully',
-  //           context: context,
-  //         );
-  //       },
-  //     );
-  //   });
-  // }
+    // Create a new UserEntity with the updated values
+    var updatedUser = UserEntity(
+      userID: authState.user!.userID, // Keep the same userID
+      firstname: firstName,
+      lastname: lastName,
+      age: age,
+      gender: gender,
+      email: email,
+      username: username,
+      password: authState.user!.password, // Keep the same password
+    );
+
+    // Call the view model to update the user data
+    ref.read(authViewModelProvider.notifier).updateUser(updatedUser);
+    // var result = await authViewModel.updateUser(updatedUser);
+
+    // result.fold(
+    //   (failure) {
+    //     // Handle the failure here
+    //     showSnackBar(
+    //       message: 'Failed to update user data',
+    //       context: context,
+    //       color: Colors.red,
+    //     );
+    //   },
+    //   (success) {
+    //     // User data updated successfully
+    //     showSnackBar(
+    //       message: 'User data updated successfully',
+    //       context: context,
+    //     );
+    //   },
+    // );
+  }
 }

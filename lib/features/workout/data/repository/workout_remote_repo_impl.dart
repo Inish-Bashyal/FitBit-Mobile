@@ -20,7 +20,7 @@ class WorkoutRemoteRepositoryImpl implements IWorkoutRepository {
   WorkoutRemoteRepositoryImpl({required this.workoutRemoteDataSource});
 
   @override
-  Future<Either<Failure, bool>> addWorkout(WorkoutEntity workout) {
+  Future<Either<Failure, WorkoutEntity>> addWorkout(WorkoutEntity workout) {
     return workoutRemoteDataSource.addWorkout(workout);
   }
 

@@ -14,6 +14,7 @@ class ApiEndpoints {
   static const String getMe = "users/getMe/";
   static const String getUser = "users/getUser/";
   static const String getUserbyName = "users/getUserbyName/";
+  static const String updateUser = "users/updateUser/";
   static const String getAllUsersByWorkout = "auth/getUsersByWorkout/";
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   static const String updateStudent = "auth/updateUser/";
@@ -22,7 +23,7 @@ class ApiEndpoints {
   static const String uploadImage = "users/uploadImage";
 
   //====================== Workout Routes ======================
-  static const String createWorkout = "workouts/addWorkout";
+  static const String createWorkout = "workouts/addWorkoutMob";
   static const String getAllWorkout = "workouts/getAllWorkouts";
   static const String deleteworkout = "workouts/deleteWorkout/";
   static const String uploadWorkoutImage = "workouts/uploadImage";

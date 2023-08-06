@@ -69,8 +69,28 @@ class AuthViewModel extends StateNotifier<AuthState> {
           },
           (user) {
             state = state.copyWith(user: user);
+            fetchRoutineData();
             Navigator.popAndPushNamed(context, AppRoute.dashboardRoute);
           },
+        );
+      },
+    );
+  }
+
+  Future<void> updateUser(UserEntity updatedUser) async {
+    state = state.copyWith(isLoading: true);
+
+    var data = await _authUseCase.updateUser(updatedUser.userID!);
+
+    data.fold(
+      (l) {
+        state = state.copyWith(isLoading: false, error: l.error);
+      },
+      (updatedUser) {
+        state = state.copyWith(
+          isLoading: false,
+          user: updatedUser,
+          error: null,
         );
       },
     );
@@ -125,28 +145,16 @@ class AuthViewModel extends StateNotifier<AuthState> {
     );
   }
 
-  // Future<void> checkUser(BuildContext context, String userID) async {
-  //   state = state.copyWith(isLoading: true);
-  //   // bool isLogin = false;
-  //   var data = await _authUseCase.checkUser(userID);
-  //   data.fold(
-  //     (failure) {
-  //       state = state.copyWith(isLoading: false, error: failure.error);
-  //       showSnackBar(
-  //         message: 'Invalid Credentials',
-  //         context: context,
-  //         color: Colors.red,
-  //       );
-  //     },
-  //     (success) {
-  //       state = state.copyWith(isLoading: false, error: null);
-  //       // Navigator.popAndPushNamed(context, AppRoute.homeRoute);
-  //       if (success == true) {
-  //         Navigator.popAndPushNamed(context, AppRoute.adminDashboardRoute);
-  //       } else {
-  //         Navigator.popAndPushNamed(context, AppRoute.dashboardRoute);
-  //       }
-  //     },
-  //   );
-  // }
+  Future<void> fetchRoutineData() async {
+    state = state.copyWith(isLoading: true);
+    var data = await _authUseCase.getMyRoutine();
+
+    data.fold(
+      (l) => state = state.copyWith(isLoading: false, error: l.error),
+      (routines) {
+        state =
+            state.copyWith(isLoading: false, routines: routines, error: null);
+      },
+    );
+  }
 }

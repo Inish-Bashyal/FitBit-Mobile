@@ -36,10 +36,8 @@ class WorkoutPlansView extends ConsumerWidget {
             } else if (workoutState.error != null) ...{
               Text(workoutState.error!),
             } else if (workoutState.workouts.isEmpty) ...{
-              // Render a message or widget when the list is empty.
               const Text('No workouts available.'),
             } else ...{
-              // Use ... instead of Expanded directly to avoid empty child issue.
               Expanded(
                 child: LoadWorkout(
                   lstWorkout: workoutState.workouts,

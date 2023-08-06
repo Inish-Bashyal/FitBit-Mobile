@@ -22,7 +22,7 @@ class WorkoutLocalRepositoryImpl implements IWorkoutRepository {
   });
 
   @override
-  Future<Either<Failure, bool>> addWorkout(WorkoutEntity workout) {
+  Future<Either<Failure, WorkoutEntity>> addWorkout(WorkoutEntity workout) {
     throw UnimplementedError();
   }
 

@@ -1,4 +1,5 @@
 import 'package:fitbit/config/constants/api_endpoint.dart';
+import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:fitbit/features/routine/presentation/viewmodel/routine_view_model.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,10 @@ class RoutineCardWidget extends ConsumerWidget {
     final routineState = ref.watch(routineViewModelProvider);
     final List<RoutineEntity> lstRoutine = routineState.routines;
 
+    final routineStateFinal = ref.watch(authViewModelProvider);
+    final List<RoutineEntity>? lstFinalRoutine = routineStateFinal.routines;
+    final RoutineEntity finalselected = lstFinalRoutine![index];
+
     final RoutineEntity selectedRoutine = lstRoutine[index];
     return SizedBox(
       child: Card(
@@ -24,9 +29,7 @@ class RoutineCardWidget extends ConsumerWidget {
         child: Column(
           children: [
             Image.network(
-              selectedRoutine.workout?.image != null
-                  ? ApiEndpoints.imageUrl + selectedRoutine.workout!.image!
-                  : "",
+              ApiEndpoints.imageUrl + (finalselected.workout?.image ?? ""),
               width: 200,
               height: 200,
               fit: BoxFit.cover,
@@ -34,7 +37,7 @@ class RoutineCardWidget extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                selectedRoutine.workout!.title,
+                finalselected.workout!.title,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -44,7 +47,7 @@ class RoutineCardWidget extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                selectedRoutine.workout!.nameOfWorkout,
+                finalselected.workout!.nameOfWorkout,
                 style: const TextStyle(
                   fontSize: 16,
                 ),
@@ -53,7 +56,7 @@ class RoutineCardWidget extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                selectedRoutine.workout!.numberOfReps,
+                finalselected.workout!.numberOfReps,
                 style: const TextStyle(
                   fontSize: 16,
                 ),
@@ -62,7 +65,7 @@ class RoutineCardWidget extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                selectedRoutine.workout!.day,
+                finalselected.workout!.day,
                 style: const TextStyle(
                   fontSize: 16,
                 ),

@@ -7,6 +7,8 @@ import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/core/network/remote/http_service.dart';
 import 'package:fitbit/core/shared_prefs/user_shared_prefs.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
+import 'package:fitbit/features/routine/data/model/routine_api_model.dart';
+import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -126,43 +128,6 @@ class AuthRemoteDataSource {
     }
   }
 
-  // Future<Either<Failure, List<UserEntity>>> getAllUsers() async {
-  //   try {
-  //     // Get the token from shared prefs
-  //     String? token;
-  //     var data = await userSharedPrefs.getUserToken();
-  //     data.fold(
-  //       (l) => token = null,
-  //       (r) => token = r!,
-  //     );
-  //     var response = await dio.get(
-  //       ApiEndpoints.getAllUsers,
-  //       options: Options(
-  //         headers: {
-  //           'Authorization': 'Bearer $token',
-  //         },
-  //       ),
-  //     );
-  //     if (response.statusCode == 200) {
-  //       GetAllAuthDTO authAddDTO = GetAllAuthDTO.fromJson(response.data);
-  //       return Right(authApiModel.listFromJson(authAddDTO.data));
-  //     } else {
-  //       return Left(
-  //         Failure(
-  //           error: response.statusMessage.toString(),
-  //           statusCode: response.statusCode.toString(),
-  //         ),
-  //       );
-  //     }
-  //   } on DioException catch (e) {
-  //     return Left(
-  //       Failure(
-  //         error: e.error.toString(),
-  //       ),
-  //     );
-  //   }
-  // }
-
 // get user when logged in
 
   Future<Either<Failure, UserEntity>> getMe() async {
@@ -234,6 +199,108 @@ class AuthRemoteDataSource {
         }
         var user = UserEntity.fromJson(userData);
         return Right(user);
+      } else {
+        return Left(
+          Failure(
+            error: response.data["message"],
+            statusCode: response.statusCode.toString(),
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(
+        Failure(
+          error: e.error.toString(),
+          statusCode: e.response?.statusCode.toString() ?? '0',
+        ),
+      );
+    }
+  }
+
+  Future<Either<Failure, List<RoutineEntity>>> getMyRoutine() async {
+    try {
+      String? token;
+      var data = await userSharedPrefs.getUserToken();
+      data.fold(
+        (l) => token = null,
+        (r) => token = r!,
+      );
+      var response = await dio.get(
+        ApiEndpoints.getMyRoutine,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        var jsonData = response.data; // The response data is already a Map
+        var routinesData = jsonData['routines'] as List<dynamic>?;
+
+        if (routinesData != null) {
+          var routines = routinesData
+              .map((routine) => RoutineApiModel.fromJson(routine))
+              .toList();
+
+          var entities = routines
+              .map((routine) => routine.toEntity())
+              .toList(); // Convert to RoutineEntity list
+
+          return Right(entities); // Wrap the result in Right constructor
+        } else {
+          return Left(
+            Failure(
+              error: "No routines found",
+              statusCode: response.statusCode.toString(),
+            ),
+          );
+        }
+      } else {
+        return Left(
+          Failure(
+            error: response.statusMessage.toString(),
+            statusCode: response.statusCode.toString(),
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(
+        Failure(
+          error: e.error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<Either<Failure, UserEntity>> updateUser(String userId) async {
+    try {
+      String? token;
+      var data = await userSharedPrefs.getUserToken();
+      data.fold(
+        (l) => token = null,
+        (r) => token = r!,
+      );
+
+      var response = await dio.put(
+        ApiEndpoints.updateUser + userId,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        data: {
+          // You can add any additional data you want to update here
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var userData = response.data;
+        if (userData == null) {
+          return Left(Failure(error: 'User data is null'));
+        }
+        var updatedUser = UserEntity.fromJson(userData);
+        return Right(updatedUser);
       } else {
         return Left(
           Failure(

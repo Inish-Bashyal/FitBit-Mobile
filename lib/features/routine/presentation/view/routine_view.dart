@@ -11,11 +11,11 @@ class RoutineView extends ConsumerStatefulWidget {
 }
 
 class _RoutineViewState extends ConsumerState<RoutineView> {
-  @override
-  void initState() {
-    super.initState();
-    ref.read(routineViewModelProvider.notifier).getMyRoutines();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   ref.read(routineViewModelProvider.notifier).getMyRoutines();
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -5,6 +5,7 @@ import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/features/auth/data/data_source/auth_local_data_source.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/auth/domain/repository/auth_repository.dart';
+import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authLocalRepositoryProvider = Provider<IAuthRepository>((ref) {
@@ -54,6 +55,18 @@ class AuthLocalRepository implements IAuthRepository {
   @override
   Future<Either<Failure, UserEntity>> getMe() {
     // TODO: implement getMe
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<RoutineEntity>>> getMyRoutine() {
+    // TODO: implement getMyRoutine
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> updateUser(String user) {
+    // TODO: implement updateUser
     throw UnimplementedError();
   }
 }

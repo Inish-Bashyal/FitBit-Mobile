@@ -83,7 +83,7 @@ class RoutineApiModel extends Equatable {
   // Convert Entity to API Object
   RoutineApiModel fromEntity(RoutineEntity entity) => RoutineApiModel(
         routineId: entity.routineId,
-        user: entity.user?.userID, // Get userID from UserEntity
+        user: entity.user?.userID,
         workout: WorkoutApiModel(
           workoutId: entity.workout?.workoutId,
           day: entity.workout!.day,

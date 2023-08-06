@@ -1,9 +1,9 @@
 import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
+import 'package:fitbit/features/workout/presentation/view/single_workout_view.dart';
 import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:motion_toast/motion_toast.dart';
 
 class WorkoutLocalCard extends ConsumerStatefulWidget {
   final int index;
@@ -23,8 +23,14 @@ class _WorkoutLocalCardState extends ConsumerState<WorkoutLocalCard> {
 
     return GestureDetector(
       onTap: () {
-        MotionToast.success(description: const Text("This is clicked"))
-            .show(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SingleWorkoutView(
+              workout: lstWorkout[widget.index],
+            ),
+          ),
+        );
       },
       child: SizedBox(
         child: Card(

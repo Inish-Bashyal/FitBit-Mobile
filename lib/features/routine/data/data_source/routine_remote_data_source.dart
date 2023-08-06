@@ -214,7 +214,6 @@ class RoutineRemoteDataSource {
           },
         ),
       );
-      print("Raw JSON Data: ${response.data}");
 
       if (response.statusCode == 200) {
         var jsonData = response.data; // The response data is already a Map
