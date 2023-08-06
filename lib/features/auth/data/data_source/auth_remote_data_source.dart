@@ -273,7 +273,8 @@ class AuthRemoteDataSource {
     }
   }
 
-  Future<Either<Failure, UserEntity>> updateUser(String userId) async {
+  Future<Either<Failure, UserEntity>> updateUser(
+      String userId, UserEntity user) async {
     try {
       String? token;
       var data = await userSharedPrefs.getUserToken();
@@ -283,14 +284,20 @@ class AuthRemoteDataSource {
       );
 
       var response = await dio.put(
-        ApiEndpoints.updateUser + userId,
+        ApiEndpoints.updateUser + user.userID!,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
           },
         ),
         data: {
-          // You can add any additional data you want to update here
+          "firstname": user.firstname,
+          "lastname": user.lastname,
+          "image": user.image,
+          "gender": user.gender,
+          "age": user.age,
+          "email": user.email,
+          "username": user.username,
         },
       );
 

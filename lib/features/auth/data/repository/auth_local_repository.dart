@@ -65,7 +65,7 @@ class AuthLocalRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> updateUser(String user) {
+  Future<Either<Failure, UserEntity>> updateUser(String user, UserEntity dd) {
     // TODO: implement updateUser
     throw UnimplementedError();
   }

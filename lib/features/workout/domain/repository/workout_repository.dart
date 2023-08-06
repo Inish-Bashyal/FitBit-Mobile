@@ -30,6 +30,7 @@ abstract class IWorkoutRepository {
   Future<Either<Failure, List<UserEntity>>> getAllUsersByWorkout(
       String workoutId);
   Future<Either<Failure, bool>> deleteWorkout(String id);
-  Future<Either<Failure, bool>> updateWorkout(String id);
+  Future<Either<Failure, WorkoutEntity>> updateWorkout(
+      String id, WorkoutEntity workout);
   Future<Either<Failure, String>> uploadWorkoutPicture(File file);
 }

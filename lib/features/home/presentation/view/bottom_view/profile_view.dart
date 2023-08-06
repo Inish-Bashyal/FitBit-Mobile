@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:fitbit/config/constants/api_endpoint.dart';
+import 'package:fitbit/config/router/app_route.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +29,12 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   final TextEditingController genderController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
+  String? userImage;
 
   @override
   void initState() {
     super.initState();
+    fetchUserData();
   }
 
   checkCameraPermission() async {
@@ -101,6 +104,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     genderController.text = user.gender;
     emailController.text = user.email;
     usernameController.text = user.username;
+    userImage = user.image;
   }
 
   Widget buildProfileContent() {
@@ -114,10 +118,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             SizedBox(
               width: double.infinity,
               height: 300,
-              child: Image.network(
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0IlJoOev0yf_6D_PTCHmVi1lwBJKz1B4vg&usqp=CAU',
-                fit: BoxFit.fitHeight,
-              ),
+              child: Image.asset('assets/images/logo.png'),
             ),
             Positioned(
               left: 0,
@@ -169,8 +170,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                     backgroundImage: _img != null
                         ? FileImage(_img!)
                         : NetworkImage(
-                            ApiEndpoints.imageUrl +
-                                (authState.user!.image ?? ''),
+                            ApiEndpoints.imageUrl + (userImage ?? ''),
                           ) as ImageProvider,
                   ),
                 ),
@@ -244,10 +244,20 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         gap,
         ElevatedButton(
           onPressed: () {
-            // Implement the update functionality here
-            // updateUserData();
+            updateUserData();
           },
           child: const Text('Update'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoute.loginRoute);
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+          ),
+          child: const Text(
+            'Delete',
+          ),
         ),
       ],
     );
@@ -255,6 +265,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
 
   Future<void> updateUserData() async {
     var authState = ref.watch(authViewModelProvider);
+    String userId = authState.user!.userID!;
 
     // Fetch the updated values from the text fields
     String firstName = firstNameController.text;
@@ -264,38 +275,29 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     String email = emailController.text;
     String username = usernameController.text;
 
+    String? updatedImage;
+
+    if (_img != null) {
+      // Call the view model to upload the new image
+      updatedImage = ref.read(authViewModelProvider).imageName ?? '';
+    }
+
     // Create a new UserEntity with the updated values
     var updatedUser = UserEntity(
-      userID: authState.user!.userID, // Keep the same userID
+      userID: authState.user!.userID,
       firstname: firstName,
       lastname: lastName,
       age: age,
       gender: gender,
       email: email,
       username: username,
-      password: authState.user!.password, // Keep the same password
+      password: authState.user!.password,
+      image: updatedImage ?? userImage,
     );
 
     // Call the view model to update the user data
-    ref.read(authViewModelProvider.notifier).updateUser(updatedUser);
-    // var result = await authViewModel.updateUser(updatedUser);
-
-    // result.fold(
-    //   (failure) {
-    //     // Handle the failure here
-    //     showSnackBar(
-    //       message: 'Failed to update user data',
-    //       context: context,
-    //       color: Colors.red,
-    //     );
-    //   },
-    //   (success) {
-    //     // User data updated successfully
-    //     showSnackBar(
-    //       message: 'User data updated successfully',
-    //       context: context,
-    //     );
-    //   },
-    // );
+    ref
+        .read(authViewModelProvider.notifier)
+        .updateUser(context, userId, updatedUser);
   }
 }

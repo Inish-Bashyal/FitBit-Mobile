@@ -20,5 +20,6 @@ abstract class IAuthRepository {
   Future<Either<Failure, UserEntity>> getUser(String id);
   Future<Either<Failure, UserEntity>> getMe();
   Future<Either<Failure, bool>> checkUser(String userID);
-  Future<Either<Failure, UserEntity>> updateUser(String userId);
+  Future<Either<Failure, UserEntity>> updateUser(
+      String userId, UserEntity user);
 }

@@ -1,4 +1,5 @@
 import 'package:fitbit/config/constants/api_endpoint.dart';
+import 'package:fitbit/config/router/app_route.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:fitbit/features/routine/presentation/viewmodel/routine_view_model.dart';
@@ -77,7 +78,17 @@ class _SingleWorkoutViewState extends ConsumerState<SingleWorkoutView> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Add your follow workout logic here
+                      final newRoutine = RoutineEntity(
+                        user: user,
+                        workout: workout,
+                        enrolledAt: DateTime.now(),
+                        routineStatus: "Processing",
+                        completedAt: null,
+                      );
+
+                      ref
+                          .read(routineViewModelProvider.notifier)
+                          .addRoutine(newRoutine);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -97,17 +108,7 @@ class _SingleWorkoutViewState extends ConsumerState<SingleWorkoutView> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      final newRoutine = RoutineEntity(
-                        user: user,
-                        workout: workout,
-                        enrolledAt: DateTime.now(),
-                        routineStatus: "Processing",
-                        completedAt: null,
-                      );
-
-                      ref
-                          .read(routineViewModelProvider.notifier)
-                          .addRoutine(newRoutine);
+                      Navigator.pushNamed(context, AppRoute.dashboardRoute);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,

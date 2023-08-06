@@ -51,7 +51,8 @@ class AuthUseCase {
     return await _authRepository.checkUser(userID);
   }
 
-  Future<Either<Failure, UserEntity>> updateUser(String userId) async {
-    return await _authRepository.updateUser(userId);
+  Future<Either<Failure, UserEntity>> updateUser(
+      String userId, UserEntity user) async {
+    return await _authRepository.updateUser(userId, user);
   }
 }

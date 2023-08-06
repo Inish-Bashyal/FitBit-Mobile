@@ -70,27 +70,9 @@ class AuthViewModel extends StateNotifier<AuthState> {
           (user) {
             state = state.copyWith(user: user);
             fetchRoutineData();
+
             Navigator.popAndPushNamed(context, AppRoute.dashboardRoute);
           },
-        );
-      },
-    );
-  }
-
-  Future<void> updateUser(UserEntity updatedUser) async {
-    state = state.copyWith(isLoading: true);
-
-    var data = await _authUseCase.updateUser(updatedUser.userID!);
-
-    data.fold(
-      (l) {
-        state = state.copyWith(isLoading: false, error: l.error);
-      },
-      (updatedUser) {
-        state = state.copyWith(
-          isLoading: false,
-          user: updatedUser,
-          error: null,
         );
       },
     );
@@ -154,6 +136,36 @@ class AuthViewModel extends StateNotifier<AuthState> {
       (routines) {
         state =
             state.copyWith(isLoading: false, routines: routines, error: null);
+      },
+    );
+  }
+
+  Future<void> updateUser(
+      BuildContext context, String userId, UserEntity user) async {
+    state = state.copyWith(isLoading: true);
+
+    var data = await _authUseCase.updateUser(userId, user);
+
+    data.fold(
+      (failure) {
+        state = state.copyWith(
+          isLoading: false,
+          error: failure.error,
+        );
+
+        showSnackBar(
+          message: failure.error,
+          context: context,
+          color: Colors.red,
+        );
+      },
+      (success) {
+        state = state.copyWith(isLoading: false, error: null, user: user);
+
+        showSnackBar(
+          message: 'User Updated successfully',
+          context: context,
+        );
       },
     );
   }

@@ -224,9 +224,47 @@ class WorkoutRemoteDataSource {
     }
   }
 
-  Future<Either<Failure, bool>> updateWorkout(String workoutId) async {
+  // Future<Either<Failure, bool>> updateWorkout(String workoutId) async {
+  //   try {
+  //     // Get the token from shared prefs
+  //     String? token;
+  //     var data = await userSharedPrefs.getUserToken();
+  //     data.fold(
+  //       (l) => token = null,
+  //       (r) => token = r!,
+  //     );
+
+  //     Response response = await dio.put(
+  //       ApiEndpoints.updateWorkout + workoutId,
+  //       options: Options(
+  //         headers: {
+  //           'Authorization': 'Bearer $token',
+  //         },
+  //       ),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       return const Right(true);
+  //     } else {
+  //       return Left(
+  //         Failure(
+  //           error: response.data["message"],
+  //           statusCode: response.statusCode.toString(),
+  //         ),
+  //       );
+  //     }
+  //   } on DioException catch (e) {
+  //     return Left(
+  //       Failure(
+  //         error: e.error.toString(),
+  //         statusCode: e.response?.statusCode.toString() ?? '0',
+  //       ),
+  //     );
+  //   }
+  // }
+
+  Future<Either<Failure, WorkoutEntity>> updateWorkout(
+      String workoutId, WorkoutEntity workout) async {
     try {
-      // Get the token from shared prefs
       String? token;
       var data = await userSharedPrefs.getUserToken();
       data.fold(
@@ -234,16 +272,28 @@ class WorkoutRemoteDataSource {
         (r) => token = r!,
       );
 
-      Response response = await dio.put(
-        ApiEndpoints.updateWorkout + workoutId,
+      var response = await dio.put(
+        ApiEndpoints.updateWorkout + workout.workoutId!,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
           },
         ),
+        data: {
+          "title": workout.title,
+          "nameOfWorkout": workout.nameOfWorkout,
+          "day": workout.day,
+          "numberOfReps": workout.numberOfReps,
+        },
       );
+
       if (response.statusCode == 200) {
-        return const Right(true);
+        var workoutData = response.data;
+        if (workoutData == null) {
+          return Left(Failure(error: 'Workout data is null'));
+        }
+        var updatedWorkout = WorkoutEntity.fromJson(workoutData);
+        return Right(updatedWorkout);
       } else {
         return Left(
           Failure(

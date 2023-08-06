@@ -27,7 +27,7 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
   final dayController = TextEditingController();
   final repsNumController = TextEditingController();
 
-  String? updateImage;
+  String? workoutImage;
 
   var gap = const SizedBox(
     height: 20,
@@ -69,7 +69,7 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
       dayController.text = widget.workoutToUpdate!.day;
       repsNumController.text = widget.workoutToUpdate!.numberOfReps;
       // Set the image if it exists
-      updateImage = widget.workoutToUpdate!.image;
+      workoutImage = widget.workoutToUpdate!.image;
     }
   }
 
@@ -166,14 +166,33 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
                           numberOfReps: repsNumController.text,
                           image: ref.read(workoutViewModelProvider).image,
                         );
+                        String? updatedImage;
+
+                        if (_img != null) {
+                          // Call the view model to upload the new image
+                          updatedImage =
+                              ref.read(workoutViewModelProvider).image ?? '';
+                        }
 
                         if (widget.workoutToUpdate != null) {
-                          // Update existing workout
+                          var updatedWorkout = WorkoutEntity(
+                            workoutId: widget.workoutToUpdate!.workoutId,
+
+                            title: titleController.text,
+                            nameOfWorkout: nameController.text,
+                            day: dayController.text,
+                            numberOfReps: repsNumController.text,
+                            // Use the new image URL if available, otherwise use the existing one
+                            image: updatedImage ?? workoutImage,
+                          );
+
                           ref
                               .read(workoutViewModelProvider.notifier)
-                              .updateWorkout(context, workout);
+                              .updateWorkout(
+                                  context,
+                                  widget.workoutToUpdate!.workoutId!,
+                                  updatedWorkout);
                         } else {
-                          // Add new workout
                           ref
                               .read(workoutViewModelProvider.notifier)
                               .addWorkout(workout);

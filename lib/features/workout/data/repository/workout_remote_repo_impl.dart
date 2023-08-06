@@ -46,8 +46,8 @@ class WorkoutRemoteRepositoryImpl implements IWorkoutRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> updateWorkout(String id) {
+  Future<Either<Failure, WorkoutEntity>> updateWorkout(String id, WorkoutEntity workout) {
     // TODO: implement updateWorkout
-    return workoutRemoteDataSource.updateWorkout(id);
+    return workoutRemoteDataSource.updateWorkout(id, workout);
   }
 }
