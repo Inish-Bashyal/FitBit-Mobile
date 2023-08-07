@@ -78,6 +78,8 @@ class AuthRemoteDataSource {
         // retrieve token
         String token = response.data["token"];
         await userSharedPrefs.setUserToken(token);
+        getUser(username);
+
         return const Right(true);
       } else {
         return Left(
@@ -219,12 +221,14 @@ class AuthRemoteDataSource {
 
   Future<Either<Failure, List<RoutineEntity>>> getMyRoutine() async {
     try {
+      // Get the token from shared prefs
       String? token;
       var data = await userSharedPrefs.getUserToken();
       data.fold(
         (l) => token = null,
-        (r) => token = r!,
+        (r) => token = r,
       );
+
       var response = await dio.get(
         ApiEndpoints.getMyRoutine,
         options: Options(
@@ -259,7 +263,7 @@ class AuthRemoteDataSource {
       } else {
         return Left(
           Failure(
-            error: response.statusMessage.toString(),
+            error: response.statusMessage ?? '',
             statusCode: response.statusCode.toString(),
           ),
         );
@@ -284,7 +288,7 @@ class AuthRemoteDataSource {
       );
 
       var response = await dio.put(
-        ApiEndpoints.updateUser + user.userID!,
+        ApiEndpoints.updateUser + userId,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',

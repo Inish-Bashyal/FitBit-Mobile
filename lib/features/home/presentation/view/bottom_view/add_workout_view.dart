@@ -62,13 +62,11 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
   void initState() {
     super.initState();
 
-    // Set the initial values of text controllers based on the workoutToUpdate
     if (widget.workoutToUpdate != null) {
       titleController.text = widget.workoutToUpdate!.title;
       nameController.text = widget.workoutToUpdate!.nameOfWorkout;
       dayController.text = widget.workoutToUpdate!.day;
       repsNumController.text = widget.workoutToUpdate!.numberOfReps;
-      // Set the image if it exists
       workoutImage = widget.workoutToUpdate!.image;
     }
   }
@@ -164,34 +162,13 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
                           nameOfWorkout: nameController.text,
                           day: dayController.text,
                           numberOfReps: repsNumController.text,
-                          image: ref.read(workoutViewModelProvider).image,
+                          image: ref.watch(workoutViewModelProvider).image,
                         );
-                        String? updatedImage;
-
-                        if (_img != null) {
-                          // Call the view model to upload the new image
-                          updatedImage =
-                              ref.read(workoutViewModelProvider).image ?? '';
-                        }
 
                         if (widget.workoutToUpdate != null) {
-                          var updatedWorkout = WorkoutEntity(
-                            workoutId: widget.workoutToUpdate!.workoutId,
-
-                            title: titleController.text,
-                            nameOfWorkout: nameController.text,
-                            day: dayController.text,
-                            numberOfReps: repsNumController.text,
-                            // Use the new image URL if available, otherwise use the existing one
-                            image: updatedImage ?? workoutImage,
-                          );
-
-                          ref
-                              .read(workoutViewModelProvider.notifier)
-                              .updateWorkout(
-                                  context,
-                                  widget.workoutToUpdate!.workoutId!,
-                                  updatedWorkout);
+                          Future.delayed(Duration.zero, () {
+                            updateWorkoutData();
+                          });
                         } else {
                           ref
                               .read(workoutViewModelProvider.notifier)
@@ -226,5 +203,37 @@ class _AddWorkoutViewState extends ConsumerState<AddWorkoutView> {
         ),
       ),
     );
+  }
+
+  Future<void> updateWorkoutData() async {
+    String workoutId = widget.workoutToUpdate!.workoutId!;
+
+    // Fetch the updated values from the text fields
+    String title = titleController.text;
+    String nameOfWorkout = nameController.text;
+    String day = dayController.text;
+    String numberOfReps = repsNumController.text;
+
+    String? updatedImage;
+
+    if (_img != null) {
+      // Call the view model to upload the new image
+      updatedImage = ref.read(workoutViewModelProvider).workout!.image ?? '';
+    }
+
+    // Create a new UserEntity with the updated values
+    var updatedWorkout = WorkoutEntity(
+      workoutId: widget.workoutToUpdate!.workoutId!,
+      title: title,
+      nameOfWorkout: nameOfWorkout,
+      day: day,
+      numberOfReps: numberOfReps,
+      image: updatedImage ?? workoutImage,
+    );
+
+    // Call the view model to update the user data
+    ref
+        .read(workoutViewModelProvider.notifier)
+        .updateWorkout(context, workoutId, updatedWorkout);
   }
 }

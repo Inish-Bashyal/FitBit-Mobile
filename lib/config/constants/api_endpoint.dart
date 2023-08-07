@@ -4,7 +4,12 @@ class ApiEndpoints {
   static const Duration connectionTimeout = Duration(seconds: 1000);
   static const Duration receiveTimeout = Duration(seconds: 1000);
   // static const String baseUrl = "http://localhost:3000/";
+
+  //real
   static const String baseUrl = "http://10.0.2.2:3001/";
+
+  //phone
+  // static const String baseUrl = "http://100.68.211.206:3001/";
   //static const String baseUrl = "http://172.21.0.211:3000/api/v1/";
 
   // ====================== Auth Routes ======================
@@ -27,10 +32,10 @@ class ApiEndpoints {
   static const String getAllWorkout = "workouts/getAllWorkouts";
   static const String deleteworkout = "workouts/deleteWorkout/";
   static const String uploadWorkoutImage = "workouts/uploadImage";
-  static const String updateWorkout = "workouts/updateWorkout/";
+  static const String updateWorkout = "workouts/updateWorkoutMob/";
 
   //====================== Routine Routes ======================
-  static const String createRoutine = "routines/create";
+  static const String createRoutine = "routines/createRoutine";
   static const String getAllRoutine = "routines/getallRoutines";
   static const String getMyRoutine = "routines/myRoutines";
   static const String deleteRoutine = "routines/delete/";

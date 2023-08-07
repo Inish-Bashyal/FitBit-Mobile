@@ -144,7 +144,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               checkCameraPermission();
                               _browseImage(ref, ImageSource.camera);
                               Navigator.pop(context);
-                              // Upload image it is not null
                             },
                             icon: const Icon(Icons.camera),
                             label: const Text('Camera'),
@@ -242,29 +241,35 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
           ),
         ),
         gap,
-        ElevatedButton(
-          onPressed: () {
-            updateUserData();
-          },
-          child: const Text('Update'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoute.loginRoute);
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-          ),
-          child: const Text(
-            'Delete',
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                updateUserData();
+                Navigator.pushNamed(context, AppRoute.dashboardRoute);
+              },
+              child: const Text('Update'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoute.loginRoute);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              child: const Text(
+                'Delete',
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
 
   Future<void> updateUserData() async {
-    var authState = ref.watch(authViewModelProvider);
+    final authState = ref.watch(authViewModelProvider);
     String userId = authState.user!.userID!;
 
     // Fetch the updated values from the text fields
@@ -284,7 +289,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
 
     // Create a new UserEntity with the updated values
     var updatedUser = UserEntity(
-      userID: authState.user!.userID,
+      // userID: authState.user!.userID,
       firstname: firstName,
       lastname: lastName,
       age: age,

@@ -55,13 +55,31 @@ class _RoutineViewState extends ConsumerState<RoutineView> {
               } else if (routineState.error != null) ...{
                 Text(routineState.error!),
               } else if (routineState.routines.isNotEmpty) ...{
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: routineState.routines.length,
-                  itemBuilder: (context, index) {
-                    return RoutineCardWidget(index: index);
-                  },
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    children: [
+                      for (int i = 0;
+                          i < routineState.routines.length;
+                          i++) ...{
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: routineState.routines.length,
+                          itemBuilder: (context, index) {
+                            return const RoutineCardWidget(index: 1);
+                          },
+                        ),
+                      },
+                    ],
+                  ),
                 ),
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   itemCount: routineState.routines.length,
+                //   itemBuilder: (context, index) {
+                //     return const RoutineCardWidget(index: 1);
+                //   },
+                // ),
               }
             ],
           ),

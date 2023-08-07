@@ -88,7 +88,7 @@ class _SingleWorkoutViewState extends ConsumerState<SingleWorkoutView> {
 
                       ref
                           .read(routineViewModelProvider.notifier)
-                          .addRoutine(newRoutine);
+                          .addRoutine(newRoutine, context);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

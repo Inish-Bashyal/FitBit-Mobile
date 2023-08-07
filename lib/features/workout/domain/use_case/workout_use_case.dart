@@ -36,7 +36,7 @@ class WorkoutUseCase {
     return workoutRepository.deleteWorkout(id);
   }
 
-  Future<Either<Failure, WorkoutEntity>> updateWorkout(
+  Future<Either<Failure, List<WorkoutEntity>>> updateWorkout(
       String id, WorkoutEntity workout) async {
     return workoutRepository.updateWorkout(id, workout);
   }

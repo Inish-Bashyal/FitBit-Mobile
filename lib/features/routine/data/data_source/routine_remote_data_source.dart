@@ -4,6 +4,7 @@ import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/core/failure/failure.dart';
 import 'package:fitbit/core/network/remote/http_service.dart';
 import 'package:fitbit/core/shared_prefs/user_shared_prefs.dart';
+import 'package:fitbit/features/routine/data/dto/get_all_routine_dto.dart';
 import 'package:fitbit/features/routine/data/model/routine_api_model.dart';
 import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,11 +48,10 @@ class RoutineRemoteDataSource {
           },
         ),
         data: {
-          "user": routine.user,
-          "workout": routine.workout,
+          'user': routine.user!.userID,
+          "workout": routine.workout!.workoutId,
           "routineStatus": routine.routineStatus,
-          "enrolledAt": routine.enrolledAt,
-          "completedAt": routine.completedAt,
+          "completedAt": routine.completedAt?.toIso8601String(),
         },
       );
 
@@ -161,9 +161,7 @@ class RoutineRemoteDataSource {
         (r) => token = r!,
       );
 
-      // Get the current time and set it as completedAt
-      DateTime completedAt = DateTime.now();
-      // Update the routine status to "completed"
+      // Update the routine status to "Completed"
       String routineStatus = "Completed";
 
       Response response = await dio.put(
@@ -175,9 +173,9 @@ class RoutineRemoteDataSource {
         ),
         data: {
           "routineStatus": routineStatus,
-          "completedAt": completedAt,
         },
       );
+
       if (response.statusCode == 200) {
         return const Right(true);
       } else {
@@ -200,12 +198,14 @@ class RoutineRemoteDataSource {
 
   Future<Either<Failure, List<RoutineEntity>>> getMyRoutine() async {
     try {
+      // Get the token from shared prefs
       String? token;
       var data = await userSharedPrefs.getUserToken();
       data.fold(
         (l) => token = null,
-        (r) => token = r!,
+        (r) => token = r,
       );
+
       var response = await dio.get(
         ApiEndpoints.getMyRoutine,
         options: Options(
@@ -216,31 +216,15 @@ class RoutineRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        var jsonData = response.data; // The response data is already a Map
-        var routinesData = jsonData['routines'] as List<dynamic>?;
-
-        if (routinesData != null) {
-          var routines = routinesData
-              .map((routine) => RoutineApiModel.fromJson(routine))
-              .toList();
-
-          var entities = routines
-              .map((routine) => routine.toEntity())
-              .toList(); // Convert to RoutineEntity list
-
-          return Right(entities); // Wrap the result in Right constructor
-        } else {
-          return Left(
-            Failure(
-              error: "No routines found",
-              statusCode: response.statusCode.toString(),
-            ),
-          );
-        }
+        // OR
+        // 2nd way
+        GetAllRoutineDTO workoutAddDTO =
+            GetAllRoutineDTO.fromJson(response.data);
+        return Right(routineApiModel.toEntityList(workoutAddDTO.routines));
       } else {
         return Left(
           Failure(
-            error: response.statusMessage.toString(),
+            error: response.statusMessage ?? '',
             statusCode: response.statusCode.toString(),
           ),
         );

@@ -10,6 +10,8 @@ import 'package:dartz/dartz.dart' as _i2;
 import 'package:fitbit/core/failure/failure.dart' as _i5;
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart' as _i6;
 import 'package:fitbit/features/auth/domain/use_case/auth_usecase.dart' as _i3;
+import 'package:fitbit/features/routine/domain/entity/routine_entity.dart'
+    as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -153,6 +155,32 @@ class MockAuthUseCase extends _i1.Mock implements _i3.AuthUseCase {
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.UserEntity>>>);
   @override
+  _i4.Future<_i2.Either<_i5.Failure, List<_i8.RoutineEntity>>> getMyRoutine() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyRoutine,
+          [],
+        ),
+        returnValue:
+            _i4.Future<_i2.Either<_i5.Failure, List<_i8.RoutineEntity>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i8.RoutineEntity>>(
+          this,
+          Invocation.method(
+            #getMyRoutine,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, List<_i8.RoutineEntity>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i8.RoutineEntity>>(
+          this,
+          Invocation.method(
+            #getMyRoutine,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i8.RoutineEntity>>>);
+  @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.UserEntity>> getUser(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -227,4 +255,41 @@ class MockAuthUseCase extends _i1.Mock implements _i3.AuthUseCase {
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, bool>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.UserEntity>> updateUser(
+    String? userId,
+    _i6.UserEntity? user,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateUser,
+          [
+            userId,
+            user,
+          ],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.UserEntity>>.value(
+            _FakeEither_0<_i5.Failure, _i6.UserEntity>(
+          this,
+          Invocation.method(
+            #updateUser,
+            [
+              userId,
+              user,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.UserEntity>>.value(
+                _FakeEither_0<_i5.Failure, _i6.UserEntity>(
+          this,
+          Invocation.method(
+            #updateUser,
+            [
+              userId,
+              user,
+            ],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.UserEntity>>);
 }

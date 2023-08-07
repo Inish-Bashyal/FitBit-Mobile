@@ -4,6 +4,7 @@ import 'package:fitbit/core/common/widgets/textfield_widget.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:local_auth/local_auth.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -27,6 +28,29 @@ class _LoginViewState extends ConsumerState<LoginView> {
     setState(() {
       obscureText = !obscureText;
     });
+  }
+
+  void authenticateWithFingerprint(BuildContext context) async {
+    final localAuth = LocalAuthentication();
+    bool didAuthenticate = false;
+
+    try {
+      didAuthenticate = await localAuth.authenticate(
+        localizedReason: 'Scan your fingerprint to log in',
+      );
+    } catch (e) {
+      // Handle any errors that occurred during authentication
+      print('Error during fingerprint authentication: $e');
+    }
+
+    if (didAuthenticate) {
+      // Fingerprint authentication successful, proceed with login
+      await ref.read(authViewModelProvider.notifier).loginUser(
+            context,
+            usernameController.text,
+            passwordController.text,
+          );
+    }
   }
 
   @override
@@ -182,6 +206,29 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       ),
                     ),
                     gap,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          width: 60,
+                        ),
+                        const Text(
+                          'Login with fingerPrint ',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            authenticateWithFingerprint(context);
+                          },
+                          child: const Icon(
+                            Icons.fingerprint,
+                            size: 50,
+                          ),
+                        ),
+                      ],
+                    ),
                     gap,
                     const Text(
                       'New User?',

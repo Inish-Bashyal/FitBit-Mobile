@@ -102,16 +102,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
     );
   }
 
-  // getUser(UserEntity user) async {
-  //   state = state.copyWith(isLoading: true);
-  //   var data = await _authUseCase.getUser(user.userID!);
-
-  //   data.fold(
-  //     (l) => state = state.copyWith(isLoading: false, error: l.error),
-  //     (r) => state = state.copyWith(isLoading: false, user: r, error: null),
-  //   );
-  // }
-  getMe() async {
+  Future<void> getMe() async {
     state = state.copyWith(isLoading: true);
     var data = await _authUseCase.getMe();
 

@@ -48,7 +48,7 @@ class WorkoutLocalRepositoryImpl implements IWorkoutRepository {
   }
 
   @override
-  Future<Either<Failure, WorkoutEntity>> updateWorkout(
+  Future<Either<Failure, List<WorkoutEntity>>> updateWorkout(
       String id, WorkoutEntity wss) {
     throw UnimplementedError();
   }

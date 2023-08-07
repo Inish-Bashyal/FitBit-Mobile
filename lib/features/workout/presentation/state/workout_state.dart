@@ -4,9 +4,11 @@ import 'package:fitbit/features/workout/domain/entity/workout_entity.dart';
 class WorkoutState {
   final bool isLoading;
   final List<WorkoutEntity> workouts;
+  final List<WorkoutEntity> updateWorkout;
   final List<UserEntity>? users;
   final String? error;
   final String? image;
+  WorkoutEntity? workout;
 
   WorkoutState({
     this.users,
@@ -14,6 +16,8 @@ class WorkoutState {
     required this.workouts,
     this.error,
     this.image,
+    this.workout,
+    required this.updateWorkout,
   });
 
   factory WorkoutState.initial() {
@@ -22,6 +26,8 @@ class WorkoutState {
       users: [],
       workouts: [],
       image: null,
+      workout: null,
+      updateWorkout: [],
     );
   }
 
@@ -31,13 +37,17 @@ class WorkoutState {
     List<UserEntity>? users,
     String? error,
     String? image,
+    WorkoutEntity? workout,
+    List<WorkoutEntity>? updateWorkout,
   }) {
     return WorkoutState(
       isLoading: isLoading ?? this.isLoading,
       workouts: workouts ?? this.workouts,
+      workout: workout ?? this.workout,
       users: users ?? this.users,
       error: error ?? this.error,
       image: image ?? this.image,
+      updateWorkout: updateWorkout ?? this.updateWorkout,
     );
   }
 }

@@ -9,14 +9,14 @@ import 'package:json_annotation/json_annotation.dart';
 part 'routine_api_model.g.dart';
 
 final routineApiModelProvider = Provider<RoutineApiModel>(
-  (ref) => const RoutineApiModel.empty(),
+  (ref) => RoutineApiModel.empty(),
 );
 
 @JsonSerializable()
 class RoutineApiModel extends Equatable {
   @JsonKey(name: '_id')
   final String? routineId;
-  final String? user; // Change the type to String
+  final String? user;
   final WorkoutApiModel? workout;
   final String routineStatus;
   final String enrolledAt;
@@ -31,28 +31,20 @@ class RoutineApiModel extends Equatable {
     required this.completedAt,
   });
 
-  const RoutineApiModel.empty()
-      : routineId = '',
-        user = '', // Set user as empty String
-        workout = const WorkoutApiModel.empty(),
-        routineStatus = '',
-        enrolledAt = '',
-        completedAt = '';
-
-  factory RoutineApiModel.fromJson(Map<String, dynamic> json) {
-    return RoutineApiModel(
-      routineId: json['_id'],
-      user: json['user'],
-      workout: json['workout'] != null
-          ? WorkoutApiModel.fromJson(json['workout'])
-          : null,
-      routineStatus: json['routineStatus'],
-      enrolledAt: json['enrolledAt'],
-      completedAt: json['completedAt'],
-    );
-  }
+  factory RoutineApiModel.fromJson(Map<String, dynamic> json) =>
+      _$RoutineApiModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$RoutineApiModelToJson(this);
+
+  // Named constructor 'empty'
+  factory RoutineApiModel.empty() => const RoutineApiModel(
+        routineId: '',
+        user: '',
+        workout: WorkoutApiModel.empty(),
+        routineStatus: '',
+        enrolledAt: '',
+        completedAt: '',
+      );
 
   // Convert API Object to Entity
   RoutineEntity toEntity() => RoutineEntity(

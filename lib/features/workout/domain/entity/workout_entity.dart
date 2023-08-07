@@ -45,4 +45,15 @@ class WorkoutEntity extends Equatable {
         "image": image,
         "day": day,
       };
+//last added
+  Map<String, dynamic> toMap() {
+    return {
+      "workoutId": workoutId,
+      "day": day,
+      "nameOfWorkout": nameOfWorkout,
+      "numberOfReps": numberOfReps,
+      "title": title,
+      // Add other fields if needed
+    };
+  }
 }

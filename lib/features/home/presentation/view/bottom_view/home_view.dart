@@ -2,6 +2,8 @@
 import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:fitbit/features/home/presentation/view/bottom_view/profile_view.dart';
+import 'package:fitbit/features/routine/presentation/viewmodel/routine_view_model.dart';
+import 'package:fitbit/features/routine/presentation/widget/routine_card_widget.dart';
 import 'package:fitbit/features/workout/presentation/viewmodel/workout_view_model.dart';
 import 'package:fitbit/features/workout/presentation/widget/local_workout_card.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authViewModelProvider);
-    final wokroutState = ref.watch(workoutViewModelProvider);
+    final authState = ref.read(authViewModelProvider);
+    final wokroutState = ref.read(workoutViewModelProvider);
+    final routineState = ref.read(routineViewModelProvider);
+    print(authState.user?.firstname);
 
     return Scaffold(
       body: SafeArea(
@@ -74,33 +78,31 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   ),
                 ),
               ),
-              // const Text(
-              //   'Popular Routines',
-              //   style: TextStyle(
-              //     fontSize: 20,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(4.0),
-              //     child: Row(
-              //       children: [
-              //         cardView('assets/images/bg.jpg', 'Routine 1',
-              //             'Description 1', context),
-              //         cardView('assets/images/bg.jpg', 'Routine 2',
-              //             'Description 2', context),
-              //         cardView('assets/images/bg.jpg', 'Routine 3',
-              //             'Description 3', context),
-              //         cardView('assets/images/bg.jpg', 'Routine 4',
-              //             'Description 4', context),
-              //         cardView('assets/images/bg.jpg', 'Routine 5',
-              //             'Description 5', context),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              const Text(
+                'Popular Routines',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    children: [
+                      // Use RoutineCardWidget for each routine
+                      for (int i = 0;
+                          i < routineState.routines.length;
+                          i++) ...{
+                        RoutineCardWidget(
+                          index: i,
+                        ),
+                      },
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

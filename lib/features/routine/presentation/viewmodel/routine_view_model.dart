@@ -20,7 +20,7 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
     getMyRoutines();
   }
 
-  addRoutine(RoutineEntity routine) async {
+  addRoutine(RoutineEntity routine, BuildContext context) async {
     state.copyWith(isLoading: true);
     var data = await routineUseCase.addRoutine(routine);
 
@@ -28,7 +28,9 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
       state = state.copyWith(isLoading: false, error: l.error);
     }, (r) {
       state.routines.add(routine);
-      state = state.copyWith(isLoading: false, error: null);
+      state = state.copyWith(
+          isLoading: false, error: null, routines: state.routines);
+      showSnackBar(message: 'Added to your routine', context: context);
     });
   }
 
@@ -55,7 +57,8 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
       },
       (r) {
         state.routines.remove(routine);
-        state = state.copyWith(isLoading: false, error: null);
+        state = state.copyWith(
+            isLoading: false, error: null, routines: state.routines);
         showSnackBar(
           message: 'Workout delete successfully',
           context: context,
@@ -67,7 +70,6 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
   Future<void> updateRoutine(BuildContext context, String routineId) async {
     state.copyWith(isLoading: true);
 
-    // Check if the routine status is already 'Completed'
     int index =
         state.routines.indexWhere((element) => element.routineId == routineId);
     if (index < 0) {
@@ -78,7 +80,9 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
 
     if (state.routines[index].routineStatus == 'Completed') {
       state = state.copyWith(
-          isLoading: false, error: "Routine is already marked as complete.");
+          isLoading: false,
+          error: "Routine is already marked as complete.",
+          routines: state.routines);
       return;
     }
 
@@ -87,18 +91,16 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
     data.fold(
       (l) {
         showSnackBar(message: l.error, context: context, color: Colors.red);
-
         state = state.copyWith(isLoading: false);
       },
       (r) {
-        // Create a new RoutineEntity with updated values
         RoutineEntity updatedRoutine = state.routines[index].copyWith(
           routineStatus: 'Completed',
         );
-
-        // Update the routine status in the list of routines
         state.routines[index] = updatedRoutine;
-        state = state.copyWith(isLoading: false);
+
+        state = state.copyWith(isLoading: false, routines: state.routines);
+
         showSnackBar(
           message: 'Routine marked as complete successfully',
           context: context,

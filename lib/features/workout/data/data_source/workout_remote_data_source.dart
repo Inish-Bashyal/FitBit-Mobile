@@ -146,46 +146,6 @@ class WorkoutRemoteDataSource {
     }
   }
 
-  // Get all students by workoutId
-  // Future<Either<Failure, List<UserEntity>>> getAllUserByWorkout(
-  //     String workoutId) async {
-  //   try {
-  //     // get token
-  //     String? token;
-  //     await userSharedPrefs
-  //         .getUserToken()
-  //         .then((value) => value.fold((l) => null, (r) => token = r!));
-
-  //     var response =
-  //         await dio.get(ApiEndpoints.getAllUsersByWorkout + workoutId,
-  //             options: Options(
-  //               headers: {
-  //                 'Authorization': 'Bearer $token',
-  //               },
-  //             ));
-  //     if (response.statusCode == 201) {
-  //       GetAllUserByWorkoutDTO getAllWorkoutDTO =
-  //           GetAllUserByWorkoutDTO.fromJson(response.data);
-
-  //       return Right(authApiModel
-  //           .listFromJson(getAllWorkoutDTO.data.cast<AuthApiModel>()));
-  //     } else {
-  //       return Left(
-  //         Failure(
-  //           error: response.statusMessage.toString(),
-  //           statusCode: response.statusCode.toString(),
-  //         ),
-  //       );
-  //     }
-  //   } on DioException catch (e) {
-  //     return Left(
-  //       Failure(
-  //         error: e.error.toString(),
-  //       ),
-  //     );
-  //   }
-  // }
-
   Future<Either<Failure, bool>> deleteWorkout(String workoutId) async {
     try {
       // Get the token from shared prefs
@@ -262,7 +222,7 @@ class WorkoutRemoteDataSource {
   //   }
   // }
 
-  Future<Either<Failure, WorkoutEntity>> updateWorkout(
+  Future<Either<Failure, List<WorkoutEntity>>> updateWorkout(
       String workoutId, WorkoutEntity workout) async {
     try {
       String? token;
@@ -273,7 +233,7 @@ class WorkoutRemoteDataSource {
       );
 
       var response = await dio.put(
-        ApiEndpoints.updateWorkout + workout.workoutId!,
+        ApiEndpoints.updateWorkout + workoutId,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -284,16 +244,15 @@ class WorkoutRemoteDataSource {
           "nameOfWorkout": workout.nameOfWorkout,
           "day": workout.day,
           "numberOfReps": workout.numberOfReps,
+          "image": workout.image,
         },
       );
 
       if (response.statusCode == 200) {
-        var workoutData = response.data;
-        if (workoutData == null) {
-          return Left(Failure(error: 'Workout data is null'));
-        }
-        var updatedWorkout = WorkoutEntity.fromJson(workoutData);
-        return Right(updatedWorkout);
+        var workouts = (response.data['data'] as List)
+            .map((workout) => WorkoutApiModel.fromJson(workout).toEntity())
+            .toList();
+        return Right(workouts);
       } else {
         return Left(
           Failure(

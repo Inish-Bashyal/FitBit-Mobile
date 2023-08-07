@@ -10,9 +10,11 @@ import 'package:dartz/dartz.dart' as _i2;
 import 'package:fitbit/core/failure/failure.dart' as _i7;
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart' as _i8;
 import 'package:fitbit/features/auth/domain/use_case/auth_usecase.dart' as _i5;
+import 'package:fitbit/features/routine/domain/entity/routine_entity.dart'
+    as _i10;
 import 'package:flutter/foundation.dart' as _i4;
 import 'package:flutter/src/widgets/framework.dart' as _i3;
-import 'package:flutter/src/widgets/notification_listener.dart' as _i10;
+import 'package:flutter/src/widgets/notification_listener.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -203,6 +205,34 @@ class MockAuthUseCase extends _i1.Mock implements _i5.AuthUseCase {
         )),
       ) as _i6.Future<_i2.Either<_i7.Failure, List<_i8.UserEntity>>>);
   @override
+  _i6.Future<
+      _i2
+          .Either<_i7.Failure, List<_i10.RoutineEntity>>> getMyRoutine() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyRoutine,
+          [],
+        ),
+        returnValue:
+            _i6.Future<_i2.Either<_i7.Failure, List<_i10.RoutineEntity>>>.value(
+                _FakeEither_0<_i7.Failure, List<_i10.RoutineEntity>>(
+          this,
+          Invocation.method(
+            #getMyRoutine,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, List<_i10.RoutineEntity>>>.value(
+                _FakeEither_0<_i7.Failure, List<_i10.RoutineEntity>>(
+          this,
+          Invocation.method(
+            #getMyRoutine,
+            [],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, List<_i10.RoutineEntity>>>);
+  @override
   _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>> getUser(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -277,6 +307,43 @@ class MockAuthUseCase extends _i1.Mock implements _i5.AuthUseCase {
           ),
         )),
       ) as _i6.Future<_i2.Either<_i7.Failure, bool>>);
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>> updateUser(
+    String? userId,
+    _i8.UserEntity? user,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateUser,
+          [
+            userId,
+            user,
+          ],
+        ),
+        returnValue: _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>.value(
+            _FakeEither_0<_i7.Failure, _i8.UserEntity>(
+          this,
+          Invocation.method(
+            #updateUser,
+            [
+              userId,
+              user,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>.value(
+                _FakeEither_0<_i7.Failure, _i8.UserEntity>(
+          this,
+          Invocation.method(
+            #updateUser,
+            [
+              userId,
+              user,
+            ],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, _i8.UserEntity>>);
 }
 
 /// A class which mocks [BuildContext].
@@ -353,7 +420,7 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
         returnValueForMissingStub: null,
       );
   @override
-  void dispatchNotification(_i10.Notification? notification) =>
+  void dispatchNotification(_i11.Notification? notification) =>
       super.noSuchMethod(
         Invocation.method(
           #dispatchNotification,
