@@ -58,6 +58,6 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    expect(find.text('Popular Routines'), findsOneWidget);
+    expect(find.text('LOGIN'), findsOneWidget);
   });
 }

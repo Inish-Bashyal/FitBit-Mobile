@@ -23,10 +23,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.read(authViewModelProvider);
-    final wokroutState = ref.read(workoutViewModelProvider);
-    final routineState = ref.read(routineViewModelProvider);
-    print(authState.user?.firstname);
+    final authState = ref.watch(authViewModelProvider);
+    final wokroutState = ref.watch(workoutViewModelProvider);
+    final routineState = ref.watch(routineViewModelProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -91,7 +90,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   padding: const EdgeInsets.all(4.0),
                   child: Row(
                     children: [
-                      // Use RoutineCardWidget for each routine
                       for (int i = 0;
                           i < routineState.routines.length;
                           i++) ...{

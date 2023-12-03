@@ -1,13 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/routine/domain/entity/routine_entity.dart';
 
-class RoutineState {
+class RoutineState extends Equatable {
   final bool isLoading;
   final List<RoutineEntity> routines;
   final List<UserEntity>? users;
   final String? error;
 
-  RoutineState({
+  const RoutineState({
     this.users,
     required this.isLoading,
     this.routines = const [],
@@ -15,7 +16,7 @@ class RoutineState {
   });
 
   factory RoutineState.initial() {
-    return RoutineState(
+    return const RoutineState(
       isLoading: false,
       users: [],
       routines: [],
@@ -35,4 +36,8 @@ class RoutineState {
       error: error ?? this.error,
     );
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
 }

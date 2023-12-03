@@ -16,7 +16,7 @@ class RoutineCardWidget extends ConsumerWidget {
     final RoutineEntity selectedRoutine = lstRoutine[index];
 
     final imageUrl = ApiEndpoints.imageUrl +
-        (selectedRoutine.workout?.image ?? 'IMG-1690525824590.jpeg');
+        (selectedRoutine.workout?.image ?? 'IMG-1690525395720.jpeg');
 
     return SizedBox(
       child: Card(
@@ -26,7 +26,7 @@ class RoutineCardWidget extends ConsumerWidget {
         ),
         child: SizedBox(
           height: 350,
-          width: 350,
+          width: 300,
           child: Column(
             children: [
               Row(

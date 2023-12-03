@@ -9,7 +9,7 @@ class ApiEndpoints {
   static const String baseUrl = "http://10.0.2.2:3001/";
 
   //phone
-  // static const String baseUrl = "http://100.68.211.206:3001/";
+  // static const String baseUrl = "http://192.168.254.223:3001/";
   //static const String baseUrl = "http://172.21.0.211:3000/api/v1/";
 
   // ====================== Auth Routes ======================
@@ -24,7 +24,12 @@ class ApiEndpoints {
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   static const String updateStudent = "auth/updateUser/";
   static const String deleteStudent = "auth/deleteUser/";
+  //emulator
   static const String imageUrl = "http://10.0.2.2:3001/uploads/";
+  //phone
+  // static const String imageUrl = "http://192.168.254.223:3001/uploads/";
+
+  // static const String imageUrlRoutine = "http://10.0.2.2:3001/workouts/";
   static const String uploadImage = "users/uploadImage";
 
   //====================== Workout Routes ======================

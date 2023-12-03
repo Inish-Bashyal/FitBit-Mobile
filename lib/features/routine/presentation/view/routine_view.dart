@@ -57,20 +57,21 @@ class _RoutineViewState extends ConsumerState<RoutineView> {
               } else if (routineState.routines.isNotEmpty) ...{
                 Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Column(
-                    children: [
-                      for (int i = 0;
-                          i < routineState.routines.length;
-                          i++) ...{
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: routineState.routines.length,
-                          itemBuilder: (context, index) {
-                            return const RoutineCardWidget(index: 1);
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Column(
+                        children: [
+                          for (int i = 0;
+                              i < routineState.routines.length;
+                              i++) ...{
+                            RoutineCardWidget(
+                              index: i,
+                            ),
                           },
-                        ),
-                      },
-                    ],
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 // ListView.builder(

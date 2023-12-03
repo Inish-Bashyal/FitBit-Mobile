@@ -220,61 +220,61 @@ class AuthRemoteDataSource {
   }
 
   Future<Either<Failure, List<RoutineEntity>>> getMyRoutine() async {
-    try {
-      // Get the token from shared prefs
-      String? token;
-      var data = await userSharedPrefs.getUserToken();
-      data.fold(
-        (l) => token = null,
-        (r) => token = r,
-      );
+  try {
+    // Get the token from shared prefs
+    String? token;
+    var data = await userSharedPrefs.getUserToken();
+    data.fold(
+      (l) => token = null,
+      (r) => token = r,
+    );
 
-      var response = await dio.get(
-        ApiEndpoints.getMyRoutine,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
+    var response = await dio.get(
+      ApiEndpoints.getMyRoutine,
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      ),
+    );
 
-      if (response.statusCode == 200) {
-        var jsonData = response.data; // The response data is already a Map
-        var routinesData = jsonData['routines'] as List<dynamic>?;
+    if (response.statusCode == 200) {
+      var jsonData = response.data; // The response data is already a Map
+      var routinesData = jsonData['routines'] as List<dynamic>?;
 
-        if (routinesData != null) {
-          var routines = routinesData
-              .map((routine) => RoutineApiModel.fromJson(routine))
-              .toList();
+      if (routinesData != null) {
+        var routines = routinesData
+            .map((routine) => RoutineApiModel.fromJson(routine))
+            .toList();
 
-          var entities = routines
-              .map((routine) => routine.toEntity())
-              .toList(); // Convert to RoutineEntity list
+        var entities = routines
+            .map((routine) => routine.toEntity())
+            .toList(); // Convert to RoutineEntity list
 
-          return Right(entities); // Wrap the result in Right constructor
-        } else {
-          return Left(
-            Failure(
-              error: "No routines found",
-              statusCode: response.statusCode.toString(),
-            ),
-          );
-        }
+        return Right(entities); // Wrap the result in Right constructor
       } else {
         return Left(
           Failure(
-            error: response.statusMessage ?? '',
+            error: "No routines found",
             statusCode: response.statusCode.toString(),
           ),
         );
       }
-    } on DioException catch (e) {
+    } else {
       return Left(
         Failure(
-          error: e.error.toString(),
+          error: response.statusMessage ?? '',
+          statusCode: response.statusCode.toString(),
         ),
       );
     }
+  } on DioException catch (e) {
+    return Left(
+      Failure(
+        error: e.error.toString(),
+      ),
+    );
+  }
   }
 
   Future<Either<Failure, UserEntity>> updateUser(

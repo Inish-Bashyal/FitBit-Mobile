@@ -3,6 +3,7 @@ import 'package:fitbit/config/router/app_route.dart';
 import 'package:fitbit/core/common/widgets/textfield_widget.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 
@@ -30,27 +31,73 @@ class _LoginViewState extends ConsumerState<LoginView> {
     });
   }
 
-  void authenticateWithFingerprint(BuildContext context) async {
-    final localAuth = LocalAuthentication();
-    bool didAuthenticate = false;
+  //FingerPrint Setup
+  final LocalAuthentication auth = LocalAuthentication();
+  bool? _CheckBiometric;
+
+  List<BiometricType>? _availableBiometrics;
+  String authorized = "Yes";
+
+  Future<void> _checkBiometric() async {
+    bool? CheckBiometric;
+    try {
+      CheckBiometric = await auth.canCheckBiometrics;
+      bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+      bool canAuthenticate =
+          canAuthenticateWithBiometrics || await auth.isDeviceSupported();
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _CheckBiometric = CheckBiometric;
+    });
+  }
+
+  Future<void> _getBiometrics() async {
+    List<BiometricType>? availableBiometric;
 
     try {
-      didAuthenticate = await localAuth.authenticate(
-        localizedReason: 'Scan your fingerprint to log in',
+      availableBiometric = await auth.getAvailableBiometrics();
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    setState(() {
+      _availableBiometrics = availableBiometric;
+    });
+  }
+
+  Future<void> _fingerprint() async {
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+        localizedReason: "Use your fingerprint",
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: false,
+        ),
       );
-    } catch (e) {
-      // Handle any errors that occurred during authentication
-      print('Error during fingerprint authentication: $e');
+    } on PlatformException catch (e) {
+      print(e);
     }
 
-    if (didAuthenticate) {
-      // Fingerprint authentication successful, proceed with login
-      await ref.read(authViewModelProvider.notifier).loginUser(
-            context,
-            usernameController.text,
-            passwordController.text,
-          );
-    }
+    if (!mounted) return;
+
+    setState(() {
+      authorized = authenticated ? "Successful" : "Failed";
+      if (authenticated) {
+        Navigator.pushNamed(context, AppRoute.dashboardRoute);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    _checkBiometric();
+    _getBiometrics();
+
+    super.initState();
   }
 
   @override
@@ -206,28 +253,28 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       ),
                     ),
                     gap,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          width: 60,
-                        ),
-                        const Text(
-                          'Login with fingerPrint ',
-                          style: TextStyle(
-                            fontSize: 16,
+                    GestureDetector(
+                      onTap: () {
+                        _fingerprint();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          SizedBox(
+                            width: 60,
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            authenticateWithFingerprint(context);
-                          },
-                          child: const Icon(
+                          Text(
+                            'Login with fingerPrint ',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          Icon(
                             Icons.fingerprint,
                             size: 50,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     gap,
                     const Text(

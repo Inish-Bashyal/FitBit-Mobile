@@ -2,14 +2,17 @@
 
 import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:fitbit/config/constants/api_endpoint.dart';
 import 'package:fitbit/config/router/app_route.dart';
+import 'package:fitbit/core/common/snackbar/my_snackbar.dart';
 import 'package:fitbit/features/auth/domain/entity/user_entity.dart';
 import 'package:fitbit/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shake/shake.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({super.key});
@@ -31,11 +34,11 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   final TextEditingController usernameController = TextEditingController();
   String? userImage;
 
-  @override
-  void initState() {
-    super.initState();
-    fetchUserData();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   fetchUserData();
+  // }
 
   checkCameraPermission() async {
     if (await Permission.camera.request().isRestricted ||
@@ -60,6 +63,33 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  ShakeDetector? detector;
+
+  @override
+  void initState() {
+    super.initState();
+    detector = ShakeDetector.autoStart(
+      onPhoneShake: () async {
+        AwesomeNotifications().createNotification(
+          content: NotificationContent(
+            id: 1,
+            channelKey: 'basic_channel',
+            title: "Log Out",
+            body: "You are logged out!",
+          ),
+        );
+        showSnackBar(message: 'You are logged out', context: context);
+        Navigator.pushNamed(context, AppRoute.loginRoute);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    detector!.stopListening();
+    super.dispose();
   }
 
   @override

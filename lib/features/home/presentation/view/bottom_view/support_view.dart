@@ -55,7 +55,7 @@ class _SupportViewState extends ConsumerState<SupportView> {
                     Icon(
                       FontAwesomeIcons.facebookMessenger,
                     ),
-                    Text('  Facebook Messenger')
+                    Text('  Inish Bashyal (Facebook, Messenger)')
                   ],
                 ),
                 gap,
@@ -96,7 +96,7 @@ class _SupportViewState extends ConsumerState<SupportView> {
                     ),
                     Text('  inish.bashyal99@gmail.com'),
                     Text(
-                      '  (Email Address)',
+                      '  (Email)',
                       style: TextStyle(
                         color: Color.fromARGB(255, 112, 110, 110),
                       ),

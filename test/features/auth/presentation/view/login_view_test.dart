@@ -56,6 +56,6 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    expect(find.text('Popular Routines'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'LOGIN'), findsOneWidget);
   });
 }

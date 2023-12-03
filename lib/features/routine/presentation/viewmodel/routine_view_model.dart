@@ -14,9 +14,13 @@ final routineViewModelProvider =
 
 class RoutineViewModel extends StateNotifier<RoutineState> {
   final RoutineUseCase routineUseCase;
+  @override
+  void init() {
+    getMyRoutines();
+  }
 
   RoutineViewModel(this.routineUseCase)
-      : super(RoutineState(isLoading: false)) {
+      : super(const RoutineState(isLoading: false)) {
     getMyRoutines();
   }
 
@@ -28,8 +32,7 @@ class RoutineViewModel extends StateNotifier<RoutineState> {
       state = state.copyWith(isLoading: false, error: l.error);
     }, (r) {
       state.routines.add(routine);
-      state = state.copyWith(
-          isLoading: false, error: null, routines: state.routines);
+      state = state.copyWith(isLoading: false, error: null);
       showSnackBar(message: 'Added to your routine', context: context);
     });
   }

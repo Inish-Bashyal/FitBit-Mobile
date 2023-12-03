@@ -18,9 +18,7 @@ final authViewModelProvider =
 class AuthViewModel extends StateNotifier<AuthState> {
   final AuthUseCase _authUseCase;
 
-  AuthViewModel(this._authUseCase) : super(AuthState.initial()) {
-    getMe();
-  }
+  AuthViewModel(this._authUseCase) : super(AuthState.initial());
 
   Future<void> registerUser(BuildContext context, UserEntity user) async {
     state = state.copyWith(isLoading: true);
@@ -69,7 +67,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
           },
           (user) {
             state = state.copyWith(user: user);
-            fetchRoutineData();
+            // fetchRoutineData();
 
             Navigator.popAndPushNamed(context, AppRoute.dashboardRoute);
           },
@@ -118,18 +116,18 @@ class AuthViewModel extends StateNotifier<AuthState> {
     );
   }
 
-  Future<void> fetchRoutineData() async {
-    state = state.copyWith(isLoading: true);
-    var data = await _authUseCase.getMyRoutine();
+  // Future<void> fetchRoutineData() async {
+  //   state = state.copyWith(isLoading: true);
+  //   var data = await _authUseCase.getMyRoutine();
 
-    data.fold(
-      (l) => state = state.copyWith(isLoading: false, error: l.error),
-      (routines) {
-        state =
-            state.copyWith(isLoading: false, routines: routines, error: null);
-      },
-    );
-  }
+  //   data.fold(
+  //     (l) => state = state.copyWith(isLoading: false, error: l.error),
+  //     (routines) {
+  //       state =
+  //           state.copyWith(isLoading: false, routines: routines, error: null);
+  //     },
+  //   );
+  // }
 
   Future<void> updateUser(
       BuildContext context, String userId, UserEntity user) async {
